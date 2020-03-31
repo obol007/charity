@@ -69,13 +69,16 @@ document.getElementById('bagDisplay').innerHTML =
                 <c:forEach items="${categories}" var="category">
                     <div class="form-group form-group--checkbox">
                         <label>
-                            <input type="checkbox" name="categories" value="${category.name}"/>
+                            <input type="checkbox" name="categories" value="${category.id}"/>
 <%--                            <form:checkboxes path="categories" items="${categories}" itemValue="id" itemLabel="name"/>--%>
                             <span class="checkbox"></span>
                             <span class="description">${category.name}</span>
                         </label>
                     </div>
                 </c:forEach>
+                <div class="form-group form-group--inline">
+                    <label> Dodaj swoją kategorię <input type="text" name="newCategory"/> </label>
+                </div>
 
 
                 <div class="form-group form-group--buttons">
