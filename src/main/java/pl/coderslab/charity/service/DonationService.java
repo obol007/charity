@@ -31,11 +31,11 @@ public class DonationService {
         log.warn("Dodatcja: "+donationDTO);
         Donation donation = new Donation();
         log.warn("Pobrane kategorie: "+String.valueOf(donationDTO.getCategories()));
-        List<Category> categoryList = new ArrayList<>();
-        for(Category c: donationDTO.getCategories()){
-            categoryList.add(c);
-
-        }
+//        List<Category> categoryList = new ArrayList<>();
+//        for(Category c: donationDTO.getCategories()){
+//            categoryList.add(c);
+//
+//        }
 
 
 

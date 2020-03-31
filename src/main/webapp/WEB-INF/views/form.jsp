@@ -9,7 +9,31 @@
 <head>
     <%@include file="head.jsp" %>
     <title>Things to give</title>
+    <script>
+        function showInput() {
+           let x= document.getElementsByName("categories");
+
+           let y= [];
+           console.log("X table ",x);
+            for (i = 0; i < x.length ;i++) {
+                if (x[i].checked === true) {
+                    y.push(x[i])
+                }
+            }
+            console.log("Y-table: ",y);
+            let text = " ";
+            for (let i = 0; i < y.length ;i++) {
+                text += y[i].value + ", ";
+            }
+            document.getElementById("categoryDisplay").innerHTML = text;
+document.getElementById('bagDisplay').innerHTML =
+                document.getElementById("bagId").value+" worki z kategorii: ";
+
+
+        }
+    </script>
 </head>
+
 <body>
 <%--<%@include file="header.jsp" %>--%>
 
@@ -36,7 +60,7 @@
 
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/4</div>
-        <form:form modelAttribute="donation" action="/donation" method="post">
+        <form:form modelAttribute="donation" action="/donation" method="post" id="donationForm">
             <!-- STEP 1: class .active is switching steps -->
             <div data-step="1" class="active">
                 <h3>Zaznacz co chcesz oddać:</h3>
@@ -45,7 +69,8 @@
                 <c:forEach items="${categories}" var="category">
                     <div class="form-group form-group--checkbox">
                         <label>
-                            <input type="checkbox" name="categories" value="${category.id}"/>
+                            <input type="checkbox" name="categories" value="${category.name}"/>
+<%--                            <form:checkboxes path="categories" items="${categories}" itemValue="id" itemLabel="name"/>--%>
                             <span class="checkbox"></span>
                             <span class="description">${category.name}</span>
                         </label>
@@ -66,7 +91,7 @@
                     <label>
                         Liczba 60l worków:
                             <%--<input type="number" name="bags" step="1" min="1"/>--%>
-                        <form:input type="number" min="1" path="quantity"/>
+                        <form:input type="number" min="1" path="quantity" id="bagId"/>
                     </label>
                 </div>
 
@@ -150,12 +175,14 @@
                 </div>
                 <div class="form-group form-group--buttons">
                     <button type="button" class="btn prev-step">Wstecz</button>
-                    <button type="button" class="btn next-step">Dalej</button>
+                    <button type="button" class="btn next-step" onclick="showInput()">Dalej</button>
                 </div>
             </div>
 
             <!-- STEP 5 -->
             <div data-step="5">
+
+
                 <h3>Podsumowanie Twojej darowizny</h3>
 
                 <div class="summary">
@@ -164,8 +191,10 @@
                         <ul>
                             <li>
                                 <span class="icon icon-bag"></span>
-                                <span class="summary--text">4 worki ubrań w dobrym stanie dla dzieci</span
-                                >
+
+                                <span class="summary--text" id="bagDisplay"></span>&nbsp
+                                <span class="summary--text" >&nbsp</span>
+                                <span class="summary--text" id="categoryDisplay"></span>
                             </li>
 
                             <li>

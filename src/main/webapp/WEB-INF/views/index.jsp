@@ -88,7 +88,6 @@
 
         <ul class="help--slides-items">
             <c:forEach items="${institutions}" var="institution" varStatus="counter">
-                <c:set var="dayId" value="1"/>
 
                 <c:if test="${counter.count%2 ==1 }">
                     <li>
