@@ -43,7 +43,7 @@ public class DonationController {
         model.addAttribute("donation",new DonationDTO());
         model.addAttribute("institutions",institutions);
         model.addAttribute("categories",categories);
-        return "addDonation";
+        return "form";
     }
     @PostMapping
     public String addingDonation(@Valid @ModelAttribute("donation") DonationDTO donationDTO,
@@ -53,6 +53,6 @@ public class DonationController {
         }
         donationService.add(donationDTO);
 
-        return "index";
+        return "form-confirmation";
     }
 }

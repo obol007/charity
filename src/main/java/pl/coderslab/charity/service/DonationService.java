@@ -28,7 +28,7 @@ public class DonationService {
 
 
     public void add(DonationDTO donationDTO) {
-
+        log.warn("Dodatcja: "+donationDTO);
         Donation donation = new Donation();
         log.warn("Pobrane kategorie: "+String.valueOf(donationDTO.getCategories()));
         List<Category> categoryList = new ArrayList<>();

@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import pl.coderslab.charity.domain.model.Category;
 import pl.coderslab.charity.domain.model.Institution;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -19,6 +20,7 @@ public class DonationDTO {
     private String zipCode;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate pickUpDate;
+
     private LocalTime pickUpTime;
     private String pickUpComment;
     private List<Category> categories;
