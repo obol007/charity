@@ -36,13 +36,25 @@
                 text2 +=($(this).data('category'))+" ";
             });
 
-            let institutionName = $('input[name=institution]:checked', '#donationForm').data('institution');
+            let institutionName = $('input[name=institution]:checked', '#donationForm').data('institutions');
+            console.log("Instytution: ",institutionName);
 
             $('#categoryDisplay').text(text2);
             let bags = $('#bagId').val();
             $('#bagDisplay').text(bags + ' worki z kategorii: ');
             $('#institutionDisplay').text(institutionName);
 
+            let city = $('input[name=city', '#donationForm').val();
+            let street = $('input[name=street','#donationForm').val();
+            let zipCode = $('input[name=zipCode','#donationForm').val();
+            let address = $('#addressDisplay');
+            address.append("<li>" + street + "</li>").append("<li>" + zipCode + "</li>").append("<li>" + city + "</li>");
+
+            let details = $('#detailsDisplay');
+            let date = $('input[name=pickUpDate', '#donationForm').val();
+            let time = $('input[name=pickUpTime','#donationForm').val();
+            let comment = $('textarea[name=pickUpComment','#donationForm').val();
+            details.append("<li>" + date + "</li>").append("<li>" + time + "</li>").append("<li>" + comment + "</li>");
 
         }
     </script>
@@ -125,8 +137,7 @@
                 <c:forEach items="${institutions}" var="institution">
                     <div class="form-group form-group--checkbox">
                         <label>
-                            <input type="radio" name="institution" value="${institution.id}"
-                                   data-institution="${institution.name}"/>
+                            <input type="radio" name="institution" value="${institution.id}" data-institutions="${institution.name}"/>
                             <span class="checkbox radio"></span>
                             <span class="description">
                   <div class="title">${institution.name}</div>
@@ -161,16 +172,8 @@
                         </div>
 
                         <div class="form-group form-group--inline">
-                            <label>
-                                Kod pocztowy <input type="text" name="zipCode"/>
-                            </label>
+                            <label>Kod pocztowy <input type="text" name="zipCode"/></label>
                         </div>
-
-                            <%--                        <div class="form-group form-group--inline">--%>
-                            <%--                            <label>--%>
-                            <%--                                Numer telefonu <input type="phone" name="phone"/>--%>
-                            <%--                            </label>--%>
-                            <%--                        </div>--%>
                     </div>
 
                     <div class="form-section--column">
@@ -226,20 +229,15 @@
                     <div class="form-section form-section--columns">
                         <div class="form-section--column">
                             <h4>Adres odbioru:</h4>
-                            <ul>
-                                <li>Prosta 51</li>
-                                <li>Warszawa</li>
-                                <li>99-098</li>
-                                    <%--                                <li>123 456 789</li>--%>
+                            <ul id="addressDisplay">
+
                             </ul>
                         </div>
 
                         <div class="form-section--column">
                             <h4>Termin odbioru:</h4>
-                            <ul>
-                                <li>13/12/2018</li>
-                                <li>15:40</li>
-                                <li>Brak uwag</li>
+                            <ul id="detailsDisplay">
+
                             </ul>
                         </div>
                     </div>
