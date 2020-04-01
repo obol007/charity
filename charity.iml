@@ -26,7 +26,7 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -121,5 +121,6 @@
     <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-core:9.0.17" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-annotations-api:9.0.17" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jdt:ecj:3.15.0" level="project" />
+    <orderEntry type="library" name="Maven: org.webjars:jquery:3.3.1" level="project" />
   </component>
 </module>

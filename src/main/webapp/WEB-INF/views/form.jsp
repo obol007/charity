@@ -9,25 +9,39 @@
 <head>
     <%@include file="head.jsp" %>
     <title>Things to give</title>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
     <script>
         function showInput() {
-           let x= document.getElementsByName("categories");
+            // let x = $("[name='categories']");
+            // let y = [];
+            // console.log("X table ", x);
+            // for (i = 0; i < x.length; i++) {
+            //     if (x[i].checked === true) {
+            //         y.push(x[i])
+            //     }
+            // }
+            // console.log("Y-table: ", y);
+            // let text = " ";
+            //
+            // for (let i = 0; i < y.length; i++) {
+            //     text += y[i].dataset.category + " ";
+            // }
 
-           let y= [];
-           console.log("X table ",x);
-            for (i = 0; i < x.length ;i++) {
-                if (x[i].checked === true) {
-                    y.push(x[i])
-                }
-            }
-            console.log("Y-table: ",y);
-            let text = " ";
-            for (let i = 0; i < y.length ;i++) {
-                text += y[i].value + ", ";
-            }
-            document.getElementById("categoryDisplay").innerHTML = text;
-document.getElementById('bagDisplay').innerHTML =
-                document.getElementById("bagId").value+" worki z kategorii: ";
+            let text2 = " ";
+            let categoriesName = $('input[name=categories]:checked', '#donationForm').data('category');
+            $('input[name=categories]:checked', '#donationForm').each(function(){
+                text2 +=($(this).data('category'))+" ";
+            });
+
+            let institutionName = $('input[name=institution]:checked', '#donationForm').data('institution');
+
+            $('#categoryDisplay').text(text2);
+            let bags = $('#bagId').val();
+            $('#bagDisplay').text(bags + ' worki z kategorii: ');
+            $('#institutionDisplay').text(institutionName);
 
 
         }
@@ -69,15 +83,15 @@ document.getElementById('bagDisplay').innerHTML =
                 <c:forEach items="${categories}" var="category">
                     <div class="form-group form-group--checkbox">
                         <label>
-                            <input type="checkbox" name="categories" value="${category.id}"/>
-<%--                            <form:checkboxes path="categories" items="${categories}" itemValue="id" itemLabel="name"/>--%>
+                            <input type="checkbox" name="categories" value="${category.id}"
+                                   data-category="${category.name}"/>
                             <span class="checkbox"></span>
                             <span class="description">${category.name}</span>
                         </label>
                     </div>
                 </c:forEach>
                 <div class="form-group form-group--inline">
-                    <label> Dodaj swoją kategorię <input type="text" name="newCategory"/> </label>
+                    <label> Dodaj swoją kategorię <input type="text" name="categories"/> </label>
                 </div>
 
 
@@ -111,7 +125,8 @@ document.getElementById('bagDisplay').innerHTML =
                 <c:forEach items="${institutions}" var="institution">
                     <div class="form-group form-group--checkbox">
                         <label>
-                            <input type="radio" name="institution" value="${institution.id}"/>
+                            <input type="radio" name="institution" value="${institution.id}"
+                                   data-institution="${institution.name}"/>
                             <span class="checkbox radio"></span>
                             <span class="description">
                   <div class="title">${institution.name}</div>
@@ -151,11 +166,11 @@ document.getElementById('bagDisplay').innerHTML =
                             </label>
                         </div>
 
-<%--                        <div class="form-group form-group--inline">--%>
-<%--                            <label>--%>
-<%--                                Numer telefonu <input type="phone" name="phone"/>--%>
-<%--                            </label>--%>
-<%--                        </div>--%>
+                            <%--                        <div class="form-group form-group--inline">--%>
+                            <%--                            <label>--%>
+                            <%--                                Numer telefonu <input type="phone" name="phone"/>--%>
+                            <%--                            </label>--%>
+                            <%--                        </div>--%>
                     </div>
 
                     <div class="form-section--column">
@@ -196,15 +211,14 @@ document.getElementById('bagDisplay').innerHTML =
                                 <span class="icon icon-bag"></span>
 
                                 <span class="summary--text" id="bagDisplay"></span>&nbsp
-                                <span class="summary--text" >&nbsp</span>
+                                <span class="summary--text">&nbsp</span>
                                 <span class="summary--text" id="categoryDisplay"></span>
                             </li>
 
                             <li>
                                 <span class="icon icon-hand"></span>
-                                <span class="summary--text"
-                                >Dla fundacji "Mam marzenie" w Warszawie</span
-                                >
+                                <span class="summary--text">Dla fundacji&nbsp</span>
+                                <span class="summary--text" id="institutionDisplay"></span>
                             </li>
                         </ul>
                     </div>
@@ -216,7 +230,7 @@ document.getElementById('bagDisplay').innerHTML =
                                 <li>Prosta 51</li>
                                 <li>Warszawa</li>
                                 <li>99-098</li>
-<%--                                <li>123 456 789</li>--%>
+                                    <%--                                <li>123 456 789</li>--%>
                             </ul>
                         </div>
 
