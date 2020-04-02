@@ -22,7 +22,14 @@ public class HomeController {
 
     @RequestMapping("/")
     public String homeAction(Model model){
-        model.addAttribute("totalBags", donationRepository.TotalBags());
+        Integer bags;
+        if(donationRepository.TotalBags()==null){
+            bags = 0;
+        }
+        else{
+            bags=donationRepository.TotalBags();
+        }
+        model.addAttribute("totalBags", bags);
         model.addAttribute("totalDonations", donationRepository.TotalDonations());
 
         model.addAttribute("institutions",institutionRepository.findAll());

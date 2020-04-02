@@ -52,7 +52,7 @@ public class DonationController {
             return "form";
         }
         donationService.add(donationDTO);
-
         return "form-confirmation";
     }
+
 }

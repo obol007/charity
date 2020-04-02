@@ -57,35 +57,47 @@
             details.append("<li>" + date + "</li>").append("<li>" + time + "</li>").append("<li>" + comment + "</li>");
 
         }
+        function checkout1(){
+
+            let checkBoxes = document.querySelectorAll('.checkbox1:checked');
+
+            if (checkBoxes.length < 1){
+                alert('Please, check at least one checkbox!');
+                return false;
+            }
+        }
+
+
+
     </script>
 </head>
 
 <body>
-<%--<%@include file="header.jsp" %>--%>
+
+<%@include file="loggedUserNavbar.jsp" %>
 
 
 <section class="form--steps">
-    <div class="form--steps-instructions">
-        <div class="form--steps-container">
-            <h3>Ważne!</h3>
-            <p data-step="1" class="active">
-                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
-                wiedzieć komu najlepiej je przekazać.
-            </p>
-            <p data-step="2">
-                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
-                wiedzieć komu najlepiej je przekazać.
-            </p>
-            <p data-step="3">
-                Wybierz jedną, do
-                której trafi Twoja przesyłka.
-            </p>
-            <p data-step="4">Podaj adres oraz termin odbioru rzeczy.</p>
-        </div>
-    </div>
+<%--    <div class="form--steps-instructions">--%>
+<%--        <div class="form--steps-container">--%>
+<%--            <h3>Ważne!</h3>--%>
+<%--            <p data-step="1" class="active">--%>
+<%--                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy--%>
+<%--                wiedzieć komu najlepiej je przekazać.--%>
+<%--            </p>--%>
+<%--            <p data-step="2">--%>
+<%--                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy--%>
+<%--                wiedzieć komu najlepiej je przekazać.--%>
+<%--            </p>--%>
+<%--            <p data-step="3">--%>
+<%--                Wybierz jedną organizację, do której trafi Twoja przesyłka.--%>
+<%--            </p>--%>
+<%--            <p data-step="4">Podaj adres oraz termin odbioru rzeczy.</p>--%>
+<%--        </div>--%>
+<%--    </div>--%>
 
     <div class="form--steps-container">
-        <div class="form--steps-counter">Krok <span>1</span>/4</div>
+        <div class="form--steps-counter">Krok <span>1</span>/5</div>
         <form:form modelAttribute="donation" action="/donation" method="post" id="donationForm">
             <!-- STEP 1: class .active is switching steps -->
             <div data-step="1" class="active">
@@ -95,7 +107,7 @@
                 <c:forEach items="${categories}" var="category">
                     <div class="form-group form-group--checkbox">
                         <label>
-                            <input type="checkbox" name="categories" value="${category.id}"
+                            <input type="checkbox" id="checkbox1" name="categories" value="${category.id}"
                                    data-category="${category.name}"/>
                             <span class="checkbox"></span>
                             <span class="description">${category.name}</span>
@@ -121,6 +133,7 @@
                         Liczba 60l worków:
                             <%--<input type="number" name="bags" step="1" min="1"/>--%>
                         <form:input type="number" min="1" path="quantity" id="bagId"/>
+                        <form:errors path="quantity"/> </p>
                     </label>
                 </div>
 
@@ -204,6 +217,7 @@
             <div data-step="5">
 
 
+
                 <h3>Podsumowanie Twojej darowizny</h3>
 
                 <div class="summary">
@@ -220,7 +234,7 @@
 
                             <li>
                                 <span class="icon icon-hand"></span>
-                                <span class="summary--text">Dla fundacji&nbsp</span>
+                                <span class="summary--text">Dla&nbsp</span>
                                 <span class="summary--text" id="institutionDisplay"></span>
                             </li>
                         </ul>

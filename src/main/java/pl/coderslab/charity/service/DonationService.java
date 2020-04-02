@@ -30,21 +30,7 @@ public class DonationService {
     public void add(DonationDTO donationDTO) {
         log.warn("Dodatcja: "+donationDTO);
         Donation donation = new Donation();
-        log.warn("Pobrane kategorie: "+String.valueOf(donationDTO.getCategories()));
-//        List<Category> categoryList = new ArrayList<>();
-//        for(Category c: donationDTO.getCategories()){
-//            categoryList.add(c);
-//
-//        }
-
-
-
-
-
-
         donation.setCategories(donationDTO.getCategories());
-
-
         donation.setInstitution(donationDTO.getInstitution());
         donation.setCity(donationDTO.getCity());
         donation.setPickUpComment(donationDTO.getPickUpComment());

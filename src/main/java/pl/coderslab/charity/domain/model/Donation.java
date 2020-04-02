@@ -4,10 +4,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -16,7 +20,15 @@ import java.util.List;
 @Setter
 @ToString
 @EqualsAndHashCode(callSuper = true)
+//@EntityListeners(AuditingEntityListener.class)
 public class Donation extends Base {
+
+//    @CreatedDate
+//    @Column(nullable = false)
+//    private LocalDateTime createdOn;
+//
+//    @CreatedBy
+//    private String createdBy;
 
 
     private Integer quantity;
@@ -36,6 +48,7 @@ public class Donation extends Base {
 
     @OneToOne
     private Institution institution;
+
 
 
 }
