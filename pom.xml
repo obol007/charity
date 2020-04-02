@@ -15,7 +15,7 @@
     <description>Charity project, created with love in CodersLab</description>
 
     <properties>
-        <java.version>1.11</java.version>
+        <java.version>11</java.version>
     </properties>
 
     <dependencies>
@@ -91,6 +91,21 @@
             <artifactId>modelmapper</artifactId>
             <version>2.3.0</version>
         </dependency>
+
+<!--=============TAGLIBS SECURITY===========-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>5.3.0.RELEASE</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+
 
 
     </dependencies>

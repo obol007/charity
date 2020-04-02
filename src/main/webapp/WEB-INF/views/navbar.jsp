@@ -1,4 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%--<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>--%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ page isELIgnored="false" %>
+
+
 <nav class="container container--70">
 
     <security:authorize access="hasRole('ROLE_USER')">
@@ -16,7 +24,7 @@
     </ul>
     </security:authorize>
 
-    <security:authorize access="isAuthenticated()">
+    <security:authorize access="!isAuthenticated()">
     <ul class="nav--actions">
         <li><a href="/login" class="btn btn--small btn--without-border">Zaloguj</a></li>
         <li><a href="/register" class="btn btn--small btn--highlighted">Załóż konto</a></li>
