@@ -11,7 +11,7 @@ import java.security.Principal;
 @RequestMapping("/login")
 public class LoginController {
 
-    //TODO: o co chodzi ze sprawdzeniem principal?
+
 
     @GetMapping
     public String login(Principal principal){

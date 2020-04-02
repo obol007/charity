@@ -1,6 +1,7 @@
 package pl.coderslab.charity.controller;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,10 +18,12 @@ import pl.coderslab.charity.service.DonationService;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
 @RequestMapping("/donation")
+@Slf4j
 public class DonationController {
 
     DonationService donationService;
@@ -37,9 +40,12 @@ public class DonationController {
 
 
     @GetMapping
-    public String addDonation(Model model){
+    public String addDonation(Model model, Principal principal){
         List<Category> categories = categoryRepository.findAll();
         List<Institution> institutions = institutionRepository.findAll();
+
+        log.warn("Principal name: "+principal.getName());
+
         model.addAttribute("donation",new DonationDTO());
         model.addAttribute("institutions",institutions);
         model.addAttribute("categories",categories);

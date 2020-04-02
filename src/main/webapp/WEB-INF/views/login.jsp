@@ -18,7 +18,8 @@
 
 <section class="login-page">
     <h2>Zaloguj się</h2>
-    <form>
+
+    <form method="post" action="/login">
         <div class="form-group">
             <input type="email" name="email" placeholder="Email" />
         </div>
@@ -29,9 +30,13 @@
 
         <div class="form-group form-group--buttons">
             <button class="btn" type="submit">Zaloguj się</button>
-            <a href="#" class="btn btn--without-border">Załóż konto</a>
+            <a href="/register" class="btn btn--without-border">Załóż konto</a>
         </div>
+        <security:csrfInput/>
     </form>
+
+
+
 </section>
 
 <%@include file="footer.jsp"%>

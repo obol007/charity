@@ -14,10 +14,11 @@ import pl.coderslab.charity.domain.repository.UserRepository;
 public class UserService {
 
 //TODO:password encoder
-    //    private final PasswordEncoder passwordEncoder;
+        private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.passwordEncoder = passwordEncoder;
 
         this.userRepository = userRepository;
     }
@@ -31,7 +32,7 @@ public class UserService {
         user.setEmail(userDTO.getEmail());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
-        user.setPassword(userDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
         userRepository.save(user);
 
