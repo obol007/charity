@@ -13,7 +13,9 @@
 </head>
 
 <body>
+<header>
 <%@include file="navbar.jsp"%>
+</header>
 
 <div class="slogan container container--90">
     <h2>

@@ -12,6 +12,9 @@
 </head>
 
 <body>
+<header>
+
+</header>
 
 <%@include file="header.jsp" %>
 

@@ -40,8 +40,8 @@
         </div>
 
         <div class="form-group form-group--buttons">
-                <%--            <a href="/login" class="btn btn--without-border">Zaloguj się</a>--%>
             <button class="btn" type="submit">Załóż konto</button>
+            <a href="/login" class="btn btn--without-border">Zaloguj się</a>
         </div>
 
         <security:csrfInput/>

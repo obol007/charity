@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.charity.DTO.DonationDTO;
 import pl.coderslab.charity.domain.model.Category;
 import pl.coderslab.charity.domain.model.Institution;
+import pl.coderslab.charity.domain.model.User;
 import pl.coderslab.charity.domain.repository.CategoryRepository;
 import pl.coderslab.charity.domain.repository.InstitutionRepository;
+import pl.coderslab.charity.domain.repository.UserRepository;
 import pl.coderslab.charity.service.DonationService;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -29,14 +31,18 @@ public class DonationController {
     DonationService donationService;
     CategoryRepository categoryRepository;
     InstitutionRepository institutionRepository;
+    UserRepository userRepository;
 
     public DonationController(DonationService donationService,
                               CategoryRepository categoryRepository,
-                              InstitutionRepository institutionRepository) {
+                              InstitutionRepository institutionRepository,
+                              UserRepository userRepository) {
         this.donationService = donationService;
         this.categoryRepository = categoryRepository;
         this.institutionRepository = institutionRepository;
+        this.userRepository = userRepository;
     }
+
 
 
     @GetMapping

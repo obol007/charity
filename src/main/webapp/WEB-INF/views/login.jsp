@@ -19,7 +19,13 @@
 <section class="login-page">
     <h2>Zaloguj się</h2>
 
+
     <form method="post" action="/login">
+        <div class="form-group">
+        <c:if test="${param.error != null}">
+            <h3>Invalid credentials!</h3>
+        </c:if>
+        </div>
         <div class="form-group">
             <input type="email" name="email" placeholder="Email" />
         </div>
@@ -32,7 +38,7 @@
             <button class="btn" type="submit">Zaloguj się</button>
             <a href="/register" class="btn btn--without-border">Załóż konto</a>
         </div>
-        <security:csrfInput/>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </form>
 
 

@@ -12,6 +12,7 @@ import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.service.UserService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/register")
@@ -24,7 +25,12 @@ public class RegistrationController {
     }
 
     @GetMapping
-    public String register(Model model){
+    public String register(Model model, Principal principal){
+        if(principal!=null) {
+            return "redirect:/";
+        }
+
+
         UserDTO userDTO = new UserDTO();
         model.addAttribute("userDTO",userDTO);
         return "register";
