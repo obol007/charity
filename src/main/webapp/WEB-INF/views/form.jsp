@@ -58,26 +58,22 @@
 
         }
         function checkout1(){
-
             let checkBoxes = document.querySelectorAll('.checkbox1:checked');
-
             if (checkBoxes.length < 1){
                 alert('Please, check at least one checkbox!');
                 return false;
             }
         }
-
-
-
     </script>
 </head>
 
 <body>
-
-<%@include file="loggedUserNavbar.jsp" %>
-
+<header>
+<%@include file="navbar.jsp" %>
+</header>
 
 <section class="form--steps">
+
 <%--    <div class="form--steps-instructions">--%>
 <%--        <div class="form--steps-container">--%>
 <%--            <h3>Ważne!</h3>--%>

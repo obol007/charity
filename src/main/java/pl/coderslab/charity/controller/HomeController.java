@@ -33,29 +33,22 @@ public class HomeController {
 
     @GetMapping
     public String homeAction(Model model, Principal principal) {
-        Integer bags;
+
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String role = String.valueOf(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         log.warn("USERNAME: " + username);
         log.warn("ROLA: " + role);
-
-
-        if (donationRepository.TotalBags() == null) {
-            bags = 0;
-        } else {
-            bags = donationRepository.TotalBags();
-        }
-        if (role.equals("[ROLE_USER]")) {
-
-
-                log.warn("JESTEM TUTAJ");
-            model.addAttribute("loggedUser", userRepository.findByEmail(username));
-        }
-
+        Integer bags = ((donationRepository.TotalBags() == null) ? 0 : donationRepository.TotalBags());
         model.addAttribute("totalBags", bags);
         model.addAttribute("totalDonations", donationRepository.TotalDonations());
+            model.addAttribute("institutions", institutionRepository.findAllByActive(true));
+//        model.addAttribute("institutions", institutionRepository.findAll());
 
-        model.addAttribute("institutions", institutionRepository.findAll());
+        if(!role.equals("[ROLE_ANONYMOUS]")){
+            model.addAttribute("loggedUser", userRepository.findByEmail(username));
+            return "index";
+        }
+
         return "index";
     }
 }

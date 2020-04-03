@@ -19,4 +19,8 @@ public class User extends Base {
     private String role;
     private Boolean active;
 
+    public String getFullName(){
+        return firstName+" "+lastName;
+    }
+
 }

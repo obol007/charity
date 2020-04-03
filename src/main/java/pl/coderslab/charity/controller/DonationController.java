@@ -48,7 +48,7 @@ public class DonationController {
     @GetMapping
     public String addDonation(Model model, Principal principal){
         List<Category> categories = categoryRepository.findAll();
-        List<Institution> institutions = institutionRepository.findAll();
+        List<Institution> institutions = institutionRepository.findAllByActive(true);
 
         log.warn("Principal name: "+principal.getName());
 

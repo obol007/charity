@@ -1,13 +1,16 @@
 package pl.coderslab.charity.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.charity.DTO.DonationDTO;
 import pl.coderslab.charity.domain.model.Category;
 import pl.coderslab.charity.domain.model.Donation;
+import pl.coderslab.charity.domain.model.User;
 import pl.coderslab.charity.domain.repository.CategoryRepository;
 import pl.coderslab.charity.domain.repository.DonationRepository;
+import pl.coderslab.charity.domain.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +21,21 @@ import java.util.List;
 public class DonationService {
 
     DonationRepository donationRepository;
-    CategoryRepository categoryRepository;
+    UserRepository userRepository;
 
 
 
-    public DonationService(DonationRepository donationRepository) {
+    public DonationService(DonationRepository donationRepository,
+                           UserRepository userRepository) {
         this.donationRepository = donationRepository;
+        this.userRepository = userRepository;
     }
 
 
     public void add(DonationDTO donationDTO) {
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(username);
         log.warn("Dodatcja: "+donationDTO);
         Donation donation = new Donation();
         donation.setCategories(donationDTO.getCategories());
@@ -39,6 +47,7 @@ public class DonationService {
         donation.setStreet(donationDTO.getStreet());
         donation.setZipCode(donationDTO.getZipCode());
         donation.setQuantity(donationDTO.getQuantity());
+        donation.setUser(user);
 
         donationRepository.save(donation);
     }

@@ -13,5 +13,6 @@ public class Institution extends Base {
 
     private String name;
     private String description;
+    private Boolean active;
 
 }

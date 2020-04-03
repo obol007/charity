@@ -41,11 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 //konfigurujemy od szczegolu do ogolu (jak w try - catch)
                 .antMatchers("/").permitAll()
-                 .antMatchers("/src/main/webapp/","/scr/main/webapp/**").permitAll()
+                 .antMatchers("/resources/","/resources/**").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/admin").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/donation").hasAuthority("ROLE_USER")
+                .antMatchers("/donation").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers("/superadmin").hasAuthority("ROLE_SUPERADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
-//                .successForwardUrl("/selectRole")
+//                .successForwardUrl("/role")
 
                 //po zalogowaniu przechodzi na strone na ktora chcial wejsc
                 .defaultSuccessUrl("/",true)

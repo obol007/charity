@@ -49,6 +49,9 @@ public class Donation extends Base {
     @OneToOne
     private Institution institution;
 
+    @OneToOne
+    private User user;
+
 
 
 }
