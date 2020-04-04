@@ -9,7 +9,7 @@
 
 <nav class="container container--70">
     <security:authorize access="hasRole('ROLE_ADMIN')">
-        <h1>  <a href="#" class="btn btn--without-border"> Administrator: ${loggedUser.email} </a></h1>
+        <h1>  <a href="#" class="btn btn--without-border"> Administrator:  <security:authentication property="name"/> </a></h1>
     </security:authorize>
     <ul>
         <security:authorize access="hasRole('ROLE_ADMIN')">
@@ -22,6 +22,7 @@
         <li><a href="/admin/admins" class="btn btn--without-border">Administratorzy</a></li>
         <li><a href="/admin/institutions" class="btn btn--without-border">Fundacje</a></li>
         <li><a href="/admin/donations" class="btn btn--without-border">Dotacje</a></li>
+        <li><a href="/admin/messages" class="btn btn--without-border">Wiadomości</a></li>
         <li>
             <form action="<c:url value="/logout"/>" method="post">
                 <input class="btn btn--without-border" type="submit" value="Wyloguj">

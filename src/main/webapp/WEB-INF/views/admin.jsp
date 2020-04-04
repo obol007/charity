@@ -78,7 +78,7 @@
             </tr>
             <c:forEach items="${institutions}" var="institution">
                 <tr>
-                    <td><input type="checkbox" id="${institution.id}" value="${institution.active}"
+                    <td><input type="checkbox" disabled id="${institution.id}" value="${institution.active}"
                             <c:if test="${institution.active == true}"> checked</c:if> /></td>
                     <td><a href="/admin/institutions/active/${institution.id}" class="btn btn--small btn--highlighted">Zmień</a></td>
                     <td>${institution.name}</td>
