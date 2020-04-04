@@ -1,6 +1,7 @@
 package pl.coderslab.charity.DTO;
 
 import lombok.Data;
+import pl.coderslab.charity.validation.constraint.UniqueEmail;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -15,7 +16,7 @@ public class UserDTO {
     @NotBlank
     private String lastName;
     @NotBlank
-    @Email
+    @UniqueEmail(message = "Użytkownik o podanym emailu już istnieje")
     private String email;
 
     @Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,}", message = "Hasło musi posiadać co najmniej 6 znaków" +

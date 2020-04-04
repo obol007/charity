@@ -13,7 +13,7 @@
     </security:authorize>
     <ul>
         <security:authorize access="hasRole('ROLE_ADMIN')">
-            <li><a href="/admin" class="btn btn--without-border active" style="background: indianred"> Strona Administratora </a>
+            <li><a href="/admin" class="btn btn--without-border active"> Strona Administratora </a>
             </li>
         </security:authorize>
 

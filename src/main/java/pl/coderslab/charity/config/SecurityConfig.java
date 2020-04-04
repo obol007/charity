@@ -1,4 +1,4 @@
-package pl.coderslab.charity.config.SecurityConfig;
+package pl.coderslab.charity.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                  .antMatchers("/resources/","/resources/**").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/lang/","/lang/**").permitAll()
                 .antMatchers("/admin").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/donation").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers("/superadmin").hasAuthority("ROLE_SUPERADMIN")

@@ -20,10 +20,10 @@
     <div class="bottom-line">
         <span class="bottom-line--copy">Copyright &copy; 2018</span>
         <div class="bottom-line--icons">
-            <a href="#" class="btn btn--small"><img src="/resources/images/icon-facebook.svg"/></a> <a href="#"
-                                                                                            class="btn btn--small"><img
-                src="resources/images/icon-instagram.svg"/></a>
+            <a href="#" class="btn btn--small"><img src="/resources/images/icon-facebook.svg"/></a>
+            <a href="#"class="btn btn--small"><img src="resources/images/icon-instagram.svg"/></a>
         </div>
     </div>
 </footer>
+<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 <script src="<c:url value="/resources/js/app.js"/>"></script>

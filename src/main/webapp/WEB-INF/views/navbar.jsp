@@ -9,45 +9,51 @@
 
 <nav class="container container--70">
 
-    <security:authorize access="hasRole('ROLE_USER')">
-        <h1>
-            <a href="#" class="btn btn--without-border"> ${loggedUser.fullName}</a>
-        </h1>
-    </security:authorize>
 
-    <security:authorize access="hasRole('ROLE_ADMIN')">
-        <h1>
-            <a href="#" class="btn btn--without-border"> Administrator: ${loggedUser.email} </a>
-        </h1>
-    </security:authorize>
+    <ul class="nav--actions">
 
-    <security:authorize access="!isAuthenticated()">
-        <ul class="nav--actions">
-            <li><a href="/login" class="btn btn--small btn--without-border">Zaloguj</a></li>
-            <li><a href="/register" class="btn btn--small btn--highlighted">Załóż konto</a></li>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        </ul>
-    </security:authorize>
-
-    <ul>
-
-        <security:authorize access="hasRole('ROLE_ADMIN')">
-            <li><a href="/admin" class="btn btn--without-border active" style="background: indianred"> Strona Administratora </a></li>
+        <security:authorize access="hasRole('ROLE_USER')">
+          <li> <h1><a href="#" class="btn btn--without-border">
+                  ${loggedUser.fullName}</a></h1></li>
         </security:authorize>
 
-        <li><a href="/" class="btn btn--without-border">Strona główna</a></li>
+        <security:authorize access="hasRole('ROLE_ADMIN')">
+           <li><h1><a href="#" class="btn btn--without-border">
+               Administrator: <security:authentication property="name"/> </a></h1></li>
+        </security:authorize>
+
+    <security:authorize access="!isAuthenticated()">
+            <li><a href="/login" class="btn btn--small btn--without-border"><spring:message code="nav.login"/></a></li>
+            <li><a href="/register" class="btn btn--small btn--highlighted"><spring:message code="nav.register"/></a></li>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    </security:authorize>
+
+        <li><a href="?lang=en" id="uk" class="btn  btn--small btn--without-border">EN<img src="resources/images/uk.svg"/></a></li>
+        <li><a href="?lang=pl" class="btn btn--small btn--without-border">PL<img src="resources/images/poland.svg"/></a></li>
+
+    </ul>
+
+
+    <ul>
+        <security:authorize access="hasRole('ROLE_ADMIN')">
+            <li><a href="/admin" class="btn btn--without-border active" style="background: indianred"> Strona
+                Administratora </a></li>
+        </security:authorize>
+
+        <li><a href="/" class="btn btn--without-border"><spring:message code="nav.mainPage"/></a></li>
         <li><a href="/donation" class="btn btn--without-border active">Start</a></li>
-        <li><a href="/#steps" class="btn btn--without-border">O co chodzi?</a></li>
-        <li><a href="/#about" class="btn btn--without-border">O nas</a></li>
-        <li><a href="/#help" class="btn btn--without-border">Fundacje</a></li>
-        <li><a href="/#contact" class="btn btn--without-border">Kontakt</a></li>
+        <li><a href="/#steps" class="btn btn--without-border"><spring:message code="nav.howItworks"/></a></li>
+        <li><a href="/#about" class="btn btn--without-border"><spring:message code="nav.aboutUs"/></a></li>
+        <li><a href="/#help" class="btn btn--without-border"><spring:message code="nav.institutions"/></a></li>
+        <li><a href="/#contact" class="btn btn--without-border"><spring:message code="nav.contact"/></a></li>
+
         <security:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-        <li>
-            <form action="<c:url value="/logout"/>" method="post">
-                <input class="btn btn--without-border" type="submit" value="Wyloguj">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            </form>
-        </li>
+            <li>
+                <form action="<c:url value="/logout"/>" method="post">
+                    <input class="btn btn--without-border" type="submit" value="<spring:message code="nav.logout"/>">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                </form>
+            </li>
         </security:authorize>
     </ul>
 </nav>

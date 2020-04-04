@@ -19,7 +19,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> allAdmins();
 
 
-
-
-
+    boolean existsByEmail(String email);
 }

@@ -110,6 +110,8 @@
                         </label>
                     </div>
                 </c:forEach>
+
+<%--           TODO:     Obiekt typu categoryDTO--%>
                 <div class="form-group form-group--inline">
                     <label> Dodaj swoją kategorię <input type="text" name="categories"/> </label>
                 </div>
@@ -129,7 +131,7 @@
                         Liczba 60l worków:
                             <%--<input type="number" name="bags" step="1" min="1"/>--%>
                         <form:input type="number" min="1" path="quantity" id="bagId"/>
-                        <form:errors path="quantity"/> </p>
+                        <form:errors path="quantity"/>
                     </label>
                 </div>
 
@@ -182,6 +184,7 @@
 
                         <div class="form-group form-group--inline">
                             <label>Kod pocztowy <input type="text" name="zipCode"/></label>
+                            <form:errors path="zipCode"/>
                         </div>
                     </div>
 

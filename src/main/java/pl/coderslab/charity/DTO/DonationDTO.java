@@ -22,7 +22,7 @@ public class DonationDTO {
     private String street;
     private String city;
 
-    @Pattern(regexp = "[0-9]{2}\\-[0-9]{3}")
+    @Pattern(regexp = "[0-9]{2}\\-[0-9]{3}", message = "Nieprawidłowy format kodu: 00-000")
     private String zipCode;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate pickUpDate;
