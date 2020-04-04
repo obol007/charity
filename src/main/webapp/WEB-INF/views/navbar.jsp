@@ -7,7 +7,7 @@
 <%@ page isELIgnored="false" %>
 
 
-<nav class="container container--70">
+<nav class="container container--70" id="navId">
 
 
     <ul class="nav--actions">
@@ -36,8 +36,7 @@
 
     <ul>
         <security:authorize access="hasRole('ROLE_ADMIN')">
-            <li><a href="/admin" class="btn btn--without-border active" style="background: indianred"> Strona
-                Administratora </a></li>
+            <li><a href="/admin" class="btn btn--without-border active" style="background: indianred"><spring:message code="nav.adminPage"/></a></li>
         </security:authorize>
 
         <li><a href="/" class="btn btn--without-border"><spring:message code="nav.mainPage"/></a></li>

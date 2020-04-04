@@ -9,6 +9,7 @@
     <%@include file="head.jsp" %>
 
     <title>Charity Home Page</title>
+
 </head>
 
 <body>
@@ -97,8 +98,8 @@
                 </c:if>
 
                     <div class="col">
-                        <div class="title">Fundacja ${institution.name}</div>
-                        <div class="subtitle">Cel i misja: ${institution.description}</div>
+                        <div class="title"><spring:message code="index.institution.name" arguments="${institution.name}"/></div>
+                        <div class="subtitle"><spring:message code="index.institution.mission" arguments="${institution.description}"/></div>
                     </div>
 
                 <c:if test="${counter.count%2 ==0 }">

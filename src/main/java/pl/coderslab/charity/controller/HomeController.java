@@ -30,25 +30,20 @@ public class HomeController {
         this.userRepository = userRepository;
     }
 
-
     @GetMapping
     public String homeAction(Model model, Principal principal) {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String role = String.valueOf(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-        log.warn("USERNAME: " + username);
-        log.warn("ROLA: " + role);
+
         Integer bags = ((donationRepository.TotalBags() == null) ? 0 : donationRepository.TotalBags());
         model.addAttribute("totalBags", bags);
         model.addAttribute("totalDonations", donationRepository.TotalDonations());
-            model.addAttribute("institutions", institutionRepository.findAllByActive(true));
-//        model.addAttribute("institutions", institutionRepository.findAll());
+        model.addAttribute("institutions", institutionRepository.findAllByActive(true));
 
-        if(!role.equals("[ROLE_ANONYMOUS]")){
+        if (!role.equals("[ROLE_ANONYMOUS]")) {
             model.addAttribute("loggedUser", userRepository.findByEmail(username));
-            return "index";
         }
-
         return "index";
     }
 }

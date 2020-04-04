@@ -8,15 +8,11 @@
 
 
 <nav class="container container--70">
-    <security:authorize access="hasRole('ROLE_ADMIN')">
-        <h1>  <a href="#" class="btn btn--without-border"> Administrator:  <security:authentication property="name"/> </a></h1>
-    </security:authorize>
-    <ul>
-        <security:authorize access="hasRole('ROLE_ADMIN')">
-            <li><a href="/admin" class="btn btn--without-border active"> Strona Administratora </a>
-            </li>
-        </security:authorize>
+    <h1><a href="#" class="btn btn--without-border"> Administrator: <security:authentication property="name"/> </a></h1>
 
+    <ul>
+        <li><a href="/admin" class="btn btn--without-border active" style="background: indianred">
+            Administrator </a></li>
         <li><a href="/" class="btn btn--without-border">Strona główna</a></li>
         <li><a href="/admin/users" class="btn btn--without-border">Użytkownicy</a></li>
         <li><a href="/admin/admins" class="btn btn--without-border">Administratorzy</a></li>

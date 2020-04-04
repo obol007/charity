@@ -12,13 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.charity.DTO.DonationDTO;
 import pl.coderslab.charity.domain.model.Category;
 import pl.coderslab.charity.domain.model.Institution;
-import pl.coderslab.charity.domain.model.User;
 import pl.coderslab.charity.domain.repository.CategoryRepository;
 import pl.coderslab.charity.domain.repository.InstitutionRepository;
 import pl.coderslab.charity.domain.repository.UserRepository;
 import pl.coderslab.charity.service.DonationService;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;

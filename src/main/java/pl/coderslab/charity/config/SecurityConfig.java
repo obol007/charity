@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/register").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/lang/","/lang/**").permitAll()
-                .antMatchers("/admin").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/admin/","/admin/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/donation").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers("/superadmin").hasAuthority("ROLE_SUPERADMIN")
                 .anyRequest().authenticated()
@@ -54,10 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
-//                .successForwardUrl("/role")
+//                .successForwardUrl("/")
 
                 //po zalogowaniu przechodzi na strone na ktora chcial wejsc
-                .defaultSuccessUrl("/",true)
+                .defaultSuccessUrl("/login",true)
                 .and()
                 .logout()
                 .logoutUrl("/logout")
