@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html lang="pl">
@@ -18,79 +19,127 @@
 </header>
 
 <c:if test="${showUsers == true}">
-<section>
-    <div class="users">
-        <h3>Użytkownicy:</h3>
-        <table border="1" cellpadding="5" align="center">
-            <tr>
-                <th>Imię i Nazwisko</th>
-                <th>Email</th>
-                <th>Liczba dotacji</th>
-                <th>Liczba worków</th>
-                <th>Szczegóły</th>
-            </tr>
-            <c:forEach items="${users}" var="user">
+    <section>
+        <div class="users">
+            <h3>Użytkownicy:</h3>
+            <table border="1" cellpadding="5" align="center">
                 <tr>
-                    <td>${user.fullName}</td>
-                    <td>${user.email}</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td><a href="/admin/users/${user.id}" class="btn btn--small btn--highlighted">Szczegóły</a></td>
+                    <th>Imię i Nazwisko</th>
+                    <th>Email</th>
+                    <th>Liczba dotacji</th>
+                    <th>Liczba worków</th>
+                    <th>Szczegóły</th>
                 </tr>
-            </c:forEach>
-        </table>
-    </div>
-</section>
+                <c:forEach items="${users}" var="user">
+                    <tr>
+                        <td>${user.fullName}</td>
+                        <td>${user.email}</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td><a href="/admin/users/${user.id}" class="btn btn--small btn--highlighted">Szczegóły</a></td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
+    </section>
 </c:if>
 
 <c:if test="${showAdmins == true}">
-<section>
-    <div class="users">
-        <h3>Administratorzy:</h3>
-        <table border="1" cellpadding="5" align="center">
-            <tr>
-                <th>Imię i Nazwisko</th>
-                <th>Email</th>
-                <th>Szczegóły</th>
-            </tr>
-            <c:forEach items="${admins}" var="admin">
+    <section>
+        <div class="users">
+            <h3>Administratorzy:</h3>
+            <table border="1" cellpadding="5" align="center">
                 <tr>
-                    <td>${admin.fullName}</td>
-                    <td>${admin.email}</td>
-                    <td><a href="/admin/admins/${admin.id}" class="btn btn--small btn--highlighted">Szczegóły</a></td>
+                    <th>Imię i Nazwisko</th>
+                    <th>Email</th>
+                    <th>Szczegóły</th>
                 </tr>
-            </c:forEach>
-        </table>
-    </div>
-</section>
+                <c:forEach items="${admins}" var="admin">
+                    <tr>
+                        <td>${admin.fullName}</td>
+                        <td>${admin.email}</td>
+                        <td><a href="/admin/admins/${admin.id}" class="btn btn--small btn--highlighted">Szczegóły</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
+    </section>
 </c:if>
 
 <c:if test="${showInstitutions == true}">
-<section>
-    <div class="users">
-        <h3>Fundacje:</h3>
-        <table border="1" cellpadding="5" align="center">
-            <tr>
-                <th colspan="2">Aktywna</th>
-                <th>Nazwa</th>
-                <th>Opis</th>
-                <th colspan="2">Akcja</th>
-            </tr>
-            <c:forEach items="${institutions}" var="institution">
+    <section>
+        <div class="users">
+
+            <form:form action="/admin/institution/add" method="get">
+                <input type="submit" value="Dodaj Fundację"/>
+            </form:form>
+
+
+            <h3>Fundacje:</h3>
+            <c:if test="${isActive == true}">
+                <p> Nie można usunąć aktywnej fundacji <b> ${institutionToDelete.name}</b>! Najpierw ją dezaktywuj!</p>
+            </c:if>
+
+            <c:if test="${isActive == false}">
+                <p> Czy na pewno chcesz usunąć fundację <b> ${institutionToDelete.name}</b> ?
+                    <a href="/admin/institutions" class="btn btn--highlighted">Anuluj</a>
+                    <a href="/admin/institution/delete/confirmed/${institutionToDelete.id}" class="btn">Tak</a>
+                </p>
+            </c:if>
+
+            <table border="1" cellpadding="5" align="center">
                 <tr>
-                    <td><input type="checkbox" disabled id="${institution.id}" value="${institution.active}"
-                            <c:if test="${institution.active == true}"> checked</c:if> /></td>
-                    <td><a href="/admin/institutions/active/${institution.id}" class="btn btn--small btn--highlighted">Zmień</a></td>
-                    <td>${institution.name}</td>
-                    <td>${institution.description}</td>
-                    <td><a href="/admin/institutions/${institution.id}" class="btn btn--small btn--highlighted">Edytuj</a></td>
-                    <td><a href="/admin/institutions/${institution.id}" class="btn btn--small btn--highlighted">Usuń</a></td>
+                    <th colspan="2">Aktywna</th>
+                    <th>Nazwa</th>
+                    <th>Opis</th>
+                    <th colspan="2">Akcja</th>
                 </tr>
-            </c:forEach>
-        </table>
-    </div>
-</section>
+
+                <c:if test="${newInstitution != null}">
+                    <tr>
+                        <form:form modelAttribute="newInstitution" action="/admin/institution/add" method="post">
+                            <td colspan="2"><form:checkbox path="active"/></td>
+                            <td><form:input path="name" placeholder="Nazwa fundacji" size="20px"/>
+                                <form:errors path="name"/></td>
+                            <td><form:input path="description" placeholder="Opis fundacji" size="50px"/>
+                                <form:errors path="description"/></td>
+                            <form:hidden path="id"></form:hidden>
+                            <td>
+                                <button type="submit" class="btn btn--highlighted">Zapisz</button>
+                            </td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/admin/institutions"
+                                   class="btn btn--highlighted">Anuluj</a>
+                            </td>
+
+                        </form:form>
+                    </tr>
+
+                </c:if>
+
+
+                <c:forEach items="${institutions}" var="institution">
+                    <tr>
+                        <td><input type="checkbox" disabled id="${institution.id}" value="${institution.active}"
+                                <c:if test="${institution.active == true}"> checked</c:if> /></td>
+                        <td><a href="/admin/institutions/active/${institution.id}"
+                               class="btn btn--small btn--highlighted">Zmień</a></td>
+                        <td>${institution.name}</td>
+                        <td>${institution.description}</td>
+                        <td><a href="/admin/institution/edit/${institution.id}" class="btn btn--small btn--highlighted">Edytuj</a>
+                        </td>
+                        <td><a href="/admin/institution/delete/${institution.id}"
+                               class="btn btn--small btn--highlighted">Usuń</a></td>
+                    </tr>
+                </c:forEach>
+            </table>
+
+        </div>
+    </section>
 </c:if>
+
+
 <c:if test="${showDonations == true}">
     <section>
         <div class="users">
@@ -109,13 +158,13 @@
                     <tr>
                         <td>${donation.user.fullName}</td>
                         <td>${donation.city}, ${donation.street}, ${donation.zipCode}</td>
-<%--                        <td>${donation.street +' '+ donation.city+' '+donation.zipCode}/></td>--%>
+                            <%--                        <td>${donation.street +' '+ donation.city+' '+donation.zipCode}/></td>--%>
                         <td>${donation.pickUpDate}</td>
                         <td>${donation.pickUpTime}</td>
                         <td>${donation.pickUpComment}</td>
                         <td>${donation.quantity}</td>
                         <td>${donation.institution.name}</td>
-<%--                     <td><a href="/admin/users/${user.id}" class="btn btn--small btn--highlighted">Szczegóły</a></td>--%>
+                            <%--                     <td><a href="/admin/users/${user.id}" class="btn btn--small btn--highlighted">Szczegóły</a></td>--%>
                     </tr>
                 </c:forEach>
             </table>

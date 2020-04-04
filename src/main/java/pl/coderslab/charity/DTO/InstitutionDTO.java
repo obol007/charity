@@ -8,12 +8,6 @@ import pl.coderslab.charity.domain.repository.InstitutionRepository;
 @Transactional
 public class InstitutionDTO {
 
-    InstitutionRepository institutionRepository;
-
-    public InstitutionDTO(InstitutionRepository institutionRepository) {
-        this.institutionRepository = institutionRepository;
-    }
-
     private Long id;
     private String name;
     private String description;

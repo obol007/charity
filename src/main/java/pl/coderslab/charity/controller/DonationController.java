@@ -29,7 +29,6 @@ public class DonationController {
     DonationService donationService;
     CategoryRepository categoryRepository;
     InstitutionRepository institutionRepository;
-    UserRepository userRepository;
 
     public DonationController(DonationService donationService,
                               CategoryRepository categoryRepository,
@@ -38,7 +37,6 @@ public class DonationController {
         this.donationService = donationService;
         this.categoryRepository = categoryRepository;
         this.institutionRepository = institutionRepository;
-        this.userRepository = userRepository;
     }
 
 
