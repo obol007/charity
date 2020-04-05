@@ -44,36 +44,12 @@
     </section>
 </c:if>
 
-<c:if test="${showAdmins == true}">
-    <section>
-        <div class="users">
-            <h3>Administratorzy:</h3>
-            <table border="1" cellpadding="5" align="center">
-                <tr>
-                    <th>Imię i Nazwisko</th>
-                    <th>Email</th>
-                    <th>Szczegóły</th>
-                </tr>
-                <c:forEach items="${admins}" var="admin">
-                    <tr>
-                        <td>${admin.fullName}</td>
-                        <td>${admin.email}</td>
-                        <td><a href="/admin/admins/${admin.id}" class="btn btn--small btn--highlighted">Szczegóły</a>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>
-        </div>
-    </section>
-</c:if>
 
 <c:if test="${showInstitutions == true}">
     <section>
         <div class="users">
 
-            <form:form action="/admin/institution/add" method="get">
-                <input type="submit" value="Dodaj Fundację"/>
-            </form:form>
+            <a href="/admin/institution/add" class="btn--small btn--highlighted">Dodaj fundację</a>
 
 
             <h3>Fundacje:</h3>
@@ -102,7 +78,7 @@
                             <td colspan="2"><form:checkbox path="active"/></td>
                             <td><form:input path="name" placeholder="Nazwa fundacji" size="20px"/>
                                 <form:errors path="name"/></td>
-                            <td><form:input path="description" placeholder="Opis fundacji" size="50px"/>
+                            <td><form:input path="description" placeholder="Opis fundacji" size="40px"/>
                                 <form:errors path="description"/></td>
                             <form:hidden path="id"></form:hidden>
                             <td>

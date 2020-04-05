@@ -1,10 +1,13 @@
 package pl.coderslab.charity.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.mapper.Mapper;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.charity.DTO.UserDTO;
+import pl.coderslab.charity.domain.model.Institution;
 import pl.coderslab.charity.domain.model.User;
 import pl.coderslab.charity.domain.repository.UserRepository;
 
@@ -36,9 +39,16 @@ public class UserService {
 
         userRepository.save(user);
 
+    }
 
 
 
-
+    public void addOrUpdate(UserDTO userDTO) {
+        ModelMapper mapper = new ModelMapper();
+        User user = mapper.map(userDTO, User.class);
+        user.setRole("ROLE_ADMIN");
+        user.setActive(true);
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        userRepository.save(user);
     }
 }

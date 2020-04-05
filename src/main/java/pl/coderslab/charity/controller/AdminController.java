@@ -6,8 +6,10 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.DTO.InstitutionDTO;
+import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.domain.model.Donation;
 import pl.coderslab.charity.domain.model.Institution;
 import pl.coderslab.charity.domain.model.User;
@@ -15,6 +17,8 @@ import pl.coderslab.charity.domain.repository.DonationRepository;
 import pl.coderslab.charity.domain.repository.InstitutionRepository;
 import pl.coderslab.charity.domain.repository.UserRepository;
 import pl.coderslab.charity.service.InstitutionService;
+import pl.coderslab.charity.service.UserService;
+import pl.coderslab.charity.validation.validator.AdminValidator;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -30,20 +34,28 @@ public class AdminController {
     DonationRepository donationRepository;
     InstitutionRepository institutionRepository;
     InstitutionService institutionService;
+    UserService userService;
 
     public AdminController(UserRepository userRepository,
                            DonationRepository donationRepository,
                            InstitutionRepository institutionRepository,
-                           InstitutionService institutionService) {
+                           InstitutionService institutionService,
+                           UserService userService) {
         this.userRepository = userRepository;
         this.donationRepository = donationRepository;
         this.institutionRepository = institutionRepository;
         this.institutionService = institutionService;
+        this.userService = userService;
     }
 
     @ModelAttribute("institutions")
     public List<Institution> allInstitutions() {
         return institutionRepository.findAllOderByIdDesc();
+    }
+
+    @ModelAttribute("admins")
+    public List<User> allAdmins() {
+        return userRepository.allAdmins();
     }
 
     @GetMapping
@@ -64,11 +76,8 @@ public class AdminController {
 
     @GetMapping("/admins")
     public String admins(Model model) {
-        List<User> users = userRepository.allAdmins();
-
-        model.addAttribute("admins", users);
         model.addAttribute("showAdmins", true);
-        return "admin";
+        return "administrators";
     }
 
     @GetMapping("/institution")
@@ -114,7 +123,7 @@ public class AdminController {
 
     @PostMapping("/institution/add")
     public String addingInstitution(@Valid @ModelAttribute("newInstitution") InstitutionDTO institutionDTO,
-                                     BindingResult result, Model model) {
+                                    BindingResult result, Model model) {
         model.addAttribute("showInstitutions", true);
 
         if (result.hasErrors()) {
@@ -154,6 +163,25 @@ public class AdminController {
         institutionService.delete(id);
         model.addAttribute("showInstitutions", true);
         return "redirect:/admin/institution";
+    }
+
+    @GetMapping("/admins/add")
+    public String addAdmin(Model model, UserDTO userDTO) {
+        model.addAttribute("adminDTO", userDTO);
+        model.addAttribute("addAdmin", true);
+        return "administrators";
+    }
+
+
+    @PostMapping("/admins/add")
+    public String createProposition(@Validated({AdminValidator.class}) @ModelAttribute("adminDTO") UserDTO userDTO, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+
+            return "administrators";
+        }
+
+        userService.addOrUpdate(userDTO);
+        return "redirect:/admin/admins";
     }
 
 
