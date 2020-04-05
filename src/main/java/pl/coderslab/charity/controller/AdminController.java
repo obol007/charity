@@ -71,13 +71,13 @@ public class AdminController {
         return "admin";
     }
 
-    @GetMapping("/institutions")
+    @GetMapping("/institution")
     public String institutions(Model model) {
         model.addAttribute("showInstitutions", true);
         return "admin";
     }
 
-    @GetMapping("/institutions/active/{id}")
+    @GetMapping("/institution/active/{id}")
     public String institutionsActivation(@PathVariable Long id, Model model) {
         Optional<Institution> optionalInstitution = institutionRepository.findById(id);
         if (optionalInstitution.isPresent()) {
@@ -113,7 +113,7 @@ public class AdminController {
     }
 
     @PostMapping("/institution/add")
-    public String adddingInstitution(@Valid @ModelAttribute("newInstitution") InstitutionDTO institutionDTO,
+    public String addingInstitution(@Valid @ModelAttribute("newInstitution") InstitutionDTO institutionDTO,
                                      BindingResult result, Model model) {
         model.addAttribute("showInstitutions", true);
 
@@ -121,7 +121,7 @@ public class AdminController {
             return "admin";
         }
         institutionService.addOrUpdate(institutionDTO);
-        return "redirect:/admin/institutions";
+        return "redirect:/admin/institution";
     }
 
     @GetMapping("/institution/edit/{id}")
@@ -153,7 +153,7 @@ public class AdminController {
     public String deletingInstitution(@PathVariable Long id, Model model) {
         institutionService.delete(id);
         model.addAttribute("showInstitutions", true);
-        return "redirect:/admin/institutions";
+        return "redirect:/admin/institution";
     }
 
 

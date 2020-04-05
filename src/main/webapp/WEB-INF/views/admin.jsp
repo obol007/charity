@@ -83,7 +83,7 @@
 
             <c:if test="${isActive == false}">
                 <p> Czy na pewno chcesz usunąć fundację <b> ${institutionToDelete.name}</b> ?
-                    <a href="/admin/institutions" class="btn btn--highlighted">Anuluj</a>
+                    <a href="/admin/institution" class="btn btn--highlighted">Anuluj</a>
                     <a href="/admin/institution/delete/confirmed/${institutionToDelete.id}" class="btn">Tak</a>
                 </p>
             </c:if>
@@ -109,7 +109,7 @@
                                 <button type="submit" class="btn btn--highlighted">Zapisz</button>
                             </td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/admin/institutions"
+                                <a href="${pageContext.request.contextPath}/admin/institution"
                                    class="btn btn--highlighted">Anuluj</a>
                             </td>
 
@@ -123,7 +123,7 @@
                     <tr>
                         <td><input type="checkbox" disabled id="${institution.id}" value="${institution.active}"
                                 <c:if test="${institution.active == true}"> checked</c:if> /></td>
-                        <td><a href="/admin/institutions/active/${institution.id}"
+                        <td><a href="/admin/institution/active/${institution.id}"
                                class="btn btn--small btn--highlighted">Zmień</a></td>
                         <td>${institution.name}</td>
                         <td>${institution.description}</td>

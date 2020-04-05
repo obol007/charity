@@ -13,13 +13,13 @@
     <ul class="nav--actions">
 
         <security:authorize access="hasRole('ROLE_USER')">
-          <li> <h1><a href="#" class="btn btn--without-border">
-                  ${loggedUser.fullName}</a></h1></li>
+          <li><b><a href="#" class="btn btn--without-border">
+                  ${loggedUser.fullName}</a></b></li>
         </security:authorize>
 
         <security:authorize access="hasRole('ROLE_ADMIN')">
-           <li><h1><a href="#" class="btn btn--without-border">
-               Administrator: <security:authentication property="name"/> </a></h1></li>
+           <li><spring:message code="admin.nav.adminPage"/>:<b><a href="#" class="btn btn--without-border">
+               <security:authentication property="name"/></a></b></li>
         </security:authorize>
 
     <security:authorize access="!isAuthenticated()">
@@ -28,8 +28,8 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </security:authorize>
 
-        <li><a href="?lang=en" id="uk" class="btn  btn--small btn--without-border">EN<img src="resources/images/uk.svg"/></a></li>
-        <li><a href="?lang=pl" class="btn btn--small btn--without-border">PL<img src="resources/images/poland.svg"/></a></li>
+        <li><a href="?lang=en" id="uk" class="btn  btn--small btn--without-border">EN<img src="${pageContext.request.contextPath}/resources/images/uk.svg"/></a></li>
+        <li><a href="?lang=pl" class="btn btn--small btn--without-border">PL<img src="${pageContext.request.contextPath}/resources/images/poland.svg"/></a></li>
 
     </ul>
 

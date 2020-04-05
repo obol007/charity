@@ -1,5 +1,6 @@
 package pl.coderslab.charity.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@Slf4j
 public class InstitutionService {
 
     InstitutionRepository institutionRepository;
@@ -21,17 +23,21 @@ public class InstitutionService {
 
     public void addOrUpdate(InstitutionDTO institutionDTO) {
         ModelMapper mapper = new ModelMapper();
-        Optional<Institution> optInstitution = institutionRepository.findById(institutionDTO.getId());
-        //puste, wiec zapisujemy nowa, z id institutionDTO
-        if (optInstitution.isEmpty()) {
+
+        if (institutionDTO.getId()==null) {
+
             Institution institution = mapper.map(institutionDTO, Institution.class);
             institutionRepository.save(institution);
-            //istnieje, wiec uaktualniamy, z id instytucji
+
         } else {
-                Institution institutionOryginal = optInstitution.get();
+            log.warn("JESTEM W ELSE");
+            Optional<Institution> optInstitution = institutionRepository.findById(institutionDTO.getId());
+            if(optInstitution.isPresent()) {
+                Institution institutionOriginal = optInstitution.get();
                 Institution institution = mapper.map(institutionDTO, Institution.class);
-                institution.setId(institutionOryginal.getId());
+                institution.setId(institutionOriginal.getId());
                 institutionRepository.save(institution);
+            }
         }
     }
 

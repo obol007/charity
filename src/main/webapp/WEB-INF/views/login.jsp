@@ -17,7 +17,7 @@
 </header>
 
 <section class="login-page">
-    <h2>Zaloguj się</h2>
+    <h2><spring:message code="nav.login"/></h2>
 
 
     <form method="post" action="/login">
@@ -27,16 +27,16 @@
         </c:if>
         </div>
         <div class="form-group">
-            <input type="email" name="email" placeholder="Email" />
+            <input type="email" name="email" placeholder="<spring:message code="login.email"/>" />
         </div>
         <div class="form-group">
-            <input type="password" name="password" placeholder="Hasło" />
-            <a href="#" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
+            <input type="password" name="password" placeholder="<spring:message code="login.pass"/>" />
+            <a href="#" class="btn btn--small btn--without-border reset-password"><spring:message code="login.pass.remind"/></a>
         </div>
 
         <div class="form-group form-group--buttons">
-            <button class="btn" type="submit">Zaloguj się</button>
-            <a href="/register" class="btn btn--without-border">Załóż konto</a>
+            <button class="btn" type="submit"><spring:message code="nav.login"/></button>
+            <a href="/register" class="btn btn--without-border"><spring:message code="nav.register"/></a>
         </div>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </form>
