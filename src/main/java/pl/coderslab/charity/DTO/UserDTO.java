@@ -18,8 +18,9 @@ public class UserDTO {
     private String firstName;
     @NotBlank(message = "podaj swoje nazwisko")
     private String lastName;
+
     @NotNull(groups = {AdminValidator.class, Default.class})
-    @UniqueEmail(message = "Użytkownik o podanym emailu już istnieje")
+    @UniqueEmail(message = "Użytkownik o podanym emailu już istnieje", groups = {AdminValidator.class, Default.class})
 
     private String email;
 
