@@ -1,5 +1,6 @@
 package pl.coderslab.charity.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.implementation.bind.annotation.BindingPriority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import java.security.Principal;
 
 @Controller
 @RequestMapping("/register")
+@Slf4j
 public class RegistrationController {
 
     UserService userService;
@@ -25,25 +27,28 @@ public class RegistrationController {
     }
 
     @GetMapping
-    public String register(Model model, Principal principal){
-        if(principal!=null) {
+    public String register(Model model, Principal principal) {
+        if (principal != null) {
             return "redirect:/";
         }
 
-
         UserDTO userDTO = new UserDTO();
-        model.addAttribute("userDTO",userDTO);
+        model.addAttribute("userDTO", userDTO);
         return "register";
     }
 
     @PostMapping
     public String registering(@Valid @ModelAttribute("userDTO") UserDTO userDTO,
-                              BindingResult result){
-        if(result.hasErrors()){
+                              BindingResult result, Model model) {
+        if (result.hasErrors() && (userDTO.getPassword().equals(userDTO.getRePassword()))) {
             return "register";
+        } else if (result.hasErrors() || (!userDTO.getPassword().equals(userDTO.getRePassword()))) {
+            result.rejectValue("rePassword", null, "Hasła się różnią");
+            return "register";
+        } else {
+            userService.register(userDTO);
+            return "redirect:/login";
         }
-        userService.register(userDTO);
-        return "redirect:/login";
 
     }
 }

@@ -37,7 +37,9 @@
             <form:errors path="password"/>
         </div>
         <div class="form-group">
-            <input type="password" name="password2" placeholder="Powtórz hasło"/>
+            <input type="password" name="rePassword" placeholder="Powtórz hasło"/>
+<%--            <c:if test="${rePassword==false}">Wpisałeś różne hasła</c:if>--%>
+            <form:errors path="rePassword"/>
         </div>
 
         <div class="form-group form-group--buttons">
@@ -45,7 +47,6 @@
             <a href="/login" class="btn btn--without-border">Zaloguj się</a>
         </div>
 
-        <security:csrfInput/>
     </form:form>
 
 </section>
