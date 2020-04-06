@@ -34,9 +34,8 @@ public class InstitutionService {
             Optional<Institution> optInstitution = institutionRepository.findById(institutionDTO.getId());
             if(optInstitution.isPresent()) {
                 Institution institutionOriginal = optInstitution.get();
-                Institution institution = mapper.map(institutionDTO, Institution.class);
-                institution.setId(institutionOriginal.getId());
-                institutionRepository.save(institution);
+                mapper.map(institutionDTO, institutionOriginal);
+                institutionRepository.save(institutionOriginal);
             }
         }
     }
