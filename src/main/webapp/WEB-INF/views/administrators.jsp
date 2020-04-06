@@ -44,6 +44,7 @@
                     </td>
                     <td>
                         <form:input path="email" placeholder="Email" size="15px"/><form:errors path="email"/>
+
                     </td>
                     <td>
                         <form:input path="password" placeholder="Hasło" size="15px"/><form:errors path="password"/>
