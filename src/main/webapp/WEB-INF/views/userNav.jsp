@@ -39,9 +39,9 @@
             <li><a href="/admin" class="btn btn--without-border active" style="background: indianred"><spring:message code="nav.adminPage"/></a></li>
         </security:authorize>
 
+        <li><a href="/user/edit/${loggedUser.id}" class="btn btn--without-border">Edytuj dane</a></li>
         <li><a href="/" class="btn btn--without-border"><spring:message code="nav.mainPage"/></a></li>
         <li><a href="/donation" class="btn btn--without-border active">Start</a></li>
-        <li><a href="/#steps" class="btn btn--without-border"><spring:message code="nav.howItworks"/></a></li>
         <li><a href="/#about" class="btn btn--without-border"><spring:message code="nav.aboutUs"/></a></li>
         <li><a href="/#help" class="btn btn--without-border"><spring:message code="nav.institutions"/></a></li>
         <li><a href="/#contact" class="btn btn--without-border"><spring:message code="nav.contact"/></a></li>

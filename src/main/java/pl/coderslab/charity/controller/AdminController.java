@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.DTO.AdminDTO;
 import pl.coderslab.charity.DTO.InstitutionDTO;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.domain.model.Donation;
@@ -166,23 +167,70 @@ public class AdminController {
     }
 
     @GetMapping("/admins/add")
-    public String addAdmin(Model model, UserDTO userDTO) {
-        model.addAttribute("adminDTO", userDTO);
-        model.addAttribute("addAdmin", true);
-        return "administrators";
+    public String addAdmin(Model model) {
+        model.addAttribute("userDTO", new UserDTO());
+        return "addAdmin";
     }
 
 
     @PostMapping("/admins/add")
-    public String createProposition(@Validated({AdminValidator.class}) @ModelAttribute("adminDTO") UserDTO userDTO, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-
-            return "administrators";
+    public String addingAdmin(@Validated({AdminValidator.class}) UserDTO userDTO,
+                                    BindingResult result, Model model) {
+        if (result.hasErrors() && (userDTO.getPassword().equals(userDTO.getRePassword()))) {
+            model.addAttribute("addAdmin", true);
+            return "addAdmin";
+        } else if (result.hasErrors() || (!userDTO.getPassword().equals(userDTO.getRePassword()))) {
+            result.rejectValue("rePassword", null, "Hasła się różnią");
+            model.addAttribute("addAdmin", true);
+            return "addAdmin";
+        } else {
+            userService.addOrUpdate(userDTO);
+            return "redirect:/admin/admins";
         }
-
-        userService.addOrUpdate(userDTO);
-        return "redirect:/admin/admins";
     }
+
+    @GetMapping("/admins/edit/{id}")
+    public String editAdmin(@PathVariable Long id, Model model) {
+        AdminDTO adminDTO = userService.findAdminDTOByID(id);
+        model.addAttribute("adminDTO", adminDTO);
+        return "editAdmin";
+    }
+
+
+
+    @PostMapping("/admins/edit")
+    public String editingAdmin(@Valid @ModelAttribute("adminDTO") AdminDTO adminDTO,
+                               BindingResult result) {
+        log.warn("CZY SA BLEDY?");
+        if (result.hasErrors()) {
+            log.warn("SA BŁĘÐY");
+            return "editAdmin";
+        } else {
+            log.warn("NIE MA BŁĘDÓW");
+            userService.updateAdmin(adminDTO);
+            return "redirect:/admin/admins";
+        }
+    }
+
+//        if(result.hasErrors() && userDTO.getOldPassword().equals(userDTO.getTryOldPassword())
+//        && userDTO.getPassword().equals(userDTO.getRePassword())){
+//            return "editAdmin";
+//        } else if(!userDTO.getOldPassword().equals(userDTO.getTryOldPassword())) {
+//            result.rejectValue("tryOldPassword", null, "Niepoprawne hasło");
+//            return "editAdmin";
+//        }else if(userDTO.getOldPassword().equals(userDTO.getTryOldPassword()) &&
+//                !userDTO.getPassword().equals(userDTO.getRePassword())){
+//            result.rejectValue("rePassword",null,"Hasła się nie zgadzają");
+//            return "editAdmin";
+//        }else{
+//            userService.editAdmin(userDTO);
+//            return "redirect:/admin/admins";
+//        }
+
+
+
+
+
 
 
 }

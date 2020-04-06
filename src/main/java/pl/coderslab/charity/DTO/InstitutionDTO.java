@@ -5,7 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.charity.domain.repository.InstitutionRepository;
 
 @Data
-@Transactional
 public class InstitutionDTO {
 
     private Long id;

@@ -33,8 +33,14 @@ public class UserDTO {
 
 
     private String rePassword;
+    private String oldPassword;
+    private String tryOldPassword;
     private String role;
     private Boolean active;
+
+    public String getFullName(){
+        return firstName+" "+lastName;
+    }
 
 
 

@@ -17,6 +17,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> allUsers();
     @Query("select u from User u where u.role='ROLE_ADMIN' ")
     List<User> allAdmins();
+    @Query("update User u set u=u where u.id=?1")
+    void UpdateAdminById(Long id);
+
 
 
     boolean existsByEmail(String email);
