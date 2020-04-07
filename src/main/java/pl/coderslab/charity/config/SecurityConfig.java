@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.coderslab.charity.mail.JavaMailSenderImpl;
+import pl.coderslab.charity.mail.SimpleMailMessage;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -42,6 +43,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         props.put("mail.debug", "true");
 
         return mailSender;
+    }
+
+    @Bean
+    public SimpleMailMessage templateSimpleMessage() {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setText(
+                "This is the test email template for your email:\n%s\n");
+        return message;
     }
 
 
