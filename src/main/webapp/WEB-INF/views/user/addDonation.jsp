@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <%@include file="head.jsp" %>
+    <%@include file="../user_admin/head.jsp" %>
 
     <title>Add donation</title>
 </head>

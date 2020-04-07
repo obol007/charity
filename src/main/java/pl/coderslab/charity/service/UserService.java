@@ -118,11 +118,10 @@ public class UserService {
 
     public void updateUser(EditUserDTO editUserDTO) {
         Optional<User> optionalUser = userRepository.findById(editUserDTO.getId());
-        if(optionalUser.isPresent()){
+        if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             user.setLastName(editUserDTO.getLastName());
             user.setFirstName(editUserDTO.getFirstName());
-            user.setPassword(passwordEncoder.encode(editUserDTO.getNewPassword()));
             userRepository.save(user);
         }
     }
@@ -133,10 +132,19 @@ public class UserService {
         if (user.isPresent()) {
             ModelMapper mapper = new ModelMapper();
             editUserDTO = mapper.map(user.get(), EditUserDTO.class);
-            log.warn("MAPPED EDIT USER DTO: " + editUserDTO);
         }
         return editUserDTO;
 
     }
 
+    public void updatePassword(EditUserDTO editUserDTO) {
+        Optional<User> optionalUser = userRepository.findById(editUserDTO.getId());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            log.warn("ORIGINAL USER: "+user);
+            log.warn("USER OLD PASS: "+editUserDTO.getOldPassword()+" USER NEW PASS: "+editUserDTO.getNewPassword());
+            user.setPassword(passwordEncoder.encode(editUserDTO.getNewPassword()));
+            userRepository.save(user);
+        }
+    }
 }

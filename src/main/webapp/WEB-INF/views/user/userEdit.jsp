@@ -7,7 +7,7 @@
 <html>
 <head>
     <title>Edit User</title>
-    <%@include file="head.jsp" %>
+    <%@include file="../user_admin/head.jsp" %>
 </head>
 <body>
 <header>
@@ -28,18 +28,8 @@
     <form:errors path="lastName"/>
     </div>
     <div class="form-group">
-    <form:password path="oldPassword" placeholder="Stare hasło"/>
-    <form:errors path="oldPassword"/>
-        <form:hidden path="password"/>
-    </div>
-    <div class="form-group">
-    <form:password path="newPassword" placeholder="Nowe hasło"/>
-    <form:errors path="newPassword"/>
-    </div>
-
-    <div class="form-group">
     <form:button class="btn btn--small">Zapisz</form:button>
-        <a href="/user" class="btn--small">Anuluj</a>
+        <a href="${pageContext.request.contextPath}/user" class="btn--small">Anuluj</a>
     </div>
 
 </form:form>

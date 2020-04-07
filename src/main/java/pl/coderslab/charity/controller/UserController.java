@@ -28,36 +28,74 @@ public class UserController {
     }
 
     @ModelAttribute("loggedUser")
-    public UserDTO loggedUser(){
+    public UserDTO loggedUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return userService.findUserDTOByEmail(email);
     }
 
     @GetMapping
-    public String userPage(Model model){
+    public String userPage() {
+        return "user/user";
+    }
 
-        return "user";
+    @GetMapping("/detailsUpdated")
+    public String detailsUpdated(Model model) {
+        model.addAttribute("detailsUpdate", true);
+        return "user/user";
+    }
+
+    @GetMapping("/passwordUpdated")
+    public String passwordUpdated(Model model) {
+        model.addAttribute("passwordUpdate", true);
+        return "user/user";
     }
 
     @GetMapping("/edit/{id}")
-    public String editUser(@PathVariable Long id, EditUserDTO editUserDTO, Model model){
-        editUserDTO = userService.findEditUserDTOById(id);
-        model.addAttribute("userDTO",editUserDTO);
-        return "userEdit";
+    public String editUser(@PathVariable Long id, Model model) {
+        EditUserDTO editUserDTO = userService.findEditUserDTOById(id);
+        model.addAttribute("userDTO", editUserDTO);
+        return "user/userEdit";
     }
-    @PostMapping("/edit")
-    public String editingUser(@Valid @ModelAttribute("userDTO") EditUserDTO editUserDTO, BindingResult result){
 
-        if(result.hasErrors() && (passwordEncoder.matches(editUserDTO.getOldPassword(),editUserDTO.getPassword()))){
-            return "userEdit";
-        } else if(result.hasErrors() || !passwordEncoder.matches(editUserDTO.getOldPassword(),editUserDTO.getPassword())){
-            result.rejectValue("oldPassword",null,"Niepoprawnie wpisana stare hasło");
-            return "userEdit";
-        }
-        else {
-            log.warn("USERDTO: " + editUserDTO);
+    @PostMapping("/edit")
+    public String editingUser(@Valid @ModelAttribute("userDTO") EditUserDTO editUserDTO, BindingResult result,
+                              Model model) {
+
+        if (result.hasErrors()) {
+            return "user/userEdit";
+        } else {
             userService.updateUser(editUserDTO);
-            return "redirect:/user";
+
+            return "redirect:/user/detailsUpdated";
         }
     }
+
+    @GetMapping("/password/{id}")
+    public String changeUserPassword(@PathVariable Long id, Model model) {
+        EditUserDTO editUserDTO = userService.findEditUserDTOById(id);
+        model.addAttribute("userDTO", editUserDTO);
+        return "user_admin/changePassword";
+    }
+
+    @PostMapping("/password")
+    public String changingUserPassword(@Valid @ModelAttribute("userDTO") EditUserDTO editUserDTO, BindingResult result,
+                                       Model model) {
+
+        if (!passwordEncoder.matches(editUserDTO.getOldPassword(), editUserDTO.getPassword())) {
+            result.rejectValue("oldPassword", null, "Niepoprawnie wpisane stare hasło");
+            return "user_admin/changePassword";
+
+        } else if (result.hasErrors() && (passwordEncoder.matches(editUserDTO.getOldPassword(), editUserDTO.getPassword()))) {
+            return "user_admin/changePassword";
+
+        } else if (passwordEncoder.matches(editUserDTO.getOldPassword(), editUserDTO.getPassword()) &&
+                !(editUserDTO.getNewPassword().equals(editUserDTO.getReNewPassword()))) {
+            result.rejectValue("reNewPassword", null, "Nie wpisałeś tego samego hasła");
+            return "user_admin/changePassword";
+        } else {
+
+            return "redirect:/user/passwordUpdated";
+        }
+    }
+
 }

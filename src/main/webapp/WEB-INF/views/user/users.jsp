@@ -6,14 +6,14 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <%@include file="head.jsp" %>
+    <%@include file="../user_admin/head.jsp" %>
 
     <title>Admin Page</title>
 </head>
 
 <body>
 <header>
-    <%@include file="adminNav.jsp" %>
+    <%@include file="../admin/adminNav.jsp" %>
 </header>
 
 

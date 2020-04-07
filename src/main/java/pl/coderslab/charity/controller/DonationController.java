@@ -51,16 +51,16 @@ public class DonationController {
         model.addAttribute("donation",new DonationDTO());
         model.addAttribute("institutions",institutions);
         model.addAttribute("categories",categories);
-        return "form";
+        return "user/form";
     }
     @PostMapping
     public String addingDonation(@Valid @ModelAttribute("donation") DonationDTO donationDTO,
                                  BindingResult result){
         if(result.hasErrors()){
-            return "form";
+            return "user/form";
         }
         donationService.add(donationDTO);
-        return "form-confirmation";
+        return "user/form-confirmation";
     }
 
 }

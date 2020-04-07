@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Data
 
@@ -16,7 +17,9 @@ public class EditUserDTO {
     String lastName;
 
     String password;
-    String newPassword;
     String oldPassword;
+    @Pattern(regexp = "(?=.*[a-z]).{4,}",message = "Hasło musi mieć co najmniej 4 znaki")
+    String newPassword;
+    String reNewPassword;
 
 }

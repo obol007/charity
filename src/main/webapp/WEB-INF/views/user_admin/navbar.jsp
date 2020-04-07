@@ -36,7 +36,7 @@
 
     <ul>
         <security:authorize access="hasRole('ROLE_ADMIN')">
-            <li><a href="/admin" class="btn btn--without-border active" style="background: indianred"><spring:message code="nav.adminPage"/></a></li>
+            <li><a href="/admin" class="btn btn--without-border active" style="background: cadetblue"><spring:message code="nav.adminPage"/></a></li>
         </security:authorize>
 
         <li><a href="/" class="btn btn--without-border"><spring:message code="nav.mainPage"/></a></li>

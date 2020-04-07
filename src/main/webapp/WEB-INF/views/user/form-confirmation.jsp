@@ -3,17 +3,27 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
-<html>
+
+<!DOCTYPE html>
+<html lang="pl">
 <head>
-    <title>User</title>
-    <%@include file="head.jsp" %>
+    <%@include file="../user_admin/head.jsp" %>
+
+    <title>Confirmation</title>
 </head>
+
 <body>
 <header>
-    <%@include file="userNav.jsp" %>
+<%@include file="../user_admin/navbar.jsp"%>
 </header>
 
+<div class="slogan container container--90">
+    <h2>
+        Dziękujemy za przesłanie formularza.
+        Na maila prześlemy wszelkie informacje o odbiorze.
+    </h2>
+</div>
 
+<%@include file="../user_admin/footer.jsp"%>
 </body>
 </html>

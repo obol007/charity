@@ -1,7 +1,6 @@
 package pl.coderslab.charity.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +23,10 @@ public class LoginController {
     @GetMapping
     public String login(Principal principal, Model model) {
         if (principal == null) {
-            return "login";
+            return "user_admin/login";
         } else if ((userRepository.findByEmail(principal.getName()).getRole()).equals("ROLE_ADMIN")) {
             log.warn("ADMIN ROLE: "+userRepository.findByEmail(principal.getName()).getRole());
-            return "redirect:/admin";
+            return "admin/admin";
         } else {
             log.warn("USER ROLE: "+userRepository.findByEmail(principal.getName()).getRole());
             return "redirect:/";

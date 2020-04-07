@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <%@include file="head.jsp" %>
+    <%@include file="../user_admin/head.jsp" %>
     <title>Things to give</title>
     <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -69,7 +69,7 @@
 
 <body>
 <header>
-<%@include file="navbar.jsp" %>
+<%@include file="../user_admin/navbar.jsp" %>
 </header>
 
 <section class="form--steps">
@@ -268,6 +268,6 @@
 </section>
 
 
-<%@include file="footer.jsp" %>
+<%@include file="../user_admin/footer.jsp" %>
 </body>
 </html>

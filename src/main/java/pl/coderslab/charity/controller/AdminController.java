@@ -2,13 +2,14 @@ package pl.coderslab.charity.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.DTO.AdminDTO;
+import pl.coderslab.charity.DTO.EditUserDTO;
 import pl.coderslab.charity.DTO.InstitutionDTO;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.domain.model.Donation;
@@ -22,7 +23,6 @@ import pl.coderslab.charity.service.UserService;
 import pl.coderslab.charity.validation.validator.AdminValidator;
 
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,17 +36,20 @@ public class AdminController {
     InstitutionRepository institutionRepository;
     InstitutionService institutionService;
     UserService userService;
+    PasswordEncoder passwordEncoder;
 
     public AdminController(UserRepository userRepository,
                            DonationRepository donationRepository,
                            InstitutionRepository institutionRepository,
                            InstitutionService institutionService,
-                           UserService userService) {
+                           UserService userService,
+                           PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.donationRepository = donationRepository;
         this.institutionRepository = institutionRepository;
         this.institutionService = institutionService;
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @ModelAttribute("institutions")
@@ -59,11 +62,17 @@ public class AdminController {
         return userRepository.allAdmins();
     }
 
+    @ModelAttribute("loggedUser")
+    public UserDTO loggedUser(){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userService.findUserDTOByEmail(email);
+    }
+
     @GetMapping
     public String adminPage(Model model) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("loggedUser", userRepository.findByEmail(username));
-        return "admin";
+//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//        model.addAttribute("loggedUser", userRepository.findByEmail(username));
+        return "admin/admin";
     }
 
     @GetMapping("/users")
@@ -72,19 +81,19 @@ public class AdminController {
 
         model.addAttribute("users", users);
         model.addAttribute("showUsers", true);
-        return "admin";
+        return "admin/admin";
     }
 
     @GetMapping("/admins")
     public String admins(Model model) {
         model.addAttribute("showAdmins", true);
-        return "administrators";
+        return "admin/administrators";
     }
 
     @GetMapping("/institution")
     public String institutions(Model model) {
         model.addAttribute("showInstitutions", true);
-        return "admin";
+        return "admin/admin";
     }
 
     @GetMapping("/institution/active/{id}")
@@ -102,7 +111,7 @@ public class AdminController {
             institutionRepository.save(institution);
         }
         model.addAttribute("showInstitutions", true);
-        return "admin";
+        return "admin/admin";
     }
 
     @GetMapping("/donations")
@@ -111,7 +120,7 @@ public class AdminController {
 
         model.addAttribute("donations", donations);
         model.addAttribute("showDonations", true);
-        return "admin";
+        return "admin/admin";
     }
 
     @GetMapping("/institution/add")
@@ -119,7 +128,7 @@ public class AdminController {
         model.addAttribute("showInstitutions", true);
         InstitutionDTO institutionDTO = new InstitutionDTO();
         model.addAttribute("newInstitution", institutionDTO);
-        return "admin";
+        return "admin/admin";
     }
 
     @PostMapping("/institution/add")
@@ -128,7 +137,7 @@ public class AdminController {
         model.addAttribute("showInstitutions", true);
 
         if (result.hasErrors()) {
-            return "admin";
+            return "admin/admin";
         }
         institutionService.addOrUpdate(institutionDTO);
         return "redirect:/admin/institution";
@@ -141,7 +150,7 @@ public class AdminController {
 
         model.addAttribute("newInstitution", institutionDTO);
         model.addAttribute("showInstitutions", true);
-        return "admin";
+        return "admin/admin";
     }
 
     @GetMapping("/institution/delete/{id}")
@@ -151,11 +160,11 @@ public class AdminController {
         if (institutionDTO.getActive()) {
             model.addAttribute("showInstitutions", true);
             model.addAttribute("isActive", true);
-            return "admin";
+            return "admin/admin";
         } else {
             model.addAttribute("showInstitutions", true);
             model.addAttribute("isActive", false);
-            return "admin";
+            return "admin/admin";
         }
     }
 
@@ -169,7 +178,7 @@ public class AdminController {
     @GetMapping("/admins/add")
     public String addAdmin(Model model) {
         model.addAttribute("userDTO", new UserDTO());
-        return "addAdmin";
+        return "admin/addAdmin";
     }
 
 
@@ -178,39 +187,38 @@ public class AdminController {
                                     BindingResult result, Model model) {
         if (result.hasErrors() && (userDTO.getPassword().equals(userDTO.getRePassword()))) {
             model.addAttribute("addAdmin", true);
-            return "addAdmin";
+            return "admin/addAdmin";
         } else if (result.hasErrors() || (!userDTO.getPassword().equals(userDTO.getRePassword()))) {
             result.rejectValue("rePassword", null, "Hasła się różnią");
             model.addAttribute("addAdmin", true);
-            return "addAdmin";
+            return "admin/addAdmin";
         } else {
             userService.addOrUpdate(userDTO);
             return "redirect:/admin/admins";
         }
     }
 
+
     @GetMapping("/admins/edit/{id}")
-    public String editAdmin(@PathVariable Long id, Model model) {
-        AdminDTO adminDTO = userService.findAdminDTOByID(id);
-        model.addAttribute("adminDTO", adminDTO);
-        return "editAdmin";
+    public String editUser(@PathVariable Long id, EditUserDTO editUserDTO, Model model){
+        editUserDTO = userService.findEditUserDTOById(id);
+        model.addAttribute("adminDTO",editUserDTO);
+        return "admin/editAdmin";
     }
-
-
-
     @PostMapping("/admins/edit")
-    public String editingAdmin(@Valid @ModelAttribute("adminDTO") AdminDTO adminDTO,
-                               BindingResult result) {
-        log.warn("CZY SA BLEDY?");
-        if (result.hasErrors()) {
-            log.warn("SA BŁĘÐY");
-            return "editAdmin";
-        } else {
-            log.warn("NIE MA BŁĘDÓW");
-            userService.updateAdmin(adminDTO);
+    public String editingUser(@Valid @ModelAttribute("adminDTO") EditUserDTO editUserDTO, BindingResult result){
+
+        if(result.hasErrors()) {
+            return "user/userEdit";
+        }
+        else {
+            log.warn("USERDTO: " + editUserDTO);
+            userService.updateUser(editUserDTO);
             return "redirect:/admin/admins";
         }
     }
+
+
 
 //        if(result.hasErrors() && userDTO.getOldPassword().equals(userDTO.getTryOldPassword())
 //        && userDTO.getPassword().equals(userDTO.getRePassword())){

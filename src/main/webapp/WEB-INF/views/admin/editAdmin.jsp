@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <%@include file="head.jsp" %>
+    <%@include file="../user_admin/head.jsp" %>
 
     <title>Edit Admin</title>
 </head>
@@ -35,16 +35,13 @@
             <form:errors path="lastName"/>
         </div>
 <%--        <div class="form-group">--%>
-<%--            <form:input type="password" path="tryOldPassword" placeholder="Stare hasło"/>--%>
-<%--            <form:errors path="tryOldPassword"/>--%>
+<%--        <form:password path="oldPassword" placeholder="Stare hasło"/>--%>
+<%--        <form:errors path="oldPassword"/>--%>
+<%--        <form:hidden path="password"/>--%>
 <%--        </div>--%>
 <%--        <div class="form-group">--%>
-<%--            <form:input type="password" path="password" placeholder="Nowe hasło"/>--%>
-<%--            <form:errors path="password"/>--%>
-<%--        </div>--%>
-<%--        <div class="form-group">--%>
-<%--            <input type="password" name="rePassword" placeholder="Powtórz hasło"/>--%>
-<%--            <form:errors path="rePassword"/>--%>
+<%--            <form:password path="newPassword" placeholder="Nowe hasło"/>--%>
+<%--            <form:errors path="newPassword"/>--%>
 <%--        </div>--%>
         <div class="form-group">
             <button class="btn" type="submit">Zapisz</button>

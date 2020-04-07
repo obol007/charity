@@ -3,12 +3,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <%@include file="head.jsp" %>
+    <%@include file="../user_admin/head.jsp" %>
 
     <title>Administrators</title>
 </head>
@@ -31,9 +31,9 @@
                     <th>Email</th>
                     <th colspan="2">Akcja</th>
                 </tr>
-
+<%--                --%>
                 <c:forEach items="${admins}" var="admin">
-                    <tr>
+                    <tr <c:if test="${loggedUser.email ==admin.email}"> bgcolor="#5f9ea0"</c:if>>
                         <td>${admin.fullName}</td>
                         <td>${admin.email}</td>
                         <td><a href="/admin/admins/edit/${admin.id}" class="btn btn--small btn--highlighted">Edytuj</a>

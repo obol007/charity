@@ -44,6 +44,6 @@ public class HomeController {
         if (!role.equals("[ROLE_ANONYMOUS]")) {
             model.addAttribute("loggedUser", userRepository.findByEmail(username));
         }
-        return "index";
+        return "user_admin/index";
     }
 }

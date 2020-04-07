@@ -26,7 +26,7 @@
     </ul>
 
     <ul>
-        <li><a href="/admin" class="btn btn--without-border active" style="background: indianred">
+        <li><a href="/admin" class="btn btn--without-border active" style="background: cadetblue">
             <spring:message code="admin.nav.adminPage"/> </a></li>
         <li><a href="/" class="btn btn--without-border"><spring:message code="admin.nav.mainPage"/></a></li>
         <li><a href="/admin/users" class="btn btn--without-border"><spring:message code="admin.nav.users"/></a></li>
