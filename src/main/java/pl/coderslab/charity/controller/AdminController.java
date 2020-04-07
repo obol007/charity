@@ -15,6 +15,7 @@ import pl.coderslab.charity.domain.model.Donation;
 import pl.coderslab.charity.domain.model.Institution;
 import pl.coderslab.charity.domain.model.User;
 import pl.coderslab.charity.domain.repository.DonationRepository;
+import pl.coderslab.charity.domain.repository.ExtraData;
 import pl.coderslab.charity.domain.repository.InstitutionRepository;
 import pl.coderslab.charity.domain.repository.UserRepository;
 import pl.coderslab.charity.service.InstitutionService;
@@ -72,6 +73,10 @@ public class AdminController {
     public List<User> users() {
         return userRepository.allUsers();
     }
+//    @ModelAttribute("usersExtra")
+//    public List<ExtraData> extraData(){
+//        return donationRepository.findObjectsWithExtraData();
+//    }
 
     @GetMapping
     public String adminPage(Model model) {

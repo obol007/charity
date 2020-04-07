@@ -23,10 +23,6 @@
 <section>
     <div class="users">
 
-
-
-        <a href="/admin/admins/add" class="btn--small btn--highlighted">Dodaj administratora</a>
-
         <h2>Użytkownicy:</h2>
         <table border="1" cellpadding="5" align="center">
             <tr>

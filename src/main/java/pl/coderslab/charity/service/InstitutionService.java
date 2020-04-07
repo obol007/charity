@@ -37,6 +37,9 @@ public class InstitutionService {
                 Institution institution = mapper.map(institutionDTO, Institution.class);
                 institution.setId(institutionOriginal.getId());
                 institutionRepository.save(institution);
+                //TODO: update it
+//                mapper.map(institutionDTO, institutionOriginal);
+//                institutionRepository.save(institutionOriginal);
             }
         }
     }
