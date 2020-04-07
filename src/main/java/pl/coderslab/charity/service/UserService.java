@@ -3,6 +3,7 @@ package pl.coderslab.charity.service;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.mapper.Mapper;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -146,5 +147,19 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(editUserDTO.getNewPassword()));
             userRepository.save(user);
         }
+    }
+
+    public String findRoleById(Long id) {
+        return userRepository.findRoleById(id);
+    }
+
+    public Boolean checkAuthority(Long id) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email);
+        return user.getId().equals(id);
+    }
+
+    public void deleteAdminById(Long id) {
+        userRepository.deleteById(id);
     }
 }

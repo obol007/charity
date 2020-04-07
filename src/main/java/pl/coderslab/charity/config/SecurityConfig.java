@@ -50,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/","/admin/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/user/","/user/**").hasAuthority("ROLE_USER")
                 .antMatchers("/donation").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/password").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers("/superadmin").hasAuthority("ROLE_SUPERADMIN")
                 .anyRequest().authenticated()
                 .and()

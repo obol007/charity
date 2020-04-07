@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pl.coderslab.charity.DTO.AdminDTO;
 import pl.coderslab.charity.DTO.EditUserDTO;
 import pl.coderslab.charity.DTO.InstitutionDTO;
 import pl.coderslab.charity.DTO.UserDTO;
@@ -23,6 +22,7 @@ import pl.coderslab.charity.service.UserService;
 import pl.coderslab.charity.validation.validator.AdminValidator;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,9 +63,14 @@ public class AdminController {
     }
 
     @ModelAttribute("loggedUser")
-    public UserDTO loggedUser(){
+    public UserDTO loggedUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return userService.findUserDTOByEmail(email);
+    }
+
+    @ModelAttribute("users")
+    public List<User> users() {
+        return userRepository.allUsers();
     }
 
     @GetMapping
@@ -77,11 +82,7 @@ public class AdminController {
 
     @GetMapping("/users")
     public String users(Model model) {
-        List<User> users = userRepository.allUsers();
-
-        model.addAttribute("users", users);
-        model.addAttribute("showUsers", true);
-        return "admin/admin";
+        return "admin/usersDetails";
     }
 
     @GetMapping("/admins")
@@ -101,13 +102,7 @@ public class AdminController {
         Optional<Institution> optionalInstitution = institutionRepository.findById(id);
         if (optionalInstitution.isPresent()) {
             Institution institution = optionalInstitution.get();
-            //NICE!
             institution.setActive(!institution.getActive());
-//            if(institution.getActive()) {
-//                institution.setActive(false);
-//            }else{
-//                institution.setActive(true);
-//            }
             institutionRepository.save(institution);
         }
         model.addAttribute("showInstitutions", true);
@@ -184,7 +179,7 @@ public class AdminController {
 
     @PostMapping("/admins/add")
     public String addingAdmin(@Validated({AdminValidator.class}) UserDTO userDTO,
-                                    BindingResult result, Model model) {
+                              BindingResult result, Model model) {
         if (result.hasErrors() && (userDTO.getPassword().equals(userDTO.getRePassword()))) {
             model.addAttribute("addAdmin", true);
             return "admin/addAdmin";
@@ -200,45 +195,79 @@ public class AdminController {
 
 
     @GetMapping("/admins/edit/{id}")
-    public String editUser(@PathVariable Long id, EditUserDTO editUserDTO, Model model){
+    public String editUser(@PathVariable Long id, EditUserDTO editUserDTO, Model model) {
         editUserDTO = userService.findEditUserDTOById(id);
-        model.addAttribute("adminDTO",editUserDTO);
+        model.addAttribute("adminDTO", editUserDTO);
         return "admin/editAdmin";
     }
-    @PostMapping("/admins/edit")
-    public String editingUser(@Valid @ModelAttribute("adminDTO") EditUserDTO editUserDTO, BindingResult result){
 
-        if(result.hasErrors()) {
+    @PostMapping("/admins/edit")
+    public String editingUser(@Valid @ModelAttribute("adminDTO") EditUserDTO editUserDTO, BindingResult result) {
+
+        if (result.hasErrors()) {
             return "user/userEdit";
-        }
-        else {
+        } else {
             log.warn("USERDTO: " + editUserDTO);
             userService.updateUser(editUserDTO);
             return "redirect:/admin/admins";
         }
     }
 
+    @GetMapping("/password/{id}")
+    public String changeUserPassword(@PathVariable Long id, Model model) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserDTO userDTO = userService.findUserDTOByEmail(email);
+        if (!userDTO.getId().equals(id)) {
+            return "user_admin/denied";
+        }
+        EditUserDTO editUserDTO = userService.findEditUserDTOById(id);
+        model.addAttribute("userDTO", editUserDTO);
+        return "admin/changeAdminPassword";
+    }
 
+    @PostMapping("/password")
+    public String changingUserPassword(@Valid @ModelAttribute("userDTO") EditUserDTO editUserDTO, BindingResult result,
+                                       Model model) {
 
-//        if(result.hasErrors() && userDTO.getOldPassword().equals(userDTO.getTryOldPassword())
-//        && userDTO.getPassword().equals(userDTO.getRePassword())){
-//            return "editAdmin";
-//        } else if(!userDTO.getOldPassword().equals(userDTO.getTryOldPassword())) {
-//            result.rejectValue("tryOldPassword", null, "Niepoprawne hasło");
-//            return "editAdmin";
-//        }else if(userDTO.getOldPassword().equals(userDTO.getTryOldPassword()) &&
-//                !userDTO.getPassword().equals(userDTO.getRePassword())){
-//            result.rejectValue("rePassword",null,"Hasła się nie zgadzają");
-//            return "editAdmin";
-//        }else{
-//            userService.editAdmin(userDTO);
-//            return "redirect:/admin/admins";
-//        }
+        if (!passwordEncoder.matches(editUserDTO.getOldPassword(), editUserDTO.getPassword())) {
+            result.rejectValue("oldPassword", null, "Niepoprawnie wpisane stare hasło");
+            return "admin/changeAdminPassword";
 
+        } else if (result.hasErrors() && (passwordEncoder.matches(editUserDTO.getOldPassword(), editUserDTO.getPassword()))) {
+            return "admin/changeAdminPassword";
 
+        } else if (passwordEncoder.matches(editUserDTO.getOldPassword(), editUserDTO.getPassword()) &&
+                !(editUserDTO.getNewPassword().equals(editUserDTO.getReNewPassword()))) {
+            result.rejectValue("reNewPassword", null, "Nie wpisałeś tego samego hasła");
+            return "admin/changeAdminPassword";
 
+        } else {
+            userService.updatePassword(editUserDTO);
+            return "redirect:/admin/passwordUpdated";
+        }
+    }
 
+    @GetMapping("/passwordUpdated")
+    public String passwordUpdated(Model model) {
+        model.addAttribute("passwordUpdate", true);
+        return "/admin/admin";
+    }
 
+    @GetMapping("/admins/delete/{id}")
+    public String deleteAdmin(@PathVariable Long id, Model model){
+        if(userService.checkAuthority(id)){
+            return "admin/cantDelete";
+        }
+
+        UserDTO userDTO = userService.findUserDTOById(id);
+        model.addAttribute("adminToDelete",userDTO);
+        return "admin/toDelete";
+    }
+    @PostMapping("/admins/delete")
+    public String deletingAdmin(UserDTO userDTO){
+        userService.deleteAdminById(userDTO.getId());
+        return "redirect:/admin/admins";
+    }
 
 
 }

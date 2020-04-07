@@ -22,6 +22,8 @@
 
 <section>
     <div class="users">
+
+
         <a href="/admin/admins/add" class="btn--small btn--highlighted">Dodaj administratora</a>
 
             <h2>Administratorzy:</h2>
@@ -29,7 +31,7 @@
                 <tr>
                     <th>Imię i Nazwisko</th>
                     <th>Email</th>
-                    <th colspan="2">Akcja</th>
+                    <th colspan="3">Akcja</th>
                 </tr>
 <%--                --%>
                 <c:forEach items="${admins}" var="admin">
@@ -38,6 +40,9 @@
                         <td>${admin.email}</td>
                         <td><a href="/admin/admins/edit/${admin.id}" class="btn btn--small btn--highlighted">Edytuj</a>
                         <td><a href="/admin/admins/delete/${admin.id}" class="btn btn--small btn--highlighted">Usuń</a>
+                        <c:if test="${loggedUser.email ==admin.email}">
+                        <td><a href="/admin/password/${admin.id}" class="btn btn--small btn--highlighted">Zmień hasło</a>
+                        </c:if>
                         </td>
                     </tr>
                 </c:forEach>

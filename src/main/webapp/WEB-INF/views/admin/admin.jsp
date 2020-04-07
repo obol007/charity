@@ -18,31 +18,13 @@
     <%@include file="adminNav.jsp" %>
 </header>
 
-<c:if test="${showUsers == true}">
-    <section>
-        <div class="users">
-            <h3>Użytkownicy:</h3>
-            <table border="1" cellpadding="5" align="center">
-                <tr>
-                    <th>Imię i Nazwisko</th>
-                    <th>Email</th>
-                    <th>Liczba dotacji</th>
-                    <th>Liczba worków</th>
-                    <th>Szczegóły</th>
-                </tr>
-                <c:forEach items="${users}" var="user">
-                    <tr>
-                        <td>${user.fullName}</td>
-                        <td>${user.email}</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td><a href="/admin/users/${user.id}" class="btn btn--small btn--highlighted">Szczegóły</a></td>
-                    </tr>
-                </c:forEach>
-            </table>
-        </div>
-    </section>
+<c:if test="${passwordUpdate == true}">
+    <div class="users">
+    <h2>Twoje hasło zostało zaktualizowane!</h2>
+    <a href="${pageContext.request.contextPath}/admin/admins" class="btn btn--highlighted">OK</a>
+    </div>
 </c:if>
+
 
 
 <c:if test="${showInstitutions == true}">

@@ -11,12 +11,12 @@
 </head>
 <body>
 <header>
-    <%@include file="../user/userNav.jsp" %>
+    <%@include file="../admin/adminNav.jsp" %>
 </header>
 <section class="login-page">
     <h2>Zmień hasło</h2>
 
-    <form:form modelAttribute="userDTO" action="/user/password" method="post">
+    <form:form modelAttribute="userDTO" action="/admin/password" method="post">
 
         <form:hidden path="id"/>
         <form:hidden path="firstName"/>
@@ -38,7 +38,7 @@
 
         <div class="form-group">
             <form:button class="btn btn--small">Zapisz</form:button>
-            <a href="${pageContext.request.contextPath}/user" class="btn--small">Anuluj</a>
+            <a href="${pageContext.request.contextPath}/admin/admins" class="btn--small">Anuluj</a>
         </div>
 
     </form:form>
