@@ -4,13 +4,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
-
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <%@include file="../user_admin/head.jsp" %>
 
-    <title>Admin to delete</title>
+    <title>Edit User</title>
 </head>
 
 <body>
@@ -19,25 +18,25 @@
     <%@include file="adminNav.jsp" %>
 </header>
 
-
-<section>
-    <div class="users">
-
-        <h2>Usuwasz administratora: <br>
-            ${adminToDelete.fullName} ${adminToDelete.email}</h2>
-        <form:form modelAttribute="adminToDelete" method="post" action="/admin/admins/delete">
-
+<section class="login-page">
+    <h2>Edytuj dane użytkownika</h2>
+    <form:form modelAttribute="userDTO" method="post" action="/admin/users/edit">
         <form:hidden path="id"/>
+
         <div class="form-group">
-            <form:button class="btn">Potwierdź</form:button>
-            <a href="${pageContext.request.contextPath}/admin/admins" class="btn">Anuluj</a>
+            <form:input path="firstName" placeholder="Imię"/>
+            <form:errors path="firstName"/>
         </div>
-        </form:form>
+        <div class="form-group">
+            <form:input path="lastName" placeholder="Nazwisko"/>
+            <form:errors path="lastName"/>
+        </div>
+        <div class="form-group">
+            <button class="btn" type="submit">Zapisz</button>
+            <a href="/admin/users" class="btn btn--without-border">Anuluj</a>
+        </div>
+    </form:form>
 
-    </div>
 </section>
-
-
-<script src="<c:url value="/resources/js/app.js"/>"></script>
 </body>
 </html>

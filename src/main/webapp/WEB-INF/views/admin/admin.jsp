@@ -30,7 +30,7 @@
 <c:if test="${showDonations == true}">
     <section>
         <div class="users">
-            <h3>Dotacje:</h3>
+            <h2>Dotacje:</h2>
             <table border="1" cellpadding="5" align="center">
                 <tr>
                     <th>Imię i Nazwisko</th>
@@ -45,13 +45,11 @@
                     <tr>
                         <td>${donation.user.fullName}</td>
                         <td>${donation.city}, ${donation.street}, ${donation.zipCode}</td>
-                            <%--                        <td>${donation.street +' '+ donation.city+' '+donation.zipCode}/></td>--%>
                         <td>${donation.pickUpDate}</td>
                         <td>${donation.pickUpTime}</td>
                         <td>${donation.pickUpComment}</td>
                         <td>${donation.quantity}</td>
                         <td>${donation.institution.name}</td>
-                            <%--                     <td><a href="/admin/users/${user.id}" class="btn btn--small btn--highlighted">Szczegóły</a></td>--%>
                     </tr>
                 </c:forEach>
             </table>

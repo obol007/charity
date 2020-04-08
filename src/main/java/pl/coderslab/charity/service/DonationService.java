@@ -51,4 +51,8 @@ public class DonationService {
 
         donationRepository.save(donation);
     }
+
+    public List<Donation> findUserDonations(Long id) {
+        return donationRepository.findAllById(id);
+    }
 }

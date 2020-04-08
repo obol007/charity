@@ -2,11 +2,14 @@ package pl.coderslab.charity.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.mapper.Mapper;
+import org.aspectj.weaver.patterns.HasThisTypePatternTriedToSneakInSomeGenericOrParameterizedTypePatternMatchingStuffAnywhereVisitor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import pl.coderslab.charity.DTO.AdminDTO;
 import pl.coderslab.charity.DTO.EditUserDTO;
 import pl.coderslab.charity.DTO.UserDTO;
@@ -14,6 +17,8 @@ import pl.coderslab.charity.domain.model.Institution;
 import pl.coderslab.charity.domain.model.User;
 import pl.coderslab.charity.domain.repository.UserRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -159,7 +164,33 @@ public class UserService {
         return user.getId().equals(id);
     }
 
-    public void deleteAdminById(Long id) {
+    public void deleteUserById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public List<UserDTO> allDTOUsers() {
+        List<User> users = userRepository.allUsers();
+        List<UserDTO> usersDTO = new ArrayList<>();
+        ModelMapper mapper = new ModelMapper();
+        for(User u : users){
+            usersDTO.add(mapper.map(u,UserDTO.class));
+        }
+        return usersDTO;
+    }
+
+    public void changeActive(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        user.setActive(!user.getActive());
+        userRepository.save(user);
+    }
+
+    public void resetUserPassword(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(optionalUser.isPresent()){
+            User user = optionalUser.get();
+            user.setPassword(passwordEncoder.encode("User1234"));
+            userRepository.save(user);
+        }
     }
 }

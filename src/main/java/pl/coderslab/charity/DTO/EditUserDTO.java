@@ -22,4 +22,8 @@ public class EditUserDTO {
     String newPassword;
     String reNewPassword;
 
+    public String getFullName(){
+        return firstName+" "+lastName;
+    }
+
 }

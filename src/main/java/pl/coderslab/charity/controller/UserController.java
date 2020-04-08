@@ -10,9 +10,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.DTO.EditUserDTO;
 import pl.coderslab.charity.DTO.UserDTO;
+import pl.coderslab.charity.domain.model.Donation;
+import pl.coderslab.charity.service.DonationService;
 import pl.coderslab.charity.service.UserService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -21,10 +24,13 @@ public class UserController {
 
     UserService userService;
     PasswordEncoder passwordEncoder;
+    DonationService donationService;
 
-    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder,
+                          DonationService donationService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.donationService = donationService;
     }
 
     @ModelAttribute("loggedUser")
@@ -101,6 +107,13 @@ public class UserController {
             userService.updatePassword(editUserDTO);
             return "redirect:/user/passwordUpdated";
         }
+    }
+
+    @GetMapping("donations/{id}")
+    public String userDonations(@PathVariable Long id, Model model){
+        List<Donation> donationList = donationService.findUserDonations(id);
+        model.addAttribute("donations",donationList);
+        return "user/userDonations";
     }
 
 }

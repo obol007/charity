@@ -22,10 +22,7 @@
     <h2>Edytuj dane administratora</h2>
     <form:form modelAttribute="adminDTO" method="post" action="/admin/admins/edit">
         <form:hidden path="id"/>
-<%--        <div class="form-group">--%>
-<%--            <form:input path="email"/>--%>
-<%--            <form:errors path="email"/>--%>
-<%--        </div>--%>
+
         <div class="form-group">
             <form:input path="firstName" placeholder="Imię"/>
             <form:errors path="firstName"/>
@@ -34,15 +31,7 @@
             <form:input path="lastName" placeholder="Nazwisko"/>
             <form:errors path="lastName"/>
         </div>
-<%--        <div class="form-group">--%>
-<%--        <form:password path="oldPassword" placeholder="Stare hasło"/>--%>
-<%--        <form:errors path="oldPassword"/>--%>
-<%--        <form:hidden path="password"/>--%>
-<%--        </div>--%>
-<%--        <div class="form-group">--%>
-<%--            <form:password path="newPassword" placeholder="Nowe hasło"/>--%>
-<%--            <form:errors path="newPassword"/>--%>
-<%--        </div>--%>
+
         <div class="form-group">
             <button class="btn" type="submit">Zapisz</button>
             <a href="/admin/admins" class="btn btn--without-border">Anuluj</a>

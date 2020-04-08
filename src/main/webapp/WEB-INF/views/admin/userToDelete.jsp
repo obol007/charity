@@ -10,7 +10,7 @@
 <head>
     <%@include file="../user_admin/head.jsp" %>
 
-    <title>Deleting Admin</title>
+    <title>User to delete</title>
 </head>
 
 <body>
@@ -23,8 +23,16 @@
 <section>
     <div class="users">
 
-        <h2>Nie możesz usunąć samego siebie!</h2>
-        <a href="${pageContext.request.contextPath}/admin/admins" class="btn btn--highlighted">OK</a>
+        <h2>Usuwasz użytkownika: <br>
+            ${userToDelete.fullName}</h2>
+        <form:form modelAttribute="userToDelete" method="post" action="/admin/users/delete">
+
+        <form:hidden path="id"/>
+        <div class="form-group">
+            <form:button class="btn">Potwierdź</form:button>
+            <a href="${pageContext.request.contextPath}/admin/users" class="btn">Anuluj</a>
+        </div>
+        </form:form>
 
     </div>
 </section>

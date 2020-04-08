@@ -9,13 +9,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.DTO.EditUserDTO;
-import pl.coderslab.charity.DTO.InstitutionDTO;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.domain.model.Donation;
-import pl.coderslab.charity.domain.model.Institution;
 import pl.coderslab.charity.domain.model.User;
 import pl.coderslab.charity.domain.repository.DonationRepository;
-import pl.coderslab.charity.domain.repository.ExtraData;
 import pl.coderslab.charity.domain.repository.InstitutionRepository;
 import pl.coderslab.charity.domain.repository.UserRepository;
 import pl.coderslab.charity.service.InstitutionService;
@@ -23,9 +20,7 @@ import pl.coderslab.charity.service.UserService;
 import pl.coderslab.charity.validation.validator.AdminValidator;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -64,26 +59,14 @@ public class AdminController {
         return userService.findUserDTOByEmail(email);
     }
 
-    @ModelAttribute("users")
-    public List<User> users() {
-        return userRepository.allUsers();
-    }
-//    @ModelAttribute("usersExtra")
-//    public List<ExtraData> extraData(){
-//        return donationRepository.findObjectsWithExtraData();
-//    }
+
 
     @GetMapping
     public String adminPage(Model model) {
-//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//        model.addAttribute("loggedUser", userRepository.findByEmail(username));
         return "admin/admin";
     }
 
-    @GetMapping("/users")
-    public String users(Model model) {
-        return "admin/usersDetails";
-    }
+
 
     @GetMapping("/admins")
     public String admins(Model model) {
@@ -195,7 +178,7 @@ public class AdminController {
     }
     @PostMapping("/admins/delete")
     public String deletingAdmin(UserDTO userDTO){
-        userService.deleteAdminById(userDTO.getId());
+        userService.deleteUserById(userDTO.getId());
         return "redirect:/admin/admins";
     }
 
