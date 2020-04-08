@@ -53,11 +53,6 @@ public class AdminController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @ModelAttribute("institutions")
-    public List<Institution> allInstitutions() {
-        return institutionRepository.findAllOderByIdDesc();
-    }
-
     @ModelAttribute("admins")
     public List<User> allAdmins() {
         return userRepository.allAdmins();
@@ -95,25 +90,6 @@ public class AdminController {
         model.addAttribute("showAdmins", true);
         return "admin/administrators";
     }
-
-    @GetMapping("/institution")
-    public String institutions(Model model) {
-        model.addAttribute("showInstitutions", true);
-        return "admin/admin";
-    }
-
-    @GetMapping("/institution/active/{id}")
-    public String institutionsActivation(@PathVariable Long id, Model model) {
-        Optional<Institution> optionalInstitution = institutionRepository.findById(id);
-        if (optionalInstitution.isPresent()) {
-            Institution institution = optionalInstitution.get();
-            institution.setActive(!institution.getActive());
-            institutionRepository.save(institution);
-        }
-        model.addAttribute("showInstitutions", true);
-        return "admin/admin";
-    }
-
     @GetMapping("/donations")
     public String donations(Model model) {
         List<Donation> donations = donationRepository.findAll();
@@ -123,57 +99,6 @@ public class AdminController {
         return "admin/admin";
     }
 
-    @GetMapping("/institution/add")
-    public String addInstitution(Model model) {
-        model.addAttribute("showInstitutions", true);
-        InstitutionDTO institutionDTO = new InstitutionDTO();
-        model.addAttribute("newInstitution", institutionDTO);
-        return "admin/admin";
-    }
-
-    @PostMapping("/institution/add")
-    public String addingInstitution(@Valid @ModelAttribute("newInstitution") InstitutionDTO institutionDTO,
-                                    BindingResult result, Model model) {
-        model.addAttribute("showInstitutions", true);
-
-        if (result.hasErrors()) {
-            return "admin/admin";
-        }
-        institutionService.addOrUpdate(institutionDTO);
-        return "redirect:/admin/institution";
-    }
-
-    @GetMapping("/institution/edit/{id}")
-    public String editInstitution(Model model, @PathVariable Long id) {
-        InstitutionDTO institutionDTO = institutionService.findInstitution(id);
-        log.warn("INSTITUTION: " + institutionDTO);
-
-        model.addAttribute("newInstitution", institutionDTO);
-        model.addAttribute("showInstitutions", true);
-        return "admin/admin";
-    }
-
-    @GetMapping("/institution/delete/{id}")
-    public String deleteInstitution(@PathVariable Long id, Model model) {
-        InstitutionDTO institutionDTO = institutionService.findInstitution(id);
-        model.addAttribute("institutionToDelete", institutionDTO);
-        if (institutionDTO.getActive()) {
-            model.addAttribute("showInstitutions", true);
-            model.addAttribute("isActive", true);
-            return "admin/admin";
-        } else {
-            model.addAttribute("showInstitutions", true);
-            model.addAttribute("isActive", false);
-            return "admin/admin";
-        }
-    }
-
-    @GetMapping("/institution/delete/confirmed/{id}")
-    public String deletingInstitution(@PathVariable Long id, Model model) {
-        institutionService.delete(id);
-        model.addAttribute("showInstitutions", true);
-        return "redirect:/admin/institution";
-    }
 
     @GetMapping("/admins/add")
     public String addAdmin(Model model) {

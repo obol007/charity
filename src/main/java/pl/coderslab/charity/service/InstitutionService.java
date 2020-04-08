@@ -2,12 +2,16 @@ package pl.coderslab.charity.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import pl.coderslab.charity.DTO.InstitutionDTO;
 import pl.coderslab.charity.domain.model.Institution;
 import pl.coderslab.charity.domain.repository.InstitutionRepository;
 
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -56,5 +60,21 @@ public class InstitutionService {
 
     public void delete(Long id) {
         institutionRepository.deleteById(id);
+    }
+
+    public List<Institution> findAllOderByIdDesc() {
+        return institutionRepository.findAllOderByIdDesc();
+    }
+
+    public InstitutionDTO findById(Long id) {
+        Institution institution = institutionRepository.findById(id).
+                orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        ModelMapper mapper = new ModelMapper();
+        return mapper.map(institution, InstitutionDTO.class);
+    }
+
+    public void save(InstitutionDTO institutionDTO) {
+        ModelMapper mapper = new ModelMapper();
+        institutionRepository.save(mapper.map(institutionDTO,Institution.class));
     }
 }

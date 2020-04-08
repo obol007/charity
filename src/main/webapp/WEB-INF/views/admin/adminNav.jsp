@@ -31,7 +31,7 @@
         <li><a href="/" class="btn btn--without-border"><spring:message code="admin.nav.mainPage"/></a></li>
         <li><a href="/admin/users" class="btn btn--without-border"><spring:message code="admin.nav.users"/></a></li>
         <li><a href="/admin/admins" class="btn btn--without-border"><spring:message code="admin.nav.admins"/></a></li>
-        <li><a href="/admin/institution" class="btn btn--without-border"><spring:message code="admin.nav.institutions"/></a></li>
+        <li><a href="/admin/institutions" class="btn btn--without-border"><spring:message code="admin.nav.institutions"/></a></li>
         <li><a href="/admin/donations" class="btn btn--without-border"><spring:message code="admin.nav.donations"/></a></li>
         <li><a href="/admin/messages" class="btn btn--without-border"><spring:message code="admin.nav.messages"/></a></li>
         <li>
