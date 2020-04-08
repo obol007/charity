@@ -20,6 +20,7 @@
         <h2>Dotacje:</h2>
         <table border="1" cellpadding="5" align="center">
             <tr>
+                <th>Data dodania</th>
                 <th>Dary</th>
                 <th>Liczba worków</th>
                 <th>Adres odbioru</th>
@@ -30,9 +31,11 @@
                 <th>Akcja</th>
             </tr>
             <c:forEach items="${donations}" var="donation">
-                <tr><td>
-                    <c:forEach items="${donation.categories}" var="category">
-                    ${category.name}
+                <tr>
+                    <td></td>
+                    <td>
+                    <c:forEach items="${donation.categories}" var="category" varStatus="no">
+                    ${no.count}.${category.name}
                     </c:forEach>
                 </td>
                     <td>${donation.quantity}</td>
@@ -41,7 +44,7 @@
                     <td>${donation.pickUpTime}</td>
                     <td>${donation.pickUpComment}</td>
                     <td>${donation.institution.name}</td>
-                    <td></td>
+                    <td><a href="/user/donations/collect/${donation.id}" class="btn">Odebrano</a></td>
                 </tr>
             </c:forEach>
         </table>

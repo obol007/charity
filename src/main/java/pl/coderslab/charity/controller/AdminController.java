@@ -13,13 +13,17 @@ import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.domain.model.Donation;
 import pl.coderslab.charity.domain.model.User;
 import pl.coderslab.charity.domain.repository.DonationRepository;
+import pl.coderslab.charity.domain.repository.ExtraData;
 import pl.coderslab.charity.domain.repository.InstitutionRepository;
 import pl.coderslab.charity.domain.repository.UserRepository;
+import pl.coderslab.charity.service.DonationService;
 import pl.coderslab.charity.service.InstitutionService;
 import pl.coderslab.charity.service.UserService;
 import pl.coderslab.charity.validation.validator.AdminValidator;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -28,30 +32,34 @@ import java.util.List;
 public class AdminController {
 
     UserRepository userRepository;
-    DonationRepository donationRepository;
+    DonationService donationService;
     InstitutionRepository institutionRepository;
     InstitutionService institutionService;
     UserService userService;
     PasswordEncoder passwordEncoder;
+    DonationRepository donationRepository;
 
     public AdminController(UserRepository userRepository,
-                           DonationRepository donationRepository,
+                           DonationService donationService,
                            InstitutionRepository institutionRepository,
                            InstitutionService institutionService,
                            UserService userService,
-                           PasswordEncoder passwordEncoder) {
+                           PasswordEncoder passwordEncoder,
+                           DonationRepository donationRepository) {
         this.userRepository = userRepository;
-        this.donationRepository = donationRepository;
+        this.donationService = donationService;
         this.institutionRepository = institutionRepository;
         this.institutionService = institutionService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.donationRepository = donationRepository;
     }
 
     @ModelAttribute("admins")
     public List<User> allAdmins() {
         return userRepository.allAdmins();
     }
+
 
     @ModelAttribute("loggedUser")
     public UserDTO loggedUser() {
@@ -75,11 +83,25 @@ public class AdminController {
     }
     @GetMapping("/donations")
     public String donations(Model model) {
-        List<Donation> donations = donationRepository.findAll();
+//        List<Donation> donations = donationService.findAllFromActive();
+//        model.addAttribute("donations", donations);
 
-        model.addAttribute("donations", donations);
-        model.addAttribute("showDonations", true);
-        return "admin/admin";
+
+        List<ExtraData> extraData = new ArrayList<>();
+        List<Object[]> objects = donationRepository.findAllWithNumbers();
+        for(Object[] o : objects) {
+            extraData.add(new ExtraData((User)o[0],(Long)o[1],(Long)o[2]));
+        }
+        model.addAttribute("donations",extraData);
+
+        return "admin/donations";
+    }
+
+    @GetMapping("/donations/{id}")
+    public String showUserDonations(@PathVariable Long id, Model model){
+        List<Donation> donations = donationService.findUserDonations(id);
+        model.addAttribute("donations",donations);
+        return "admin/userDonations";
     }
 
 
@@ -171,16 +193,17 @@ public class AdminController {
         if(userService.checkAuthority(id)){
             return "admin/cantDelete";
         }
-
         UserDTO userDTO = userService.findUserDTOById(id);
         model.addAttribute("adminToDelete",userDTO);
         return "admin/toDelete";
     }
+
     @PostMapping("/admins/delete")
     public String deletingAdmin(UserDTO userDTO){
         userService.deleteUserById(userDTO.getId());
         return "redirect:/admin/admins";
     }
+
 
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.DTO.EditUserDTO;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.domain.model.Donation;
+import pl.coderslab.charity.mail.EmailServiceImpl;
 import pl.coderslab.charity.service.DonationService;
 import pl.coderslab.charity.service.UserService;
 
@@ -25,12 +26,14 @@ public class UserController {
     UserService userService;
     PasswordEncoder passwordEncoder;
     DonationService donationService;
+    EmailServiceImpl emailService;
 
     public UserController(UserService userService, PasswordEncoder passwordEncoder,
-                          DonationService donationService) {
+                          DonationService donationService, EmailServiceImpl emailService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.donationService = donationService;
+        this.emailService = emailService;
     }
 
     @ModelAttribute("loggedUser")
@@ -109,11 +112,20 @@ public class UserController {
         }
     }
 
-    @GetMapping("donations/{id}")
+    @GetMapping("/donations/{id}")
     public String userDonations(@PathVariable Long id, Model model){
+        if(!userService.checkAuthority(id)){
+            return "user_admin/denied";
+        }
         List<Donation> donationList = donationService.findUserDonations(id);
         model.addAttribute("donations",donationList);
         return "user/userDonations";
+    }
+
+    @GetMapping("/sendEmail")
+    public String sendEmail(){
+        emailService.sendSimpleMessage("p.obolewicz@gmail.com","hello","this is a test message");
+        return "redirect:/user";
     }
 
 }

@@ -5,6 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -33,13 +34,13 @@
                     <th>Email</th>
                     <th colspan="3">Akcja</th>
                 </tr>
-<%--                --%>
                 <c:forEach items="${admins}" var="admin">
                     <tr <c:if test="${loggedUser.email ==admin.email}"> bgcolor="#5f9ea0"</c:if>>
                         <td>${admin.fullName}</td>
                         <td>${admin.email}</td>
                         <td><a href="/admin/admins/edit/${admin.id}" class="btn btn--small btn--highlighted">Edytuj</a>
-                        <td><a href="/admin/admins/delete/${admin.id}" class="btn btn--small btn--highlighted">Usuń</a>
+                        <td>
+                        <a href="/admin/admins/delete/${admin.id}" class="btn btn--small btn--highlighted">Usuń</a>
                         <c:if test="${loggedUser.email ==admin.email}">
                         <td><a href="/admin/password/${admin.id}" class="btn btn--small btn--highlighted">Zmień hasło</a>
                         </c:if>

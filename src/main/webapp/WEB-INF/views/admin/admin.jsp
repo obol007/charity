@@ -27,35 +27,6 @@
 
 
 
-<c:if test="${showDonations == true}">
-    <section>
-        <div class="users">
-            <h2>Dotacje:</h2>
-            <table border="1" cellpadding="5" align="center">
-                <tr>
-                    <th>Imię i Nazwisko</th>
-                    <th>Adres odbioru</th>
-                    <th>Data odbioru</th>
-                    <th>Czas odbioru</th>
-                    <th>Komentarz</th>
-                    <th>Liczba worków</th>
-                    <th>Beneficjent</th>
-                </tr>
-                <c:forEach items="${donations}" var="donation">
-                    <tr>
-                        <td>${donation.user.fullName}</td>
-                        <td>${donation.city}, ${donation.street}, ${donation.zipCode}</td>
-                        <td>${donation.pickUpDate}</td>
-                        <td>${donation.pickUpTime}</td>
-                        <td>${donation.pickUpComment}</td>
-                        <td>${donation.quantity}</td>
-                        <td>${donation.institution.name}</td>
-                    </tr>
-                </c:forEach>
-            </table>
-        </div>
-    </section>
-</c:if>
 
 <script src="<c:url value="/resources/js/app.js"/>"></script>
 </body>

@@ -41,9 +41,9 @@
         <li><a href="/user/edit/${loggedUser.id}" class="btn btn--without-border"><spring:message code="nav.users.editDetails"/></a></li>
         <li><a href="/user/password/${loggedUser.id}" class="btn btn--without-border"><spring:message code="nav.users.passowrd"/></a></li>
         <li><a href="/user/donations/${loggedUser.id}" class="btn btn--without-border"><spring:message code="nav.yourDonations"/></a></li>
+<%--        <li><a href="/user/sendEmail" class="btn btn--without-border">Wyślij email</a></li>--%>
         <li><a href="/" class="btn btn--without-border"><spring:message code="nav.mainPage"/></a></li>
         <li><a href="/donation" class="btn btn--without-border active">Start</a></li>
-        <li><a href="/#contact" class="btn btn--without-border"><spring:message code="nav.contact"/></a></li>
 
         <security:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
             <li>

@@ -55,4 +55,8 @@ public class DonationService {
     public List<Donation> findUserDonations(Long id) {
         return donationRepository.findAllById(id);
     }
+
+    public List<Donation> findAllFromActive() {
+        return donationRepository.findAllFromActive();
+    }
 }

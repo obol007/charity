@@ -1,33 +1,21 @@
 package pl.coderslab.charity.domain.repository;
 
 import lombok.Data;
+import pl.coderslab.charity.domain.model.User;
+
 
 @Data
 public class ExtraData {
 
 
-    private Long id;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private Long donations;
+    private User users;
     private Long bags;
+    private Long donations;
 
-    public ExtraData() {
-    }
-
-    public ExtraData(Long id, String email, String firstName, String lastName, Long donations, Long bags) {
-        this.id = id;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.donations = donations;
+    public ExtraData(User users, Long bags, Long donations) {
+        this.users = users;
         this.bags = bags;
+        this.donations = donations;
     }
-    String getFullName(){
-        return firstName+" "+lastName;
-    }
-
-
 }
 
