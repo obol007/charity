@@ -16,6 +16,7 @@ import pl.coderslab.charity.domain.repository.CategoryRepository;
 import pl.coderslab.charity.domain.repository.InstitutionRepository;
 import pl.coderslab.charity.domain.repository.UserRepository;
 import pl.coderslab.charity.service.DonationService;
+import pl.coderslab.charity.service.InstitutionService;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -28,36 +29,46 @@ public class DonationController {
 
     DonationService donationService;
     CategoryRepository categoryRepository;
-    InstitutionRepository institutionRepository;
+    InstitutionService institutionService;
 
     public DonationController(DonationService donationService,
                               CategoryRepository categoryRepository,
-                              InstitutionRepository institutionRepository,
+                              InstitutionService institutionService,
                               UserRepository userRepository) {
         this.donationService = donationService;
         this.categoryRepository = categoryRepository;
-        this.institutionRepository = institutionRepository;
+        this.institutionService = institutionService;
     }
 
+    @ModelAttribute("donation")
+    public DonationDTO donationForm(){
+        return new DonationDTO();}
 
+    @ModelAttribute("institutions")
+    public List<Institution> addInstitutions(){
+        return institutionService.findAllByActive(true);}
+
+ @ModelAttribute("categories")
+    public List<Category> addCategories(){
+        return categoryRepository.findAll();}
 
     @GetMapping
-    public String addDonation(Model model, Principal principal){
-        List<Category> categories = categoryRepository.findAll();
-        List<Institution> institutions = institutionRepository.findAllByActive(true);
+    public String addDonation(){
+        return "user/form";}
 
-        log.warn("Principal name: "+principal.getName());
 
-        model.addAttribute("donation",new DonationDTO());
-        model.addAttribute("institutions",institutions);
-        model.addAttribute("categories",categories);
-        return "user/form";
+    @GetMapping("/test")
+    public String testAddDonation(){
+        return "user/addDonation";
     }
+
+
     @PostMapping
     public String addingDonation(@Valid @ModelAttribute("donation") DonationDTO donationDTO,
-                                 BindingResult result){
+                                 BindingResult result, Model model){
         if(result.hasErrors()){
-            return "user/form";
+                     model.addAttribute("errors",true);
+                     return "user/form";
         }
         donationService.add(donationDTO);
         return "user/form-confirmation";

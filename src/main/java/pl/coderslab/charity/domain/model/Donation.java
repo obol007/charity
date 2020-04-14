@@ -39,6 +39,10 @@ public class Donation extends Base {
     private LocalTime pickUpTime;
     private String pickUpComment;
 
+    private Boolean collected;
+    private LocalDateTime donatedDate;
+    private LocalDateTime collectedDate;
+
     @ManyToMany
     @JoinTable(name = "donation_category",
             joinColumns = @JoinColumn(name = "donation_id"),

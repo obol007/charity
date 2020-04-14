@@ -22,6 +22,9 @@
 <section>
     <div class="users">
         <h2>Dotacje użytkownika: ${donations.get(0).user.fullName}</h2>
+        <div class="users">
+        <a href="/admin/donations" class="btn--highlighted">Powrót</a>
+        </div>
 
                       <table border="1" cellpadding="5" align="center">
                     <tr>

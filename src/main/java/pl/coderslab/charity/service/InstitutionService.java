@@ -77,4 +77,8 @@ public class InstitutionService {
         ModelMapper mapper = new ModelMapper();
         institutionRepository.save(mapper.map(institutionDTO,Institution.class));
     }
+
+    public List<Institution> findAllByActive(boolean b) {
+        return institutionRepository.findAllByActive(b);
+    }
 }

@@ -17,9 +17,16 @@
 
 <form:form modelAttribute="donation" action="/donation" method="post">
 
-
+    <div>
     <form:checkboxes path="categories" items="${categories}" itemValue="id" itemLabel="name"/>
-    <form:select path="institution" items="${institutions}" itemValue="id" itemLabel="name"/>
+    </div>
+    <div>
+    <c:forEach items="${categories}" var="category">
+       <p> <form:checkbox path="categories" value="${category.id}" label="${category.name}"/></p><br>
+    </c:forEach>
+    </div>
+    <div>
+    <form:radiobuttons path="institution" items="${institutions}" itemValue="id" itemLabel="name"/></div>
     <%--    <form:select path="publisher.id" itemLabel="name" itemValue="id" items="${publishers}"/>--%>
     <form:input path="zipCode"/>
     <form:input path="street"/>

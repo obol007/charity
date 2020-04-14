@@ -28,7 +28,7 @@
                 <th>Czas odbioru</th>
                 <th>Komentarz</th>
                 <th>Beneficjent</th>
-                <th>Akcja</th>
+                <th>Potwierdz odbiór</th>
             </tr>
             <c:forEach items="${donations}" var="donation">
                 <tr>
@@ -44,7 +44,7 @@
                     <td>${donation.pickUpTime}</td>
                     <td>${donation.pickUpComment}</td>
                     <td>${donation.institution.name}</td>
-                    <td><a href="/user/donations/collect/${donation.id}" class="btn">Odebrano</a></td>
+                    <td><a href="/user/donations/collect/${donation.id}" class="btn">Potwierdzam</a></td>
                 </tr>
             </c:forEach>
         </table>

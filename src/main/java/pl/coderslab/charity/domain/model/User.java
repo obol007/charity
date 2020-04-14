@@ -1,5 +1,6 @@
 package pl.coderslab.charity.domain.model;
 
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,8 @@ public class User extends Base {
     private String email;
     private String role;
     private Boolean active;
+    private Boolean registered;
+    private Token activationToken;
 
     public String getFullName(){
         return firstName+" "+lastName;
