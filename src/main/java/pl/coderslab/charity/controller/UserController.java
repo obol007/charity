@@ -2,12 +2,14 @@ package pl.coderslab.charity.controller;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.method.P;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.DTO.DonationDTO;
 import pl.coderslab.charity.DTO.EditUserDTO;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.domain.model.Donation;
@@ -117,9 +119,17 @@ public class UserController {
         if(!userService.checkAuthority(id)){
             return "user_admin/denied";
         }
-        List<Donation> donationList = donationService.findUserDonations(id);
+        List<DonationDTO> donationList = donationService.findUserDonations(id);
         model.addAttribute("donations",donationList);
         return "user/userDonations";
+    }
+
+    @GetMapping("/donations/collect/{id}")
+    public String collectDonation(@PathVariable Long id){
+
+        Long userId = userService.collectDonationById(id);
+
+        return "redirect:/user/donations/"+userId;
     }
 
     @GetMapping("/sendEmail")

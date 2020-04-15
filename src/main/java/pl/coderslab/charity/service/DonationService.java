@@ -1,6 +1,7 @@
 package pl.coderslab.charity.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,23 +38,24 @@ public class DonationService {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(username);
         log.warn("Dodatcja: "+donationDTO);
+        ModelMapper mapper = new ModelMapper();
         Donation donation = new Donation();
-        donation.setCategories(donationDTO.getCategories());
-        donation.setInstitution(donationDTO.getInstitution());
-        donation.setCity(donationDTO.getCity());
-        donation.setPickUpComment(donationDTO.getPickUpComment());
-        donation.setPickUpDate(donationDTO.getPickUpDate());
-        donation.setPickUpTime(donationDTO.getPickUpTime());
-        donation.setStreet(donationDTO.getStreet());
-        donation.setZipCode(donationDTO.getZipCode());
-        donation.setQuantity(donationDTO.getQuantity());
+        log.warn("DONATIION BEFORE MAPPING: "+donation);
+
+        donation = mapper.map(donationDTO, Donation.class);
         donation.setUser(user);
 
         donationRepository.save(donation);
     }
 
-    public List<Donation> findUserDonations(Long id) {
-        return donationRepository.findAllById(id);
+    public List<DonationDTO> findUserDonations(Long id) {
+        List<Donation> donations = donationRepository.findAllById(id);
+        List<DonationDTO> donationDTOS = new ArrayList<>();
+        ModelMapper mapper = new ModelMapper();
+        for(Donation d: donations){
+            donationDTOS.add(mapper.map(d,DonationDTO.class));
+        }
+        return donationDTOS;
     }
 
     public List<Donation> findAllFromActive() {

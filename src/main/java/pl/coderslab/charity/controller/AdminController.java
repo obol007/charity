@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.DTO.DonationDTO;
 import pl.coderslab.charity.DTO.EditUserDTO;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.domain.model.Donation;
@@ -15,7 +16,6 @@ import pl.coderslab.charity.domain.model.User;
 import pl.coderslab.charity.domain.repository.DonationRepository;
 import pl.coderslab.charity.domain.repository.ExtraData;
 import pl.coderslab.charity.domain.repository.InstitutionRepository;
-import pl.coderslab.charity.domain.repository.UserRepository;
 import pl.coderslab.charity.service.DonationService;
 import pl.coderslab.charity.service.InstitutionService;
 import pl.coderslab.charity.service.UserService;
@@ -23,7 +23,6 @@ import pl.coderslab.charity.validation.validator.AdminValidator;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -31,7 +30,6 @@ import java.util.List;
 @Slf4j
 public class AdminController {
 
-    UserRepository userRepository;
     DonationService donationService;
     InstitutionRepository institutionRepository;
     InstitutionService institutionService;
@@ -39,14 +37,12 @@ public class AdminController {
     PasswordEncoder passwordEncoder;
     DonationRepository donationRepository;
 
-    public AdminController(UserRepository userRepository,
-                           DonationService donationService,
+    public AdminController(DonationService donationService,
                            InstitutionRepository institutionRepository,
                            InstitutionService institutionService,
                            UserService userService,
                            PasswordEncoder passwordEncoder,
                            DonationRepository donationRepository) {
-        this.userRepository = userRepository;
         this.donationService = donationService;
         this.institutionRepository = institutionRepository;
         this.institutionService = institutionService;
@@ -57,7 +53,7 @@ public class AdminController {
 
     @ModelAttribute("admins")
     public List<User> allAdmins() {
-        return userRepository.allAdmins();
+        return userService.allAdmins();
     }
 
 
@@ -99,7 +95,7 @@ public class AdminController {
 
     @GetMapping("/donations/{id}")
     public String showUserDonations(@PathVariable Long id, Model model){
-        List<Donation> donations = donationService.findUserDonations(id);
+        List<DonationDTO> donations = donationService.findUserDonations(id);
         model.addAttribute("donations",donations);
         return "admin/userDonations";
     }

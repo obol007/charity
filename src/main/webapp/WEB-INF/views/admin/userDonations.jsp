@@ -52,7 +52,9 @@
                             </td>
                             <td>${donation.quantity}</td>
                             <td>${donation.institution.name}</td>
-                            <td><a href="/admin/donations/collect/${donation.id}" class="btn">Odbierz</a></td>
+                            <td><c:if test="${donation.collected == true}">Odebrano</c:if>
+                                <c:if test="${donation.collected != true}">Nie odebrano</c:if>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>

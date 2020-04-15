@@ -1,6 +1,7 @@
 package pl.coderslab.charity.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -20,9 +22,12 @@ import java.security.Principal;
 public class RegistrationController {
 
     UserService userService;
+    ApplicationEventPublisher eventPublisher;
 
-    public RegistrationController(UserService userService) {
+    public RegistrationController(UserService userService,
+                                  ApplicationEventPublisher eventPublisher) {
         this.userService = userService;
+        this.eventPublisher = eventPublisher;
     }
 
     @GetMapping
@@ -38,7 +43,7 @@ public class RegistrationController {
 
     @PostMapping
     public String registering(@Valid @ModelAttribute("userDTO") UserDTO userDTO,
-                              BindingResult result, Model model) {
+                              BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors() && (userDTO.getPassword().equals(userDTO.getRePassword()))) {
             return "user_admin/register";
         } else if (result.hasErrors() || (!userDTO.getPassword().equals(userDTO.getRePassword()))) {

@@ -13,14 +13,20 @@ import javax.persistence.Table;
 @Table(name = "users")
 public class User extends Base {
 
+    public User(){
+        //TODO: why super() here?
+//        super();
+        this.setActive(false);
+    }
+
     private String firstName;
     private String lastName;
     private String password;
     private String email;
     private String role;
     private Boolean active;
-    private Boolean registered;
-    private Token activationToken;
+    private Boolean blocked;
+
 
     public String getFullName(){
         return firstName+" "+lastName;

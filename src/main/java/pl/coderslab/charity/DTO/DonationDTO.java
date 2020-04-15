@@ -5,9 +5,11 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.coderslab.charity.domain.model.Category;
 import pl.coderslab.charity.domain.model.Institution;
+import pl.coderslab.charity.domain.model.User;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -40,5 +42,11 @@ public class DonationDTO {
 
     @NotNull(message = "Wybierz instytucję")
     private Institution institution;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
+    private LocalDateTime createdOn;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
+    private LocalDateTime collectedDate;
+    private Boolean collected;
 
+    private User user;
 }

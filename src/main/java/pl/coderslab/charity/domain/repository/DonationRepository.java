@@ -24,7 +24,7 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
 
     @Query(value = "select users.id, email, first_name, last_name, count(users.id) as donations, sum(d.quantity) from users join donation d on users.id = d.user_id group by users.id;",nativeQuery = true)
     List<Object> findObjectsWithDonations();
-    @Query("select d from Donation d where d.user.id = ?1")
+    @Query("select d from Donation d where d.user.id = ?1 order by d.collected, d.createdOn desc")
     List<Donation> findAllById(Long id);
 
     @Query("select d from Donation d join d.user u where u.active=true")

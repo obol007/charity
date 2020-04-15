@@ -2,6 +2,7 @@ package pl.coderslab.charity.controller;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.charity.DTO.DonationDTO;
+import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.domain.model.Category;
 import pl.coderslab.charity.domain.model.Institution;
 import pl.coderslab.charity.domain.repository.CategoryRepository;
@@ -17,6 +19,7 @@ import pl.coderslab.charity.domain.repository.InstitutionRepository;
 import pl.coderslab.charity.domain.repository.UserRepository;
 import pl.coderslab.charity.service.DonationService;
 import pl.coderslab.charity.service.InstitutionService;
+import pl.coderslab.charity.service.UserService;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -30,15 +33,18 @@ public class DonationController {
     DonationService donationService;
     CategoryRepository categoryRepository;
     InstitutionService institutionService;
+    UserService userService;
 
     public DonationController(DonationService donationService,
                               CategoryRepository categoryRepository,
                               InstitutionService institutionService,
-                              UserRepository userRepository) {
+                              UserService userService) {
         this.donationService = donationService;
         this.categoryRepository = categoryRepository;
         this.institutionService = institutionService;
+        this.userService = userService;
     }
+
 
     @ModelAttribute("donation")
     public DonationDTO donationForm(){
@@ -51,6 +57,13 @@ public class DonationController {
  @ModelAttribute("categories")
     public List<Category> addCategories(){
         return categoryRepository.findAll();}
+
+    @ModelAttribute("loggedUser")
+    public UserDTO loggedUser() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userService.findUserDTOByEmail(email);
+    }
+
 
     @GetMapping
     public String addDonation(){

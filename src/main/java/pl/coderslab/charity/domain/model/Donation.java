@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -20,13 +21,14 @@ import java.util.List;
 @Setter
 @ToString
 @EqualsAndHashCode(callSuper = true)
-//@EntityListeners(AuditingEntityListener.class)
+@EntityListeners(AuditingEntityListener.class)
 public class Donation extends Base {
 
-//    @CreatedDate
-//    @Column(nullable = false)
-//    private LocalDateTime createdOn;
-//
+    @CreatedDate
+    @Column(name = "created_date", nullable = false, updatable = false)
+    @DateTimeFormat(pattern = "YYYY-MM-DD hh:mm:ss")
+    private LocalDateTime createdOn;
+
 //    @CreatedBy
 //    private String createdBy;
 
@@ -40,7 +42,7 @@ public class Donation extends Base {
     private String pickUpComment;
 
     private Boolean collected;
-    private LocalDateTime donatedDate;
+
     private LocalDateTime collectedDate;
 
     @ManyToMany

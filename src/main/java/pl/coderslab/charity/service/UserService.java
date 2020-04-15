@@ -1,8 +1,6 @@
 package pl.coderslab.charity.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.mapper.Mapper;
-import org.aspectj.weaver.patterns.HasThisTypePatternTriedToSneakInSomeGenericOrParameterizedTypePatternMatchingStuffAnywhereVisitor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,10 +11,12 @@ import org.springframework.web.server.ResponseStatusException;
 import pl.coderslab.charity.DTO.AdminDTO;
 import pl.coderslab.charity.DTO.EditUserDTO;
 import pl.coderslab.charity.DTO.UserDTO;
-import pl.coderslab.charity.domain.model.Institution;
+import pl.coderslab.charity.domain.model.Donation;
 import pl.coderslab.charity.domain.model.User;
+import pl.coderslab.charity.domain.repository.DonationRepository;
 import pl.coderslab.charity.domain.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,11 +29,15 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final DonationRepository donationRepository;
 
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public UserService(PasswordEncoder passwordEncoder,
+                       UserRepository userRepository,
+                       DonationRepository donationRepository) {
         this.passwordEncoder = passwordEncoder;
 
         this.userRepository = userRepository;
+        this.donationRepository = donationRepository;
     }
 
     public void register(UserDTO userDTO) {
@@ -147,8 +151,8 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findById(editUserDTO.getId());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            log.warn("ORIGINAL USER: "+user);
-            log.warn("USER OLD PASS: "+editUserDTO.getOldPassword()+" USER NEW PASS: "+editUserDTO.getNewPassword());
+            log.warn("ORIGINAL USER: " + user);
+            log.warn("USER OLD PASS: " + editUserDTO.getOldPassword() + " USER NEW PASS: " + editUserDTO.getNewPassword());
             user.setPassword(passwordEncoder.encode(editUserDTO.getNewPassword()));
             userRepository.save(user);
         }
@@ -172,8 +176,8 @@ public class UserService {
         List<User> users = userRepository.allUsers();
         List<UserDTO> usersDTO = new ArrayList<>();
         ModelMapper mapper = new ModelMapper();
-        for(User u : users){
-            usersDTO.add(mapper.map(u,UserDTO.class));
+        for (User u : users) {
+            usersDTO.add(mapper.map(u, UserDTO.class));
         }
         return usersDTO;
     }
@@ -187,10 +191,32 @@ public class UserService {
 
     public void resetUserPassword(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        if(optionalUser.isPresent()){
+        if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             user.setPassword(passwordEncoder.encode("User1234"));
             userRepository.save(user);
         }
+    }
+
+    public List<User> allAdmins() {
+        return userRepository.allAdmins();
+    }
+
+    public Long collectDonationById(Long id) {
+        Optional<Donation> optionalDonation = donationRepository.findById(id);
+        if (optionalDonation.isPresent()) {
+            Donation donation = optionalDonation.get();
+            if (donation.getCollected()) {
+                donation.setCollected(false);
+                donation.setCollectedDate(null);
+                donationRepository.save(donation);
+            } else {
+                donation.setCollected(true);
+                donation.setCollectedDate(LocalDateTime.now());
+                donationRepository.save(donation);
+            }
+            return donation.getUser().getId();
+        }
+        return null;
     }
 }

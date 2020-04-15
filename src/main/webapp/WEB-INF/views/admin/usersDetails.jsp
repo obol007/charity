@@ -36,19 +36,15 @@
                 <th>Aktywny</th>
                 <th>Imię i Nazwisko</th>
                 <th>Email</th>
-<%--                <th>Dary</th>--%>
-<%--                <th>Worki</th>--%>
                 <th colspan="4">Akcja</th>
             </tr>
-            <%--                --%>
+
             <c:forEach items="${users}" var="user">
                 <tr>
                     <td><input type="checkbox" disabled id="${user.id}" value="${user.active}"
                             <c:if test="${user.active == true}"> checked</c:if> /></td>
                     <td>${user.fullName}</td>
                     <td>${user.email}</td>
-<%--                    <td>0</td>--%>
-<%--                    <td>0</td>--%>
                     <td><a href="/admin/users/edit/${user.id}" class="btn btn--small btn--highlighted">Edytuj</a> </td>
                     <td><a href="/admin/users/delete/${user.id}" class="btn btn--small btn--highlighted">Usuń</a> </td>
                     <td><a href="/admin/users/active/${user.id}" class="btn btn--small btn--highlighted">

@@ -28,11 +28,12 @@
                 <th>Czas odbioru</th>
                 <th>Komentarz</th>
                 <th>Beneficjent</th>
-                <th>Potwierdz odbiór</th>
+                <th>Potwierdź odbiór</th>
+                <th>Data odebrania</th>
             </tr>
             <c:forEach items="${donations}" var="donation">
                 <tr>
-                    <td></td>
+                    <td>${donation.createdOn}</td>
                     <td>
                     <c:forEach items="${donation.categories}" var="category" varStatus="no">
                     ${no.count}.${category.name}
@@ -44,7 +45,14 @@
                     <td>${donation.pickUpTime}</td>
                     <td>${donation.pickUpComment}</td>
                     <td>${donation.institution.name}</td>
-                    <td><a href="/user/donations/collect/${donation.id}" class="btn">Potwierdzam</a></td>
+                    <td><c:if test="${donation.collected != true}">
+                        <a href="/user/donations/collect/${donation.id}" class="btn">Potwierdzam</a>
+                        </c:if>
+                        <c:if test="${donation.collected == true}">
+                        <a href="/user/donations/collect/${donation.id}" class="btn" style="background: cadetblue">Odebrano</a>
+                        </c:if>
+                    </td>
+                    <td>${donation.collectedDate}</td>
                 </tr>
             </c:forEach>
         </table>
