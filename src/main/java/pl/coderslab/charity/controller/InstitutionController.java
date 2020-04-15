@@ -24,7 +24,7 @@ public class InstitutionController {
     }
 
     @ModelAttribute("institutions")
-    public List<Institution> allInstitutions() {
+    public List<InstitutionDTO> allInstitutions() {
         return institutionService.findAllOderByIdDesc();
     }
 
@@ -36,10 +36,8 @@ public class InstitutionController {
 
     @GetMapping("/active/{id}")
     public String institutionsActivation(@PathVariable Long id, Model model) {
-        InstitutionDTO institutionDTO = institutionService.findById(id);
-        institutionDTO.setActive(!institutionDTO.getActive());
-        institutionService.save(institutionDTO);
-        return "admin/institutions";
+        institutionService.changeActive(id);
+        return "redirect:/admin/institutions";
     }
 
     @GetMapping("/add")

@@ -8,7 +8,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import pl.coderslab.charity.DTO.AdminDTO;
 import pl.coderslab.charity.DTO.EditUserDTO;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.domain.model.Donation;
@@ -57,42 +56,15 @@ public class UserService {
 
 
     public void addOrUpdate(UserDTO userDTO) {
-        log.warn("USER_DTO: " + userDTO);
         ModelMapper mapper = new ModelMapper();
         User user = mapper.map(userDTO, User.class);
         user.setRole("ROLE_ADMIN");
         user.setActive(true);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        log.warn("USER: " + user);
         userRepository.save(user);
     }
 
-    public void editAdmin(UserDTO userDTO) {
-        log.warn("USER_DTO: " + userDTO);
-        Optional<User> optionalUser = userRepository.findById(userDTO.getId());
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            log.warn("USER BEFORE UPDATE: " + user);
-            user.setId(userDTO.getId());
-            user.setPassword(userDTO.getPassword());
-            user.setFirstName(userDTO.getFirstName());
-            user.setLastName(userDTO.getLastName());
-            user.setEmail(userDTO.getEmail());
-            log.warn("USER AFTER UPDATE: " + user);
-//            userRepository.UpdateAdminById(user.getId());
-            userRepository.save(user);
-        }
-    }
 
-    public AdminDTO findAdminDTOByID(Long id) {
-        Optional<User> userOptional = userRepository.findById(id);
-        AdminDTO adminDTO = new AdminDTO();
-        if (userOptional.isPresent()) {
-            ModelMapper mapper = new ModelMapper();
-            adminDTO = mapper.map(userOptional.get(), AdminDTO.class);
-        }
-        return adminDTO;
-    }
 
     public UserDTO findUserDTOById(Long id) {
         Optional<User> user = userRepository.findById(id);
@@ -108,17 +80,17 @@ public class UserService {
 
     }
 
-    public void updateAdmin(AdminDTO adminDTO) {
-        Optional<User> user = userRepository.findById(adminDTO.getId());
-
-        if (user.isPresent()) {
-            User user1 = user.get();
-            user1.setFirstName(adminDTO.getFirstName());
-            user1.setLastName(adminDTO.getLastName());
-            userRepository.save(user1);
-        }
-
-    }
+//    public void updateAdmin(AdminDTO adminDTO) {
+//        Optional<User> user = userRepository.findById(adminDTO.getId());
+//
+//        if (user.isPresent()) {
+//            User user1 = user.get();
+//            user1.setFirstName(adminDTO.getFirstName());
+//            user1.setLastName(adminDTO.getLastName());
+//            userRepository.save(user1);
+//        }
+//
+//    }
 
     public UserDTO findUserDTOByEmail(String email) {
         User user = userRepository.findByEmail(email);
@@ -219,4 +191,5 @@ public class UserService {
         }
         return null;
     }
+
 }

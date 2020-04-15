@@ -20,11 +20,8 @@
     <%@include file="adminNav.jsp" %>
 </header>
 
-
 <section>
     <div class="users">
-
-
         <a href="/admin/admins/add" class="btn--small btn--highlighted">Dodaj administratora</a>
 
             <h2>Administratorzy:</h2>

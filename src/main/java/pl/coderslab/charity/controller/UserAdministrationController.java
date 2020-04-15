@@ -30,7 +30,7 @@ public class UserAdministrationController {
     }
 
     @GetMapping()
-    public String users(Model model) {
+    public String allUsers() {
         return "admin/usersDetails";
     }
 

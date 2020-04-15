@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.charity.domain.repository.DonationRepository;
 import pl.coderslab.charity.domain.repository.InstitutionRepository;
 import pl.coderslab.charity.domain.repository.UserRepository;
+import pl.coderslab.charity.service.DonationService;
+import pl.coderslab.charity.service.InstitutionService;
+import pl.coderslab.charity.service.UserService;
 
 import java.security.Principal;
 
@@ -18,31 +21,32 @@ import java.security.Principal;
 @Slf4j
 public class HomeController {
 
-    InstitutionRepository institutionRepository;
-    DonationRepository donationRepository;
-    UserRepository userRepository;
 
-    public HomeController(InstitutionRepository institutionRepository,
-                          DonationRepository donationRepository,
-                          UserRepository userRepository) {
-        this.institutionRepository = institutionRepository;
-        this.donationRepository = donationRepository;
-        this.userRepository = userRepository;
+    InstitutionService institutionService;
+    DonationService donationService;
+    UserService userService;
+
+    public HomeController(InstitutionService institutionService,
+                          DonationService donationService,
+                          UserService userService) {
+        this.institutionService = institutionService;
+        this.donationService = donationService;
+        this.userService = userService;
     }
 
     @GetMapping
-    public String homeAction(Model model, Principal principal) {
+    public String homeAction(Model model) {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String role = String.valueOf(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 
-        Integer bags = ((donationRepository.TotalBags() == null) ? 0 : donationRepository.TotalBags());
+        Integer bags = ((donationService.TotalBags() == null) ? 0 : donationService.TotalBags());
         model.addAttribute("totalBags", bags);
-        model.addAttribute("totalDonations", donationRepository.TotalDonations());
-        model.addAttribute("institutions", institutionRepository.findAllByActive(true));
+        model.addAttribute("totalDonations", donationService.TotalDonations());
+        model.addAttribute("institutions", institutionService.findAllByActive(true));
 
         if (!role.equals("[ROLE_ANONYMOUS]")) {
-            model.addAttribute("loggedUser", userRepository.findByEmail(username));
+            model.addAttribute("loggedUser", userService.findUserDTOByEmail(username));
         }
         return "user_admin/index";
     }

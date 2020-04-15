@@ -21,10 +21,8 @@ import java.util.List;
 @Slf4j
 public class DonationService {
 
-    DonationRepository donationRepository;
-    UserRepository userRepository;
-
-
+    private DonationRepository donationRepository;
+    private UserRepository userRepository;
 
     public DonationService(DonationRepository donationRepository,
                            UserRepository userRepository) {
@@ -56,5 +54,17 @@ public class DonationService {
 
     public List<Donation> findAllFromActive() {
         return donationRepository.findAllFromActive();
+    }
+
+    public List<Object[]> findAllWithNumbers() {
+        return donationRepository.findAllWithNumbers();
+    }
+
+    public Integer TotalBags() {
+        return donationRepository.TotalBags();
+    }
+
+    public Integer TotalDonations() {
+        return donationRepository.TotalDonations();
     }
 }

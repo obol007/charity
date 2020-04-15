@@ -31,11 +31,6 @@ public class LoginController {
         } else if ((userService.findUserDTOByEmail(principal.getName()).getRole()).equals("ROLE_ADMIN")) {
         return "admin/admin";
         } else {
-//            if(!userRepository.findByEmail(principal.getName()).getActive()){
-//                result.rejectValue("email", null, "Użytkownik jest zablokowany");
-//                return "user_admin/login";
-//            }
-            log.warn("USER ROLE: "+userService.findUserDTOByEmail(principal.getName()).getRole());
             return "redirect:/";
         }
     }

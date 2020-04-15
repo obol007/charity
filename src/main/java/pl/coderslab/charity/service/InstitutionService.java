@@ -6,11 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import pl.coderslab.charity.DTO.CategoryDTO;
 import pl.coderslab.charity.DTO.InstitutionDTO;
+import pl.coderslab.charity.domain.model.Category;
 import pl.coderslab.charity.domain.model.Institution;
 import pl.coderslab.charity.domain.repository.InstitutionRepository;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,21 +32,19 @@ public class InstitutionService {
         ModelMapper mapper = new ModelMapper();
 
         if (institutionDTO.getId()==null) {
-
             Institution institution = mapper.map(institutionDTO, Institution.class);
             institutionRepository.save(institution);
-
         } else {
-            log.warn("JESTEM W ELSE");
             Optional<Institution> optInstitution = institutionRepository.findById(institutionDTO.getId());
             if(optInstitution.isPresent()) {
                 Institution institutionOriginal = optInstitution.get();
                 Institution institution = mapper.map(institutionDTO, Institution.class);
                 institution.setId(institutionOriginal.getId());
-                institutionRepository.save(institution);
-                //TODO: update it
 //                mapper.map(institutionDTO, institutionOriginal);
 //                institutionRepository.save(institutionOriginal);
+                institutionRepository.save(institution);
+
+
             }
         }
     }
@@ -62,8 +63,14 @@ public class InstitutionService {
         institutionRepository.deleteById(id);
     }
 
-    public List<Institution> findAllOderByIdDesc() {
-        return institutionRepository.findAllOderByIdDesc();
+    public List<InstitutionDTO> findAllOderByIdDesc() {
+        ModelMapper mapper = new ModelMapper();
+        List<Institution> institutions = institutionRepository.findAllOderByIdDesc();
+        List<InstitutionDTO> institutionDTOS = new ArrayList<>();
+        for (Institution i : institutions) {
+            institutionDTOS.add(mapper.map(i, InstitutionDTO.class));
+        }
+        return institutionDTOS;
     }
 
     public InstitutionDTO findById(Long id) {
@@ -78,7 +85,24 @@ public class InstitutionService {
         institutionRepository.save(mapper.map(institutionDTO,Institution.class));
     }
 
-    public List<Institution> findAllByActive(boolean b) {
-        return institutionRepository.findAllByActive(b);
+
+    public List<InstitutionDTO> findAllByActive(boolean b) {
+        ModelMapper mapper = new ModelMapper();
+        List<Institution> institutions = institutionRepository.findAllByActive(b);
+        List<InstitutionDTO> institutionDTOS = new ArrayList<>();
+        for (Institution i : institutions) {
+            institutionDTOS.add(mapper.map(i, InstitutionDTO.class));
+        }
+        return institutionDTOS;
+    }
+
+    public void changeActive(Long id) {
+        Optional<Institution> institutionOptional = institutionRepository.findById(id);
+        if(institutionOptional.isPresent()) {
+            Institution institution = institutionOptional.get();
+            institution.setActive(!institution.getActive());
+            institutionRepository.save(institution);
+        }
+
     }
 }

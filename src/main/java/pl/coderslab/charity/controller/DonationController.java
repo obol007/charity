@@ -10,13 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.coderslab.charity.DTO.CategoryDTO;
 import pl.coderslab.charity.DTO.DonationDTO;
+import pl.coderslab.charity.DTO.InstitutionDTO;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.domain.model.Category;
 import pl.coderslab.charity.domain.model.Institution;
 import pl.coderslab.charity.domain.repository.CategoryRepository;
 import pl.coderslab.charity.domain.repository.InstitutionRepository;
 import pl.coderslab.charity.domain.repository.UserRepository;
+import pl.coderslab.charity.service.CategoryService;
 import pl.coderslab.charity.service.DonationService;
 import pl.coderslab.charity.service.InstitutionService;
 import pl.coderslab.charity.service.UserService;
@@ -31,32 +34,35 @@ import java.util.List;
 public class DonationController {
 
     DonationService donationService;
-    CategoryRepository categoryRepository;
+    CategoryService categoryService;
     InstitutionService institutionService;
     UserService userService;
 
     public DonationController(DonationService donationService,
-                              CategoryRepository categoryRepository,
+                              CategoryService categoryService,
                               InstitutionService institutionService,
                               UserService userService) {
         this.donationService = donationService;
-        this.categoryRepository = categoryRepository;
+        this.categoryService = categoryService;
         this.institutionService = institutionService;
         this.userService = userService;
     }
 
 
     @ModelAttribute("donation")
-    public DonationDTO donationForm(){
-        return new DonationDTO();}
+    public DonationDTO donationForm() {
+        return new DonationDTO();
+    }
 
     @ModelAttribute("institutions")
-    public List<Institution> addInstitutions(){
-        return institutionService.findAllByActive(true);}
+    public List<InstitutionDTO> addInstitutions() {
+        return institutionService.findAllByActive(true);
+    }
 
- @ModelAttribute("categories")
-    public List<Category> addCategories(){
-        return categoryRepository.findAll();}
+    @ModelAttribute("categories")
+    public List<CategoryDTO> addCategories() {
+        return categoryService.findAll();
+    }
 
     @ModelAttribute("loggedUser")
     public UserDTO loggedUser() {
@@ -66,22 +72,17 @@ public class DonationController {
 
 
     @GetMapping
-    public String addDonation(){
-        return "user/form";}
-
-
-    @GetMapping("/test")
-    public String testAddDonation(){
-        return "user/addDonation";
+    public String addDonation() {
+        return "user/form";
     }
 
 
     @PostMapping
     public String addingDonation(@Valid @ModelAttribute("donation") DonationDTO donationDTO,
-                                 BindingResult result, Model model){
-        if(result.hasErrors()){
-                     model.addAttribute("errors",true);
-                     return "user/form";
+                                 BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("errors", true);
+            return "user/form";
         }
         donationService.add(donationDTO);
         return "user/form-confirmation";

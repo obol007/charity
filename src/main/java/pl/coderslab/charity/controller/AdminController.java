@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.DTO.DonationDTO;
 import pl.coderslab.charity.DTO.EditUserDTO;
 import pl.coderslab.charity.DTO.UserDTO;
-import pl.coderslab.charity.domain.model.Donation;
 import pl.coderslab.charity.domain.model.User;
 import pl.coderslab.charity.domain.repository.DonationRepository;
 import pl.coderslab.charity.domain.repository.ExtraData;
-import pl.coderslab.charity.domain.repository.InstitutionRepository;
 import pl.coderslab.charity.service.DonationService;
 import pl.coderslab.charity.service.InstitutionService;
 import pl.coderslab.charity.service.UserService;
@@ -31,31 +29,25 @@ import java.util.List;
 public class AdminController {
 
     DonationService donationService;
-    InstitutionRepository institutionRepository;
     InstitutionService institutionService;
     UserService userService;
     PasswordEncoder passwordEncoder;
-    DonationRepository donationRepository;
 
     public AdminController(DonationService donationService,
-                           InstitutionRepository institutionRepository,
                            InstitutionService institutionService,
                            UserService userService,
                            PasswordEncoder passwordEncoder,
                            DonationRepository donationRepository) {
         this.donationService = donationService;
-        this.institutionRepository = institutionRepository;
         this.institutionService = institutionService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
-        this.donationRepository = donationRepository;
     }
 
     @ModelAttribute("admins")
     public List<User> allAdmins() {
         return userService.allAdmins();
     }
-
 
     @ModelAttribute("loggedUser")
     public UserDTO loggedUser() {
@@ -64,12 +56,10 @@ public class AdminController {
     }
 
 
-
     @GetMapping
     public String adminPage(Model model) {
         return "admin/admin";
     }
-
 
 
     @GetMapping("/admins")
@@ -79,12 +69,8 @@ public class AdminController {
     }
     @GetMapping("/donations")
     public String donations(Model model) {
-//        List<Donation> donations = donationService.findAllFromActive();
-//        model.addAttribute("donations", donations);
-
-
         List<ExtraData> extraData = new ArrayList<>();
-        List<Object[]> objects = donationRepository.findAllWithNumbers();
+        List<Object[]> objects = donationService.findAllWithNumbers();
         for(Object[] o : objects) {
             extraData.add(new ExtraData((User)o[0],(Long)o[1],(Long)o[2]));
         }
@@ -126,8 +112,8 @@ public class AdminController {
 
 
     @GetMapping("/admins/edit/{id}")
-    public String editUser(@PathVariable Long id, EditUserDTO editUserDTO, Model model) {
-        editUserDTO = userService.findEditUserDTOById(id);
+    public String editUser(@PathVariable Long id, Model model) {
+        EditUserDTO editUserDTO = userService.findEditUserDTOById(id);
         model.addAttribute("adminDTO", editUserDTO);
         return "admin/editAdmin";
     }
@@ -138,17 +124,30 @@ public class AdminController {
         if (result.hasErrors()) {
             return "user/userEdit";
         } else {
-            log.warn("USERDTO: " + editUserDTO);
             userService.updateUser(editUserDTO);
             return "redirect:/admin/admins";
         }
     }
 
+    @GetMapping("/admins/delete/{id}")
+    public String deleteAdmin(@PathVariable Long id, Model model){
+        if(userService.checkAuthority(id)){
+            return "admin/cantDelete";
+        }
+        UserDTO userDTO = userService.findUserDTOById(id);
+        model.addAttribute("adminToDelete",userDTO);
+        return "admin/toDelete";
+    }
+
+    @PostMapping("/admins/delete")
+    public String deletingAdmin(UserDTO userDTO){
+        userService.deleteUserById(userDTO.getId());
+        return "redirect:/admin/admins";
+    }
+
     @GetMapping("/password/{id}")
     public String changeUserPassword(@PathVariable Long id, Model model) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserDTO userDTO = userService.findUserDTOByEmail(email);
-        if (!userDTO.getId().equals(id)) {
+        if (!userService.checkAuthority(id)) {
             return "user_admin/denied";
         }
         EditUserDTO editUserDTO = userService.findEditUserDTOById(id);
@@ -183,23 +182,6 @@ public class AdminController {
         model.addAttribute("passwordUpdate", true);
         return "/admin/admin";
     }
-
-    @GetMapping("/admins/delete/{id}")
-    public String deleteAdmin(@PathVariable Long id, Model model){
-        if(userService.checkAuthority(id)){
-            return "admin/cantDelete";
-        }
-        UserDTO userDTO = userService.findUserDTOById(id);
-        model.addAttribute("adminToDelete",userDTO);
-        return "admin/toDelete";
-    }
-
-    @PostMapping("/admins/delete")
-    public String deletingAdmin(UserDTO userDTO){
-        userService.deleteUserById(userDTO.getId());
-        return "redirect:/admin/admins";
-    }
-
 
 
 }
