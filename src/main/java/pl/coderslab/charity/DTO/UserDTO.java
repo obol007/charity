@@ -1,19 +1,13 @@
 package pl.coderslab.charity.DTO;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.pl.REGON;
-import pl.coderslab.charity.validation.constraint.RetypedPassword;
 import pl.coderslab.charity.validation.constraint.UniqueEmail;
 import pl.coderslab.charity.validation.validator.AdminValidator;
-
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.groups.Default;
 
 @Data
-//@RetypedPassword(message = "Hasła się nie zgadzają")
 public class UserDTO {
 
 

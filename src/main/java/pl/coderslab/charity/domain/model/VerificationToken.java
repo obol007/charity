@@ -3,36 +3,28 @@ package pl.coderslab.charity.domain.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import java.security.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
+import javax.persistence.Table;
+import java.time.LocalTime;
 
 
 @Entity @Getter @Setter  @EqualsAndHashCode(callSuper = true)
+@Table(name = "tokens")
 public class VerificationToken extends Base {
 
         private static final int EXPIRATION = 60 * 24;
 
-
         private String token;
 
-        @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-//        @JoinColumn(nullable = false, name = "id")
+        @OneToOne
         private User user;
 
-        private Date expiryDate;
+        private LocalTime expiryDate = calculateExpiryDate();
 
-        private Date calculateExpiryDate(int expiryTimeInMinutes) {
-            Calendar cal = Calendar.getInstance();
-//            cal.setTime(new Timestamp(cal.getTime().getTime()));
-            cal.add(Calendar.MINUTE, expiryTimeInMinutes);
-            return new Date(cal.getTime().getTime());
-        }
+        private LocalTime calculateExpiryDate() {
+           return LocalTime.now().plusMinutes(EXPIRATION);
+         }
 
 }

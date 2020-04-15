@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.charity.DTO.UserDTO;
+import pl.coderslab.charity.domain.model.VerificationToken;
+import pl.coderslab.charity.mail.EmailServiceImpl;
 import pl.coderslab.charity.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,11 +25,14 @@ public class RegistrationController {
 
     UserService userService;
     ApplicationEventPublisher eventPublisher;
+    EmailServiceImpl emailService;
 
     public RegistrationController(UserService userService,
-                                  ApplicationEventPublisher eventPublisher) {
+                                  ApplicationEventPublisher eventPublisher,
+                                  EmailServiceImpl emailService) {
         this.userService = userService;
         this.eventPublisher = eventPublisher;
+        this.emailService = emailService;
     }
 
     @GetMapping
@@ -50,8 +55,10 @@ public class RegistrationController {
             result.rejectValue("rePassword", null, "Hasła się różnią");
             return "user_admin/register";
         } else {
-            userService.register(userDTO);
-            return "user_admin/login";
+           VerificationToken verificationToken = userService.register(userDTO);
+           String message = "http://localhost:8080/activate?token="+verificationToken.getToken();
+           emailService.sendSimpleMessage(userDTO.getEmail(),"account activation",message);
+           return "user_admin/login";
         }
 
     }

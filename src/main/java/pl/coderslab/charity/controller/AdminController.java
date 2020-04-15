@@ -36,8 +36,8 @@ public class AdminController {
     public AdminController(DonationService donationService,
                            InstitutionService institutionService,
                            UserService userService,
-                           PasswordEncoder passwordEncoder,
-                           DonationRepository donationRepository) {
+                           PasswordEncoder passwordEncoder
+                          ) {
         this.donationService = donationService;
         this.institutionService = institutionService;
         this.userService = userService;

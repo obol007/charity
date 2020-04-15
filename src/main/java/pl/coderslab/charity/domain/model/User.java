@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.SQLInsert;
+
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -15,19 +15,14 @@ import javax.persistence.Table;
 
 public class User extends Base {
 
-    public User(){
-        //TODO: why super() here?
-//        super();
-        this.setActive(false);
-    }
 
     private String firstName;
     private String lastName;
     private String password;
     private String email;
     private String role;
-    private Boolean active;
-    private Boolean blocked;
+    private Boolean active = false;
+    private Boolean blocked = false;
 
 
     public String getFullName(){

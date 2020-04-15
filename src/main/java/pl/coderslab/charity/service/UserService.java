@@ -12,13 +12,16 @@ import pl.coderslab.charity.DTO.EditUserDTO;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.domain.model.Donation;
 import pl.coderslab.charity.domain.model.User;
+import pl.coderslab.charity.domain.model.VerificationToken;
 import pl.coderslab.charity.domain.repository.DonationRepository;
+import pl.coderslab.charity.domain.repository.TokenRepository;
 import pl.coderslab.charity.domain.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -29,29 +32,35 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final DonationRepository donationRepository;
+    private final TokenRepository tokenRepository;
 
     public UserService(PasswordEncoder passwordEncoder,
                        UserRepository userRepository,
-                       DonationRepository donationRepository) {
+                       DonationRepository donationRepository,
+                       TokenRepository tokenRepository) {
         this.passwordEncoder = passwordEncoder;
-
         this.userRepository = userRepository;
         this.donationRepository = donationRepository;
+        this.tokenRepository = tokenRepository;
     }
 
-    public void register(UserDTO userDTO) {
+    public VerificationToken register(UserDTO userDTO) {
 
         User user = new User();
-
-        user.setActive(true);
+//        user.setActive(true);
         user.setRole("ROLE_USER");
         user.setEmail(userDTO.getEmail());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-
         userRepository.save(user);
 
+        VerificationToken verificationToken = new VerificationToken();
+        verificationToken.setUser(user);
+        verificationToken.setToken(UUID.randomUUID().toString());
+        tokenRepository.save(verificationToken);
+
+        return verificationToken;
     }
 
 
@@ -157,7 +166,7 @@ public class UserService {
     public void changeActive(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        user.setActive(!user.getActive());
+        user.setBlocked(!user.getBlocked());
         userRepository.save(user);
     }
 
@@ -192,4 +201,9 @@ public class UserService {
         return null;
     }
 
+    public void activate(Long id) {
+        User user = userRepository.findById(id).get();
+        user.setActive(true);
+        userRepository.save(user);
+    }
 }

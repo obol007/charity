@@ -1,0 +1,11 @@
+package pl.coderslab.charity.domain.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import pl.coderslab.charity.domain.model.VerificationToken;
+
+public interface TokenRepository extends JpaRepository <VerificationToken, Long> {
+
+    @Query("select v from VerificationToken v where v.token=?1")
+    VerificationToken findByToken(String activationToken);
+}
