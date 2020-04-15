@@ -5,12 +5,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.SQLInsert;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity @Getter @Setter @ToString(exclude = "password") @EqualsAndHashCode(callSuper = true)
 @Table(name = "users")
+
 public class User extends Base {
 
     public User(){

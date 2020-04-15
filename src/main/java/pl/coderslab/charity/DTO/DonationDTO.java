@@ -7,6 +7,7 @@ import pl.coderslab.charity.domain.model.Category;
 import pl.coderslab.charity.domain.model.Institution;
 import pl.coderslab.charity.domain.model.User;
 import pl.coderslab.charity.validation.constraint.DonationDate;
+import pl.coderslab.charity.validation.constraint.DonationTime;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -42,6 +43,7 @@ public class DonationDTO {
     private LocalDate pickUpDate;
 
     @NotNull(message = "Podaj godzinę")
+    @DonationTime(message = "Dary odbieramy w godzinach 9:00 - 18:00")
     private LocalTime pickUpTime;
     private String pickUpComment;
 

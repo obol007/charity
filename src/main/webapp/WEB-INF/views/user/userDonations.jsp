@@ -52,7 +52,9 @@
                         <a href="/user/donations/collect/${donation.id}" class="btn" style="background: cadetblue">Odebrano</a>
                         </c:if>
                     </td>
-                    <td>${donation.collectedDate}</td>
+                    <td>
+                            ${donation.collectedDate}
+                    </td>
                 </tr>
             </c:forEach>
         </table>
