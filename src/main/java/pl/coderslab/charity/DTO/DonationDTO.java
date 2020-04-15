@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import pl.coderslab.charity.domain.model.Category;
 import pl.coderslab.charity.domain.model.Institution;
 import pl.coderslab.charity.domain.model.User;
+import pl.coderslab.charity.validation.constraint.DonationDate;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -15,6 +16,12 @@ import java.util.List;
 
 @Data
 public class DonationDTO {
+
+     public DonationDTO(){
+
+         this.collected = false;
+     }
+
     private Long id;
 
     @NotNull(message = "Podaj liczbę worków")
@@ -31,6 +38,7 @@ public class DonationDTO {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Podaj datę")
+    @DonationDate(message = "Odbiór możliwy najszybciej następnego dnia")
     private LocalDate pickUpDate;
 
     @NotNull(message = "Podaj godzinę")

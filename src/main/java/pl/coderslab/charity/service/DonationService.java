@@ -39,12 +39,8 @@ public class DonationService {
         User user = userRepository.findByEmail(username);
         log.warn("Dodatcja: "+donationDTO);
         ModelMapper mapper = new ModelMapper();
-        Donation donation = new Donation();
-        log.warn("DONATIION BEFORE MAPPING: "+donation);
-
-        donation = mapper.map(donationDTO, Donation.class);
+        Donation donation = mapper.map(donationDTO, Donation.class);
         donation.setUser(user);
-
         donationRepository.save(donation);
     }
 
