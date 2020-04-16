@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import pl.coderslab.charity.DTO.EditUserDTO;
+import pl.coderslab.charity.DTO.ResetPasswordDTO;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.domain.model.Donation;
 import pl.coderslab.charity.domain.model.User;
@@ -69,6 +70,7 @@ public class UserService {
         User user = mapper.map(userDTO, User.class);
         user.setRole("ROLE_ADMIN");
         user.setActive(true);
+        user.setBlocked(false);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.save(user);
     }
@@ -203,6 +205,37 @@ public class UserService {
 
     public void activate(Long id) {
         User user = userRepository.findById(id).get();
+        user.setActive(true);
+        userRepository.save(user);
+    }
+
+    public ResetPasswordDTO findUserToResetPassword(String email) {
+        Optional<User> userOptional = Optional.ofNullable(userRepository.findByEmail(email));
+        log.warn("OPTIONAL USER: "+userOptional);
+        if(userOptional.isPresent()){
+            User user = userOptional.get();
+            ModelMapper mapper = new ModelMapper();
+            ResetPasswordDTO resetPasswordDTO = mapper.map(user, ResetPasswordDTO.class);
+            log.warn("RestPass: "+resetPasswordDTO);
+            return resetPasswordDTO;
+         }
+        return new ResetPasswordDTO();
+    }
+
+    public String generateTokenByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        user.setActive(false);
+        userRepository.save(user);
+        VerificationToken verificationToken = new VerificationToken();
+        verificationToken.setToken(UUID.randomUUID().toString());
+        verificationToken.setUser(user);
+        tokenRepository.save(verificationToken);
+        return verificationToken.getToken();
+    }
+
+    public void resetPassword(ResetPasswordDTO resetPasswordDTO) {
+        User user = userRepository.findByEmail(resetPasswordDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(resetPasswordDTO.getPassword()));
         user.setActive(true);
         userRepository.save(user);
     }

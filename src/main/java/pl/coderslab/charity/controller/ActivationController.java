@@ -25,15 +25,12 @@ public class ActivationController {
     }
 
     @GetMapping
-    public String activate(@RequestParam String token){
+    public String activate(@RequestParam String token) {
 
-
-        log.warn("Activation token: "+token);
         VerificationToken verificationToken = tokenRepository.findByToken(token);
-        log.warn("Verification token: "+verificationToken);
-        if(verificationToken == null){
+        if (verificationToken == null) {
             return "user_admin/register";
-        }else {
+        } else {
             userService.activate(verificationToken.getUser().getId());
             return "redirect:/login";
         }

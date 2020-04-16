@@ -3,6 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html lang="pl">
@@ -33,7 +34,7 @@
             </div>
             <div class="form-group">
                 <input type="password" name="password" placeholder="<spring:message code="login.pass"/>"/>
-                <a href="#" class="btn btn--small btn--without-border reset-password"><spring:message
+                <a href="/resetPassword" class="btn btn--small btn--without-border reset-password"><spring:message
                         code="login.pass.remind"/></a>
             </div>
 

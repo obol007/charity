@@ -41,15 +41,15 @@
 
             <c:forEach items="${users}" var="user">
                 <tr>
-                    <td><input type="checkbox" disabled id="${user.id}" value="${user.active}"
-                            <c:if test="${user.active == true}"> checked</c:if> /></td>
+                    <td><input type="checkbox" disabled id="${user.id}" value="${user.blocked}"
+                            <c:if test="${user.blocked == false}"> checked</c:if> /></td>
                     <td>${user.fullName}</td>
                     <td>${user.email}</td>
                     <td><a href="/admin/users/edit/${user.id}" class="btn btn--small btn--highlighted">Edytuj</a> </td>
                     <td><a href="/admin/users/delete/${user.id}" class="btn btn--small btn--highlighted">Usuń</a> </td>
                     <td><a href="/admin/users/active/${user.id}" class="btn btn--small btn--highlighted">
-                        <c:if test="${user.active == true}">Zablokuj</c:if>
-                        <c:if test="${user.active == false}">Oblokuj</c:if>
+                        <c:if test="${user.blocked == false}">Zablokuj</c:if>
+                        <c:if test="${user.blocked == true}">Oblokuj</c:if>
                     </a></td>
 
 

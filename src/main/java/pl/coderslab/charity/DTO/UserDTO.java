@@ -21,8 +21,9 @@ public class UserDTO {
     @UniqueEmail(message = "Użytkownik o podanym emailu już istnieje", groups = {AdminValidator.class, Default.class})
     private String email;
 
-    @Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,}", message = "Hasło musi posiadać co najmniej 6 znaków" +
-            " w tym co najmniej jedną wielką literę i jedną liczbę", groups = {AdminValidator.class, Default.class})
+//        (?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "Hasło musi posiadać co najmniej 8 znaków" +
+            " w tym co najmniej jedną wielką literę, małą literę, liczbę i znak specjalny", groups = {AdminValidator.class, Default.class})
     private String password;
 
 
@@ -30,7 +31,7 @@ public class UserDTO {
     private String oldPassword;
     private String tryOldPassword;
     private String role;
-    private Boolean active;
+    private Boolean blocked;
 
     public String getFullName(){
         return firstName+" "+lastName;

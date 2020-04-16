@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
-                .usersByUsernameQuery("SELECT email, password, active FROM users " +
+                .usersByUsernameQuery("SELECT email, password, active*(!blocked) FROM users " +
                         "WHERE email = ?")
                 .authoritiesByUsernameQuery("SELECT email, role FROM users " +
                         "WHERE email = ?");
@@ -39,13 +39,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-
         http.authorizeRequests()
                 //konfigurujemy od szczegolu do ogolu (jak w try - catch)
                 .antMatchers("/").permitAll()
                  .antMatchers("/resources/","/resources/**").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/activate").permitAll()
+                .antMatchers("/resetPassword").permitAll()
+                .antMatchers("/resetPassword/newPassword").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/lang/","/lang/**").permitAll()
                 .antMatchers("/admin/","/admin/**").hasAuthority("ROLE_ADMIN")

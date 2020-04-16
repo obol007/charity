@@ -1,0 +1,105 @@
+package pl.coderslab.charity.controller;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.DTO.ResetPasswordDTO;
+import pl.coderslab.charity.domain.model.VerificationToken;
+import pl.coderslab.charity.domain.repository.TokenRepository;
+import pl.coderslab.charity.mail.EmailServiceImpl;
+import pl.coderslab.charity.service.UserService;
+
+import javax.validation.Valid;
+
+@Controller
+@Slf4j
+@RequestMapping("/resetPassword")
+public class ResetPasswordController {
+
+    UserService userService;
+    EmailServiceImpl emailService;
+    TokenRepository tokenRepository;
+    PasswordEncoder passwordEncoder;
+
+    public ResetPasswordController(UserService userService,
+                                   EmailServiceImpl emailService,
+                                   TokenRepository tokenRepository,
+                                   PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.emailService = emailService;
+        this.tokenRepository = tokenRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @GetMapping
+    public String resetPassword(Model model) {
+        model.addAttribute("resetPassDTO", new ResetPasswordDTO());
+        return "user_admin/resetPassword";
+    }
+
+    @PostMapping
+    public String resettingPassword(@Valid @ModelAttribute("resetPassDTO") ResetPasswordDTO resetPasswordDTO, BindingResult result) {
+        if(result.hasErrors()){
+            return "user_admin/resetPassword";
+        }
+        String email = resetPasswordDTO.getEmail();
+
+        ResetPasswordDTO resetPassword = userService.findUserToResetPassword(email);
+         if(resetPassword.getEmail()==null){
+            result.rejectValue("email", null, "Brak użytkownika w bazie danych");
+            return "user_admin/resetPassword";
+        }
+        if(resetPassword.getBlocked()){
+            result.rejectValue("email", null, "Użytkownik jest zablokowany. Prosimy o kontakt");
+            return "user_admin/resetPassword";
+        }
+        if(!resetPassword.getActive()){
+            result.rejectValue("email", null, "Wysłano maila z linkiem aktywacyjnym");
+            return "user_admin/resetPassword";
+        }
+        if (resetPassword.getActive() && !resetPassword.getBlocked()) {
+            String verificationToken = userService.generateTokenByEmail(email);
+            String message = "http://localhost:8080/resetPassword/newPassword?token=" + verificationToken;
+            emailService.sendSimpleMessage(email, "reset password", message);
+            return "user_admin/resetPassConfirmation";
+        }
+
+        return "/";
+    }
+
+    @GetMapping("/newPassword")
+    public String checkToken(@RequestParam String token, Model model) {
+
+        VerificationToken verificationToken = tokenRepository.findByToken(token);
+        if (verificationToken == null) {
+            return "user_admin/register";
+        } else {
+            ResetPasswordDTO resetPasswordDTO = userService.findUserToResetPassword(verificationToken.getUser().getEmail());
+            model.addAttribute("resetPassDTO", resetPasswordDTO);
+            return "user_admin/newPassword";
+        }
+    }
+
+    @PostMapping("/newPassword")
+    public String saveNewPassword(@Valid @ModelAttribute("resetPassDTO") ResetPasswordDTO resetPasswordDTO, BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "user_admin/newPassword";
+
+        } else if(!(resetPasswordDTO.getPassword().equals(resetPasswordDTO.getRePassword()))) {
+            result.rejectValue("rePassword", null, "Nie wpisałeś tego samego hasła");
+            return "user_admin/newPassword";
+        } else {
+            log.warn("OBIEKT DO ZMIANY HASLA: "+resetPasswordDTO);
+
+            userService.resetPassword(resetPasswordDTO);
+            return "user_admin/passChangeConf";
+        }
+
+    }
+
+
+}
