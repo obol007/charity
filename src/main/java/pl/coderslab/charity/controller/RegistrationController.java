@@ -48,7 +48,7 @@ public class RegistrationController {
 
     @PostMapping
     public String registering(@Valid @ModelAttribute("userDTO") UserDTO userDTO,
-                              BindingResult result, Model model, HttpServletRequest request) {
+                              BindingResult result) {
         if (result.hasErrors() && (userDTO.getPassword().equals(userDTO.getRePassword()))) {
             return "user_admin/register";
         } else if (result.hasErrors() || (!userDTO.getPassword().equals(userDTO.getRePassword()))) {
@@ -58,7 +58,7 @@ public class RegistrationController {
            VerificationToken verificationToken = userService.register(userDTO);
            String message = "http://localhost:8080/activate?token="+verificationToken.getToken();
            emailService.sendSimpleMessage(userDTO.getEmail(),"account activation",message);
-           return "user_admin/login";
+           return "user_admin/registrationLinkSent";
         }
 
     }

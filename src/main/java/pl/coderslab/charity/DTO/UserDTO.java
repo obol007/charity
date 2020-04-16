@@ -33,6 +33,7 @@ public class UserDTO {
     private String role;
     private Boolean blocked;
 
+
     public String getFullName(){
         return firstName+" "+lastName;
     }

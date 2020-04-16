@@ -203,21 +203,20 @@ public class UserService {
         return null;
     }
 
-    public void activate(Long id) {
-        User user = userRepository.findById(id).get();
+    public void activate(VerificationToken verificationToken) {
+        User user = verificationToken.getUser();
         user.setActive(true);
+        user.setRegistered(true);
         userRepository.save(user);
+        tokenRepository.delete(verificationToken);
     }
 
     public ResetPasswordDTO findUserToResetPassword(String email) {
         Optional<User> userOptional = Optional.ofNullable(userRepository.findByEmail(email));
-        log.warn("OPTIONAL USER: "+userOptional);
         if(userOptional.isPresent()){
             User user = userOptional.get();
             ModelMapper mapper = new ModelMapper();
-            ResetPasswordDTO resetPasswordDTO = mapper.map(user, ResetPasswordDTO.class);
-            log.warn("RestPass: "+resetPasswordDTO);
-            return resetPasswordDTO;
+            return mapper.map(user, ResetPasswordDTO.class);
          }
         return new ResetPasswordDTO();
     }
@@ -229,6 +228,7 @@ public class UserService {
         VerificationToken verificationToken = new VerificationToken();
         verificationToken.setToken(UUID.randomUUID().toString());
         verificationToken.setUser(user);
+        verificationToken.setActive(true);
         tokenRepository.save(verificationToken);
         return verificationToken.getToken();
     }
@@ -238,5 +238,18 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(resetPasswordDTO.getPassword()));
         user.setActive(true);
         userRepository.save(user);
+        VerificationToken verificationToken = tokenRepository.findByUserId(user.getId());
+        tokenRepository.delete(verificationToken);
+    }
+
+    public String generateNewTokenByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        VerificationToken newToken = tokenRepository.findByUserId(user.getId());
+        newToken.setToken(UUID.randomUUID().toString());
+        newToken.setExpiryDate(LocalDateTime.now().plusMinutes(2));
+        newToken.setActive(true);
+        tokenRepository.save(newToken);
+        return newToken.getToken();
+
     }
 }

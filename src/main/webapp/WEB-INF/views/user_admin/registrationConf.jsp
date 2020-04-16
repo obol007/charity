@@ -6,13 +6,13 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
-    <title>Password change confirmation</title>
+    <title>Registration confirmation</title>
     <%@include file="../user_admin/head.jsp" %>
 </head>
 <body>
 
 <section class="login-page">
-    <h2>Twoje hasło zostało zmienione pomyślnie</h2>
+    <h2>Rejestracja zakończona pomyślnie!</h2>
     <div class="users">
         <a href="${pageContext.request.contextPath}/login" class="btn btn--highlighted">ZALOGUJ SIĘ</a>
     </div>

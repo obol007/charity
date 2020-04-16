@@ -7,24 +7,26 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 
 @Entity @Getter @Setter  @EqualsAndHashCode(callSuper = true)
 @Table(name = "tokens")
 public class VerificationToken extends Base {
 
-        private static final int EXPIRATION = 60 * 24;
+        private static final int EXPIRATION = 2;
 
         private String token;
 
         @OneToOne
         private User user;
 
-        private LocalTime expiryDate = calculateExpiryDate();
+        private Boolean active;
 
-        private LocalTime calculateExpiryDate() {
-           return LocalTime.now().plusMinutes(EXPIRATION);
+        private LocalDateTime expiryDate = calculateExpiryDate();
+
+        private LocalDateTime calculateExpiryDate() {
+           return LocalDateTime.now().plusMinutes(EXPIRATION);
          }
 
 }

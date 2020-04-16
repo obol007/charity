@@ -23,6 +23,7 @@ public class User extends Base {
     private String role;
     private Boolean active = false;
     private Boolean blocked = false;
+    private Boolean registered = false;
 
 
     public String getFullName(){

@@ -6,17 +6,18 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
-    <title>Password change confirmation</title>
+    <title>Token expired</title>
     <%@include file="../user_admin/head.jsp" %>
 </head>
 <body>
 
 <section class="login-page">
-    <h2>Twoje hasło zostało zmienione pomyślnie</h2>
+    <h2>Link stracił ważność</h2>
     <div class="users">
-        <a href="${pageContext.request.contextPath}/login" class="btn btn--highlighted">ZALOGUJ SIĘ</a>
+        <a href="${pageContext.request.contextPath}/" class="btn btn--highlighted">Strona główna</a>
     </div>
 </section>
+
 
 </body>
 </html>

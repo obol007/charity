@@ -13,6 +13,7 @@ import pl.coderslab.charity.mail.EmailServiceImpl;
 import pl.coderslab.charity.service.UserService;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 
 @Controller
 @Slf4j
@@ -56,11 +57,28 @@ public class ResetPasswordController {
             result.rejectValue("email", null, "Użytkownik jest zablokowany. Prosimy o kontakt");
             return "user_admin/resetPassword";
         }
-        if(!resetPassword.getActive()){
-            result.rejectValue("email", null, "Wysłano maila z linkiem aktywacyjnym");
+
+        if(!resetPassword.getRegistered()){
+            result.rejectValue("email", null, "Użytkownik nie dokończył rejestracji");
             return "user_admin/resetPassword";
         }
-        if (resetPassword.getActive() && !resetPassword.getBlocked()) {
+        if(!resetPassword.getActive()&&resetPassword.getRegistered()){
+            VerificationToken verificationToken = tokenRepository.findByUserId(resetPassword.getId());
+            if(LocalDateTime.now().isAfter(verificationToken.getExpiryDate())){
+                String updatedVerificationToken = userService.generateNewTokenByEmail(email);
+                String message = "http://localhost:8080/resetPassword/newPassword?token=" + updatedVerificationToken;
+                emailService.sendSimpleMessage(email, "reset password", message);
+                return "user_admin/resetPassReConfirmation";
+            }else {
+                result.rejectValue("email", null, "Wysłano maila z linkiem aktywacyjnym");
+                return "user_admin/resetPassword";
+            }
+        }
+        if(!resetPassword.getActive()&&!resetPassword.getRegistered()){
+
+            return "user_admin/registrationToComplete";
+        }
+         if (resetPassword.getActive() && !resetPassword.getBlocked()) {
             String verificationToken = userService.generateTokenByEmail(email);
             String message = "http://localhost:8080/resetPassword/newPassword?token=" + verificationToken;
             emailService.sendSimpleMessage(email, "reset password", message);
@@ -74,9 +92,13 @@ public class ResetPasswordController {
     public String checkToken(@RequestParam String token, Model model) {
 
         VerificationToken verificationToken = tokenRepository.findByToken(token);
-        if (verificationToken == null) {
-            return "user_admin/register";
-        } else {
+         if(!verificationToken.getActive()) {
+            return "user_admin/tokenExpired";
+        }
+        else if(LocalDateTime.now().isAfter(verificationToken.getExpiryDate())){
+            return "user_admin/tokenExpired";
+        }
+        else {
             ResetPasswordDTO resetPasswordDTO = userService.findUserToResetPassword(verificationToken.getUser().getEmail());
             model.addAttribute("resetPassDTO", resetPasswordDTO);
             return "user_admin/newPassword";
@@ -93,8 +115,6 @@ public class ResetPasswordController {
             result.rejectValue("rePassword", null, "Nie wpisałeś tego samego hasła");
             return "user_admin/newPassword";
         } else {
-            log.warn("OBIEKT DO ZMIANY HASLA: "+resetPasswordDTO);
-
             userService.resetPassword(resetPasswordDTO);
             return "user_admin/passChangeConf";
         }
