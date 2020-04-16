@@ -35,7 +35,7 @@ public class DonationService {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(username);
-        log.warn("Dodatcja: "+donationDTO);
+        log.warn("Dotacja: "+donationDTO);
         ModelMapper mapper = new ModelMapper();
         Donation donation = mapper.map(donationDTO, Donation.class);
         donation.setUser(user);

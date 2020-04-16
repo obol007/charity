@@ -18,7 +18,9 @@ public class DonationTimeValidator implements ConstraintValidator<DonationTime, 
 
     @Override
     public boolean isValid(LocalTime localTime, ConstraintValidatorContext constraintValidatorContext) {
-
+        if(localTime==null){
+            return true;
+        }
         return !(localTime.isBefore(LocalTime.of(9, 00))
                 || localTime.isAfter(LocalTime.of(18,0)));
     }

@@ -86,7 +86,7 @@ public class InstitutionService {
     }
 
 
-    public List<InstitutionDTO> findAllByActive(boolean b) {
+    public List<InstitutionDTO> findAllByActiveDTO(boolean b) {
         ModelMapper mapper = new ModelMapper();
         List<Institution> institutions = institutionRepository.findAllByActive(b);
         List<InstitutionDTO> institutionDTOS = new ArrayList<>();
@@ -94,6 +94,9 @@ public class InstitutionService {
             institutionDTOS.add(mapper.map(i, InstitutionDTO.class));
         }
         return institutionDTOS;
+    }
+    public List<Institution> findAllByActive(){
+        return institutionRepository.findAllByActive(true);
     }
 
     public void changeActive(Long id) {

@@ -21,7 +21,7 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<CategoryDTO> findAll() {
+    public List<CategoryDTO> findAllDTO() {
         ModelMapper mapper = new ModelMapper();
         List<Category> categories = categoryRepository.findAll();
         List<CategoryDTO> categoryDTOS = new ArrayList<>();
@@ -29,5 +29,8 @@ public class CategoryService {
             categoryDTOS.add(mapper.map(c, CategoryDTO.class));
         }
         return categoryDTOS;
+    }
+    public List<Category> findAll(){
+        return categoryRepository.findAll();
     }
 }

@@ -43,7 +43,7 @@ public class HomeController {
         Integer bags = ((donationService.TotalBags() == null) ? 0 : donationService.TotalBags());
         model.addAttribute("totalBags", bags);
         model.addAttribute("totalDonations", donationService.TotalDonations());
-        model.addAttribute("institutions", institutionService.findAllByActive(true));
+        model.addAttribute("institutions", institutionService.findAllByActive());
 
         if (!role.equals("[ROLE_ANONYMOUS]")) {
             model.addAttribute("loggedUser", userService.findUserDTOByEmail(username));

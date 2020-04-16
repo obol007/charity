@@ -17,7 +17,9 @@ public class DonationDateValidator implements ConstraintValidator<DonationDate, 
 
     @Override
     public boolean isValid(LocalDate date, ConstraintValidatorContext constraintValidatorContext) {
-
+        if(date==null){
+            return true;
+        }
         return date.isAfter(LocalDate.now().plusDays(1));
     }
 }

@@ -52,6 +52,7 @@ public class DonationDTO {
 
     @NotNull(message = "Wybierz instytucję")
     private Institution institution;
+//    private Long institutionId;
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
     private LocalDateTime createdOn;
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")

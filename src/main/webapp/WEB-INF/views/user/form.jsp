@@ -40,8 +40,6 @@
             let categories = document.getElementsByClassName("checkmark");
             console.log("Categories: ", categories);
 
-
-
             let institutionName = $('input[name=institution]:checked', '#donationForm').data('institutions');
             console.log("Instytution: ", institutionName);
 
@@ -64,13 +62,6 @@
 
         }
 
-        function checkout1() {
-            let checkBoxes = document.querySelectorAll('.checkbox1:checked');
-            if (checkBoxes.length < 1) {
-                alert('Please, check at least one checkbox!');
-                return false;
-            }
-        }
     </script>
 </head>
 
@@ -80,25 +71,6 @@
 </header>
 
 <section class="form--steps">
-
-    <%--    <div class="form--steps-instructions">--%>
-    <%--        <div class="form--steps-container">--%>
-    <%--            <h3>Ważne!</h3>--%>
-    <%--            <p data-step="1" class="active">--%>
-    <%--                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy--%>
-    <%--                wiedzieć komu najlepiej je przekazać.--%>
-    <%--            </p>--%>
-    <%--            <p data-step="2">--%>
-    <%--                Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy--%>
-    <%--                wiedzieć komu najlepiej je przekazać.--%>
-    <%--            </p>--%>
-    <%--            <p data-step="3">--%>
-    <%--                Wybierz jedną organizację, do której trafi Twoja przesyłka.--%>
-    <%--            </p>--%>
-    <%--            <p data-step="4">Podaj adres oraz termin odbioru rzeczy.</p>--%>
-    <%--        </div>--%>
-    <%--    </div>--%>
-
 
     <div class="form--steps-container">
 
@@ -119,9 +91,7 @@
                 <form:errors path="categories"/>
                 </div>
                 <div class="checkmark">
-
-                 <form:checkboxes cssClass="myCheckbox" path="categories" items="${categories}" itemValue="id" itemLabel="name"/>
-
+                 <form:checkboxes cssClass="myCheckbox" path="categories" items="${allCategories}" itemValue="id" itemLabel="name"/>
                 </div>
 
 <%--                <c:forEach items="${categories}" var="category">--%>
@@ -135,11 +105,6 @@
                     <%--                        </label>--%>
                     <%--                    </div>--%>
 <%--                </c:forEach>--%>
-
-
-                    <%--        <div class="form-group form-group--inline">--%>
-                    <%--            <label> Dodaj swoją kategorię <input type="text" name="categories"/> </label>--%>
-                    <%--        </div>--%>
 
 
                 <div class="form-group form-group--buttons">

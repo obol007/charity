@@ -55,12 +55,12 @@ public class DonationController {
     }
 
     @ModelAttribute("institutions")
-    public List<InstitutionDTO> addInstitutions() {
-        return institutionService.findAllByActive(true);
+    public List<Institution> addInstitutions() {
+        return institutionService.findAllByActive();
     }
 
-    @ModelAttribute("categories")
-    public List<CategoryDTO> addCategories() {
+    @ModelAttribute("allCategories")
+    public List<Category> addCategories() {
         return categoryService.findAll();
     }
 
@@ -81,6 +81,7 @@ public class DonationController {
     public String addingDonation(@Valid @ModelAttribute("donation") DonationDTO donationDTO,
                                  BindingResult result, Model model) {
         if (result.hasErrors()) {
+            log.warn("DONATION WITH ERRORS: "+donationDTO);
             model.addAttribute("errors", true);
             return "user/form";
         }
