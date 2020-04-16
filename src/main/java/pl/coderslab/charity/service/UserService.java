@@ -48,7 +48,6 @@ public class UserService {
     public VerificationToken register(UserDTO userDTO) {
 
         User user = new User();
-//        user.setActive(true);
         user.setRole("ROLE_USER");
         user.setEmail(userDTO.getEmail());
         user.setFirstName(userDTO.getFirstName());
@@ -84,24 +83,11 @@ public class UserService {
             ModelMapper mapper = new ModelMapper();
             userDTO = mapper.map(user.get(), UserDTO.class);
             userDTO.setOldPassword(userDTO.getPassword());
-//            userDTO.setPassword(null);
-            log.warn("USER BEFORE EDIT: " + userDTO);
         }
         return userDTO;
 
     }
 
-//    public void updateAdmin(AdminDTO adminDTO) {
-//        Optional<User> user = userRepository.findById(adminDTO.getId());
-//
-//        if (user.isPresent()) {
-//            User user1 = user.get();
-//            user1.setFirstName(adminDTO.getFirstName());
-//            user1.setLastName(adminDTO.getLastName());
-//            userRepository.save(user1);
-//        }
-//
-//    }
 
     public UserDTO findUserDTOByEmail(String email) {
         User user = userRepository.findByEmail(email);
@@ -246,7 +232,7 @@ public class UserService {
         User user = userRepository.findByEmail(email);
         VerificationToken newToken = tokenRepository.findByUserId(user.getId());
         newToken.setToken(UUID.randomUUID().toString());
-        newToken.setExpiryDate(LocalDateTime.now().plusMinutes(2));
+        newToken.setExpiryDate(LocalDateTime.now().plusMinutes(60*24));
         newToken.setActive(true);
         tokenRepository.save(newToken);
         return newToken.getToken();

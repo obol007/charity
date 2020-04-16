@@ -4,6 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+
 <html>
 <head>
     <title>User</title>
@@ -16,7 +19,7 @@
 
 
 <section>
-    <div class="users">
+    <div class="form-group">
         <h2>Dotacje:</h2>
         <table border="1" cellpadding="5" align="center">
             <tr>
@@ -35,21 +38,24 @@
                 <tr>
                     <td>${donation.createdOn}</td>
                     <td>
-                    <c:forEach items="${donation.categories}" var="category" varStatus="no">
-                    ${no.count}.${category.name}
-                    </c:forEach>
-                </td>
+                        <c:forEach items="${donation.categories}" var="category" varStatus="no">
+                            ${no.count}.${category.name}
+                        </c:forEach>
+                    </td>
                     <td>${donation.quantity}</td>
-                    <td>${donation.city}, ${donation.street}, ${donation.zipCode}</td>
+                    <td>${fn:escapeXml(donation.city)},
+                        ${fn:escapeXml(donation.street)},
+                        ${fn:escapeXml(donation.zipCode)}
+                    </td>
                     <td>${donation.pickUpDate}</td>
                     <td>${donation.pickUpTime}</td>
-                    <td>${donation.pickUpComment}</td>
+                    <td>${fn:escapeXml(donation.pickUpComment)}</td>
                     <td>${donation.institution.name}</td>
                     <td><c:if test="${donation.collected != true}">
                         <a href="/user/donations/collect/${donation.id}" class="btn">Potwierdzam</a>
-                        </c:if>
+                    </c:if>
                         <c:if test="${donation.collected == true}">
-                        <a href="/user/donations/collect/${donation.id}" class="btn" style="background: cadetblue">Odebrano</a>
+                            <a href="/user/donations/collect/${donation.id}" class="btn" style="background: cadetblue">Odebrano</a>
                         </c:if>
                     </td>
                     <td>

@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -19,7 +20,7 @@
 <section class="login-page">
     <h2>Załóż konto</h2>
 
-    <form:form modelAttribute="userDTO" method="post" action="/register">
+    <form:form modelAttribute="userDTO" method="post" action="/register" htmlEscape="true">
         <div class="form-group">
             <form:input path="firstName" placeholder="Imię"/>
             <form:errors path="firstName"/>
@@ -33,7 +34,7 @@
             <form:errors path="email"/>
         </div>
         <div class="form-group">
-            <form:input type="password" path="password" placeholder="Hasło"/>
+            <form:input type="password" path="password" placeholder="Hasło" htmlEscape="true"/>
             <form:errors path="password"/>
         </div>
         <div class="form-group">

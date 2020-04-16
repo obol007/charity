@@ -52,10 +52,6 @@ public class DonationService {
         return donationDTOS;
     }
 
-    public List<Donation> findAllFromActive() {
-        return donationRepository.findAllFromActive();
-    }
-
     public List<Object[]> findAllWithNumbers() {
         return donationRepository.findAllWithNumbers();
     }

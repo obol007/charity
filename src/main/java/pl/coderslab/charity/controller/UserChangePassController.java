@@ -25,6 +25,12 @@ public class UserChangePassController {
         this.userService = userService;
     }
 
+    @ModelAttribute("loggedUser")
+    public UserDTO loggedUser() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userService.findUserDTOByEmail(email);
+    }
+
     @GetMapping("/password/{id}")
     public String changeUserPassword(@PathVariable Long id, Model model) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();

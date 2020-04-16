@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "tokens")
 public class VerificationToken extends Base {
 
-        private static final int EXPIRATION = 2;
+        private static final int EXPIRATION = 60*24;
 
         private String token;
 
