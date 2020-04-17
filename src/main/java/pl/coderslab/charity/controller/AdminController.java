@@ -94,7 +94,7 @@ public class AdminController {
             model.addAttribute("addAdmin", true);
             return "admin/addAdmin";
         } else if (result.hasErrors() || (!userDTO.getPassword().equals(userDTO.getRePassword()))) {
-            result.rejectValue("rePassword", null, "Hasła się różnią");
+            result.rejectValue("rePassword", "password.notMatches");
             model.addAttribute("addAdmin", true);
             return "admin/addAdmin";
         } else {
@@ -153,7 +153,7 @@ public class AdminController {
                                        Model model) {
 
         if (!passwordEncoder.matches(editUserDTO.getOldPassword(), editUserDTO.getPassword())) {
-            result.rejectValue("oldPassword", null, "Niepoprawnie wpisane stare hasło");
+            result.rejectValue("oldPassword",  "oldPassword.notMatches");
             return "admin/changeAdminPassword";
 
         } else if (result.hasErrors() && (passwordEncoder.matches(editUserDTO.getOldPassword(), editUserDTO.getPassword()))) {
@@ -161,7 +161,7 @@ public class AdminController {
 
         } else if (passwordEncoder.matches(editUserDTO.getOldPassword(), editUserDTO.getPassword()) &&
                 !(editUserDTO.getNewPassword().equals(editUserDTO.getReNewPassword()))) {
-            result.rejectValue("reNewPassword", null, "Nie wpisałeś tego samego hasła");
+            result.rejectValue("reNewPassword", "password.notMatches");
             return "admin/changeAdminPassword";
 
         } else {

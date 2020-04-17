@@ -33,9 +33,7 @@ public class UserChangePassController {
 
     @GetMapping("/password/{id}")
     public String changeUserPassword(@PathVariable Long id, Model model) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserDTO userDTO = userService.findUserDTOByEmail(email);
-        if (!userDTO.getId().equals(id)) {
+        if(!userService.checkAuthority(id)){
             return "user_admin/denied";
         }
         EditUserDTO editUserDTO = userService.findEditUserDTOById(id);
@@ -48,7 +46,7 @@ public class UserChangePassController {
                                        Model model) {
 
         if (!passwordEncoder.matches(editUserDTO.getOldPassword(), editUserDTO.getPassword())) {
-            result.rejectValue("oldPassword", null, "Niepoprawnie wpisane stare hasło");
+            result.rejectValue("oldPassword",  "oldPassword.notMatches");
             return "user/changeUserPassword";
 
         } else if (result.hasErrors() && (passwordEncoder.matches(editUserDTO.getOldPassword(), editUserDTO.getPassword()))) {
@@ -56,7 +54,7 @@ public class UserChangePassController {
 
         } else if (passwordEncoder.matches(editUserDTO.getOldPassword(), editUserDTO.getPassword()) &&
                 !(editUserDTO.getNewPassword().equals(editUserDTO.getReNewPassword()))) {
-            result.rejectValue("reNewPassword", null, "Nie wpisałeś tego samego hasła");
+            result.rejectValue("reNewPassword",  "password.notMatches");
             return "user/changeUserPassword";
         } else {
             userService.updatePassword(editUserDTO);

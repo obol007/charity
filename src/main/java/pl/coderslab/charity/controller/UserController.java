@@ -58,6 +58,10 @@ public class UserController {
 
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable Long id, Model model) {
+        if(!userService.checkAuthority(id)){
+            return "user_admin/denied";
+        }
+
         EditUserDTO editUserDTO = userService.findEditUserDTOById(id);
         model.addAttribute("userDTO", editUserDTO);
         return "user/userEdit";
