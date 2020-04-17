@@ -1,12 +1,14 @@
 package pl.coderslab.charity.service.setup;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.coderslab.charity.domain.model.User;
 import pl.coderslab.charity.domain.repository.UserRepository;
 
 @Service
+@Profile("heroku")
 public class SetupDataService implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
