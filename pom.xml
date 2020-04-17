@@ -11,6 +11,7 @@
     <groupId>pl.coderslab</groupId>
     <artifactId>charity</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>charity</name>
     <description>Charity project, created with love in CodersLab</description>
 
