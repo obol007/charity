@@ -19,7 +19,6 @@ import pl.coderslab.charity.domain.repository.TokenRepository;
 import pl.coderslab.charity.domain.repository.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
