@@ -51,13 +51,7 @@
                         <c:if test="${user.blocked == false}">Zablokuj</c:if>
                         <c:if test="${user.blocked == true}">Oblokuj</c:if>
                     </a></td>
-
-
-
                     <td><a href="/admin/users/password/${user.id}" class="btn btn--small btn--highlighted">Resetuj hasło</a>
-<%--                        <form:form modelAttribute="user" action="/admin/users/password" method="post">--%>
-<%--                            <form:button class="btn btn--small">Reset hasła</form:button>--%>
-<%--                        </form:form>--%>
                     </td>
               </tr>
             </c:forEach>

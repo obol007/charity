@@ -8,12 +8,12 @@ import pl.coderslab.charity.domain.model.User;
 public class ExtraData {
 
 
-    private User users;
+    private User user;
     private Long bags;
     private Long donations;
 
-    public ExtraData(User users, Long bags, Long donations) {
-        this.users = users;
+    public ExtraData(User user, Long bags, Long donations) {
+        this.user = user;
         this.bags = bags;
         this.donations = donations;
     }

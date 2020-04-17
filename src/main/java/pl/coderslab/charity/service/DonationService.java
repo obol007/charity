@@ -11,6 +11,7 @@ import pl.coderslab.charity.domain.model.Donation;
 import pl.coderslab.charity.domain.model.User;
 import pl.coderslab.charity.domain.repository.CategoryRepository;
 import pl.coderslab.charity.domain.repository.DonationRepository;
+import pl.coderslab.charity.domain.repository.ExtraData;
 import pl.coderslab.charity.domain.repository.UserRepository;
 
 import java.util.ArrayList;
@@ -35,7 +36,6 @@ public class DonationService {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(username);
-        log.warn("Dotacja: "+donationDTO);
         ModelMapper mapper = new ModelMapper();
         Donation donation = mapper.map(donationDTO, Donation.class);
         donation.setUser(user);
@@ -52,9 +52,6 @@ public class DonationService {
         return donationDTOS;
     }
 
-    public List<Object[]> findAllWithNumbers() {
-        return donationRepository.findAllWithNumbers();
-    }
 
     public Integer TotalBags() {
         return donationRepository.TotalBags();
@@ -62,5 +59,9 @@ public class DonationService {
 
     public Integer TotalDonations() {
         return donationRepository.TotalDonations();
+    }
+
+    public List<ExtraData> findExtraData() {
+        return donationRepository.findExtraData();
     }
 }

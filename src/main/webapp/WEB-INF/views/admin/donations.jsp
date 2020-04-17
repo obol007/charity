@@ -32,10 +32,10 @@
             </tr>
             <c:forEach items="${donations}" var="donation">
                 <tr>
-                    <td>${donation.users.fullName}</td>
+                    <td>${donation.user.fullName}</td>
                     <td>${donation.donations}</td>
                     <td>${donation.bags}</td>
-                    <td><a href="/admin/donations/${donation.users.id}" class="btn">ZOBACZ</a></td>
+                    <td><a href="/admin/donations/${donation.user.id}" class="btn">ZOBACZ</a></td>
                 </tr>
             </c:forEach>
         </table>

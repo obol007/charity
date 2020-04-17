@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -23,7 +24,7 @@
     <div class="users">
         <h2>Dotacje użytkownika: ${donations.get(0).user.fullName}</h2>
         <div class="users">
-        <a href="/admin/donations" class="btn--highlighted">Powrót</a>
+        <a href="/admin/donations" class="btn">Powrót</a>
         </div>
 
                       <table border="1" cellpadding="5" align="center">
@@ -41,10 +42,13 @@
                     <c:forEach items="${donations}" var="donation">
                         <tr>
                             <td>${donation.user.fullName}</td>
-                            <td>${donation.city}, ${donation.street}, ${donation.zipCode}</td>
+                            <td>${fn:escapeXml(donation.city)},
+                                ${fn:escapeXml(donation.street)},
+                                ${fn:escapeXml(donation.zipCode)}
+                            </td>
                             <td>${donation.pickUpDate}</td>
                             <td>${donation.pickUpTime}</td>
-                            <td>${donation.pickUpComment}</td>
+                            <td>${fn:escapeXml(donation.pickUpComment)}</td>
                             <td>
                                 <c:forEach items="${donation.categories}" var="category" varStatus="no">
                                    ${no.count}.${category.name}<br>

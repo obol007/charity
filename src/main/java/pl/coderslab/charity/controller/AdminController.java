@@ -36,7 +36,7 @@ public class AdminController {
                            InstitutionService institutionService,
                            UserService userService,
                            PasswordEncoder passwordEncoder
-                          ) {
+    ) {
         this.donationService = donationService;
         this.institutionService = institutionService;
         this.userService = userService;
@@ -66,22 +66,18 @@ public class AdminController {
         model.addAttribute("showAdmins", true);
         return "admin/administrators";
     }
+
     @GetMapping("/donations")
     public String donations(Model model) {
-        List<ExtraData> extraData = new ArrayList<>();
-        List<Object[]> objects = donationService.findAllWithNumbers();
-        for(Object[] o : objects) {
-            extraData.add(new ExtraData((User)o[0],(Long)o[1],(Long)o[2]));
-        }
-        model.addAttribute("donations",extraData);
-
+        List<ExtraData> extraData = donationService.findExtraData();
+        model.addAttribute("donations", extraData);
         return "admin/donations";
     }
 
     @GetMapping("/donations/{id}")
-    public String showUserDonations(@PathVariable Long id, Model model){
+    public String showUserDonations(@PathVariable Long id, Model model) {
         List<DonationDTO> donations = donationService.findUserDonations(id);
-        model.addAttribute("donations",donations);
+        model.addAttribute("donations", donations);
         return "admin/userDonations";
     }
 
@@ -129,17 +125,17 @@ public class AdminController {
     }
 
     @GetMapping("/admins/delete/{id}")
-    public String deleteAdmin(@PathVariable Long id, Model model){
-        if(userService.checkAuthority(id)){
+    public String deleteAdmin(@PathVariable Long id, Model model) {
+        if (userService.checkAuthority(id)) {
             return "admin/cantDelete";
         }
         UserDTO userDTO = userService.findUserDTOById(id);
-        model.addAttribute("adminToDelete",userDTO);
+        model.addAttribute("adminToDelete", userDTO);
         return "admin/toDelete";
     }
 
     @PostMapping("/admins/delete")
-    public String deletingAdmin(UserDTO userDTO){
+    public String deletingAdmin(UserDTO userDTO) {
         userService.deleteUserById(userDTO.getId());
         return "redirect:/admin/admins";
     }
