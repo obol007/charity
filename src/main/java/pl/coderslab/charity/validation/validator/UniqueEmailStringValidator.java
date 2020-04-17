@@ -10,7 +10,6 @@ import javax.validation.ConstraintValidatorContext;
 
 @Component
 @Scope("prototype")
-//walidator jest dla Stringów <...,String>
 public class UniqueEmailStringValidator implements ConstraintValidator<UniqueEmail, String> {
 
     public final UserRepository userRepository;

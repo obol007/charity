@@ -8,14 +8,14 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <%@include file="head.jsp" %>
+    <%@include file="../head.jsp" %>
     <title>Register</title>
 
 </head>
 <body>
 <%--<%@include file="header.jsp"%>--%>
 <header>
-    <%@include file="navbar.jsp" %>
+    <%@include file="../navbar.jsp" %>
 </header>
 <section class="login-page">
     <h2>Załóż konto</h2>
@@ -52,6 +52,6 @@
 
 </section>
 
-<%@include file="footer.jsp" %>
+<%@include file="../footer.jsp" %>
 </body>
 </html>

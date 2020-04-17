@@ -38,29 +38,29 @@ public class ResetPasswordController {
     @GetMapping
     public String resetPassword(Model model) {
         model.addAttribute("resetPassDTO", new ResetPasswordDTO());
-        return "user_admin/resetPassword";
+        return "user_admin/password/resetPassword";
     }
 
     @PostMapping
     public String resettingPassword(@Valid @ModelAttribute("resetPassDTO") ResetPasswordDTO resetPasswordDTO, BindingResult result) {
         if(result.hasErrors()){
-            return "user_admin/resetPassword";
+            return "user_admin/password/resetPassword";
         }
         String email = resetPasswordDTO.getEmail();
 
         ResetPasswordDTO resetPassword = userService.findUserToResetPassword(email);
          if(resetPassword.getEmail()==null){
             result.rejectValue("email", null, "Brak użytkownika w bazie danych");
-            return "user_admin/resetPassword";
+            return "user_admin/password/resetPassword";
         }
         if(resetPassword.getBlocked()){
             result.rejectValue("email", null, "Użytkownik jest zablokowany. Prosimy o kontakt");
-            return "user_admin/resetPassword";
+            return "user_admin/password/resetPassword";
         }
 
         if(!resetPassword.getRegistered()){
             result.rejectValue("email", null, "Użytkownik nie dokończył rejestracji");
-            return "user_admin/resetPassword";
+            return "user_admin/password/resetPassword";
         }
         if(!resetPassword.getActive()&&resetPassword.getRegistered()){
             VerificationToken verificationToken = tokenRepository.findByUserId(resetPassword.getId());
@@ -68,21 +68,21 @@ public class ResetPasswordController {
                 String updatedVerificationToken = userService.generateNewTokenByEmail(email);
                 String message = "http://localhost:8080/resetPassword/newPassword?token=" + updatedVerificationToken;
                 emailService.sendSimpleMessage(email, "reset password", message);
-                return "user_admin/resetPassReConfirmation";
+                return "user_admin/password/resetPassReConfirmation";
             }else {
                 result.rejectValue("email", null, "Wysłano maila z linkiem aktywacyjnym");
-                return "user_admin/resetPassword";
+                return "user_admin/password/resetPassword";
             }
         }
         if(!resetPassword.getActive()&&!resetPassword.getRegistered()){
 
-            return "user_admin/registrationToComplete";
+            return "user_admin/registration/registrationToComplete";
         }
          if (resetPassword.getActive() && !resetPassword.getBlocked()) {
             String verificationToken = userService.generateTokenByEmail(email);
             String message = "http://localhost:8080/resetPassword/newPassword?token=" + verificationToken;
             emailService.sendSimpleMessage(email, "reset password", message);
-            return "user_admin/resetPassConfirmation";
+            return "user_admin/password/resetPassConfirmation";
         }
 
         return "/";
@@ -101,7 +101,7 @@ public class ResetPasswordController {
         else {
             ResetPasswordDTO resetPasswordDTO = userService.findUserToResetPassword(verificationToken.getUser().getEmail());
             model.addAttribute("resetPassDTO", resetPasswordDTO);
-            return "user_admin/newPassword";
+            return "user_admin/password/newPassword";
         }
     }
 
@@ -109,14 +109,14 @@ public class ResetPasswordController {
     public String saveNewPassword(@Valid @ModelAttribute("resetPassDTO") ResetPasswordDTO resetPasswordDTO, BindingResult result) {
 
         if (result.hasErrors()) {
-            return "user_admin/newPassword";
+            return "user_admin/password/newPassword";
 
         } else if(!(resetPasswordDTO.getPassword().equals(resetPasswordDTO.getRePassword()))) {
             result.rejectValue("rePassword", null, "Nie wpisałeś tego samego hasła");
-            return "user_admin/newPassword";
+            return "user_admin/password/newPassword";
         } else {
             userService.resetPassword(resetPasswordDTO);
-            return "user_admin/passChangeConf";
+            return "user_admin/password/passChangeConf";
         }
 
     }

@@ -14,7 +14,6 @@ import pl.coderslab.charity.domain.model.VerificationToken;
 import pl.coderslab.charity.mail.EmailServiceImpl;
 import pl.coderslab.charity.service.UserService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -43,22 +42,22 @@ public class RegistrationController {
 
         UserDTO userDTO = new UserDTO();
         model.addAttribute("userDTO", userDTO);
-        return "user_admin/register";
+        return "user_admin/registration/register";
     }
 
     @PostMapping
     public String registering(@Valid @ModelAttribute("userDTO") UserDTO userDTO,
                               BindingResult result) {
         if (result.hasErrors() && (userDTO.getPassword().equals(userDTO.getRePassword()))) {
-            return "user_admin/register";
+            return "user_admin/registration/register";
         } else if (result.hasErrors() || (!userDTO.getPassword().equals(userDTO.getRePassword()))) {
             result.rejectValue("rePassword", null, "Hasła się różnią");
-            return "user_admin/register";
+            return "user_admin/registration/register";
         } else {
            VerificationToken verificationToken = userService.register(userDTO);
            String message = "http://localhost:8080/activate?token="+verificationToken.getToken();
            emailService.sendSimpleMessage(userDTO.getEmail(),"account activation",message);
-           return "user_admin/registrationLinkSent";
+           return "user_admin/registration/registrationLinkSent";
         }
 
     }

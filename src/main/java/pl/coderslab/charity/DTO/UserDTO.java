@@ -1,7 +1,6 @@
 package pl.coderslab.charity.DTO;
 
 import lombok.Data;
-import org.springframework.security.core.parameters.P;
 import pl.coderslab.charity.validation.constraint.UniqueEmail;
 import pl.coderslab.charity.validation.validator.AdminValidator;
 import javax.validation.constraints.NotBlank;

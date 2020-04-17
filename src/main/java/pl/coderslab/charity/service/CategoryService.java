@@ -1,6 +1,5 @@
 package pl.coderslab.charity.service;
 
-
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -6,15 +6,17 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
-    <title>Reset password</title>
-    <%@include file="../user_admin/head.jsp" %>
+    <title>Password change confirmation</title>
+    <%@include file="../head.jsp" %>
 </head>
 <body>
 
 <section class="login-page">
-    <h2>Proszę sprawdzić maila i dokończyć rejestracę</h2>
+    <h2>Twoje hasło zostało zmienione pomyślnie</h2>
+    <div class="users">
+        <a href="${pageContext.request.contextPath}/login" class="btn btn--highlighted">ZALOGUJ SIĘ</a>
+    </div>
 </section>
-
 
 </body>
 </html>

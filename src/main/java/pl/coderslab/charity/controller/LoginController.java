@@ -2,15 +2,11 @@ package pl.coderslab.charity.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.coderslab.charity.domain.repository.UserRepository;
 import pl.coderslab.charity.service.UserService;
 
 
-import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller

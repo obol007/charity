@@ -35,16 +35,16 @@ public class ActivationController {
 
         VerificationToken verificationToken = tokenRepository.findByToken(token);
         if (verificationToken == null) {
-            return "user_admin/register";
+            return "user_admin/registration/register";
         } else if (LocalDateTime.now().isBefore(verificationToken.getExpiryDate())) {
             userService.activate(verificationToken);
-            return "user_admin/registrationConf";
+            return "user_admin/registration/registrationConf";
         } else {
             String newToken = userService.generateNewTokenByEmail(verificationToken.getUser().getEmail());
             String message = "http://localhost:8080/activate?token="+newToken;
             emailService.sendSimpleMessage(verificationToken.getUser().getEmail(),
                     "registration",message);
-            return "user_admin/reRegistration";
+            return "user_admin/registration/reRegistration";
 
         }
     }

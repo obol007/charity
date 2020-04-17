@@ -26,7 +26,7 @@ public class UserAdministrationController {
 
     @ModelAttribute("users")
     public List<UserDTO> users() {
-        return userService.allDTOUsers();
+        return userService.allDTOUsersByRole("ROLE_USER");
     }
 
     @GetMapping()

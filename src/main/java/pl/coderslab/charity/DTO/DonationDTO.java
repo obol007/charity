@@ -1,7 +1,6 @@
 package pl.coderslab.charity.DTO;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.coderslab.charity.domain.model.Category;
 import pl.coderslab.charity.domain.model.Institution;

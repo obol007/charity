@@ -3,7 +3,6 @@ package pl.coderslab.charity.DTO;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import pl.coderslab.charity.validation.validator.AdminValidator;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.groups.Default;

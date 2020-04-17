@@ -6,15 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.coderslab.charity.domain.repository.DonationRepository;
-import pl.coderslab.charity.domain.repository.InstitutionRepository;
-import pl.coderslab.charity.domain.repository.UserRepository;
 import pl.coderslab.charity.service.DonationService;
 import pl.coderslab.charity.service.InstitutionService;
 import pl.coderslab.charity.service.UserService;
-
-import java.security.Principal;
-
 
 @Controller
 @RequestMapping("/")

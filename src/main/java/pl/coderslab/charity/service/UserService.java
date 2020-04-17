@@ -127,10 +127,6 @@ public class UserService {
         }
     }
 
-    public String findRoleById(Long id) {
-        return userRepository.findRoleById(id);
-    }
-
     public Boolean checkAuthority(Long id) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email);
@@ -141,8 +137,8 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public List<UserDTO> allDTOUsers() {
-        List<User> users = userRepository.allUsers();
+    public List<UserDTO> allDTOUsersByRole(String role) {
+        List<User> users = userRepository.allUsersByRole(role);
         List<UserDTO> usersDTO = new ArrayList<>();
         ModelMapper mapper = new ModelMapper();
         for (User u : users) {
@@ -167,9 +163,7 @@ public class UserService {
         }
     }
 
-    public List<User> allAdmins() {
-        return userRepository.allAdmins();
-    }
+
 
     public Long collectDonationById(Long id) {
         Optional<Donation> optionalDonation = donationRepository.findById(id);

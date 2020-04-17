@@ -6,12 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.DTO.InstitutionDTO;
-import pl.coderslab.charity.domain.model.Institution;
 import pl.coderslab.charity.service.InstitutionService;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin/institutions")

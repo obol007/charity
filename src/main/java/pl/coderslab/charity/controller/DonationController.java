@@ -10,22 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.coderslab.charity.DTO.CategoryDTO;
 import pl.coderslab.charity.DTO.DonationDTO;
-import pl.coderslab.charity.DTO.InstitutionDTO;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.domain.model.Category;
 import pl.coderslab.charity.domain.model.Institution;
-import pl.coderslab.charity.domain.repository.CategoryRepository;
-import pl.coderslab.charity.domain.repository.InstitutionRepository;
-import pl.coderslab.charity.domain.repository.UserRepository;
 import pl.coderslab.charity.service.CategoryService;
 import pl.coderslab.charity.service.DonationService;
 import pl.coderslab.charity.service.InstitutionService;
 import pl.coderslab.charity.service.UserService;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 
 @Controller

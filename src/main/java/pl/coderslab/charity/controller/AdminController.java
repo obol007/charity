@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.DTO.DonationDTO;
 import pl.coderslab.charity.DTO.EditUserDTO;
 import pl.coderslab.charity.DTO.UserDTO;
-import pl.coderslab.charity.domain.model.User;
 import pl.coderslab.charity.domain.repository.ExtraData;
 import pl.coderslab.charity.service.DonationService;
 import pl.coderslab.charity.service.InstitutionService;
@@ -19,7 +18,6 @@ import pl.coderslab.charity.service.UserService;
 import pl.coderslab.charity.validation.validator.AdminValidator;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -44,8 +42,8 @@ public class AdminController {
     }
 
     @ModelAttribute("admins")
-    public List<User> allAdmins() {
-        return userService.allAdmins();
+    public List<UserDTO> allAdmins() {
+        return userService.allDTOUsersByRole("ROLE_ADMIN");
     }
 
     @ModelAttribute("loggedUser")

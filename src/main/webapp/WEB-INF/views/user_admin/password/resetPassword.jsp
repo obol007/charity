@@ -7,7 +7,7 @@
 <html>
 <head>
     <title>Reset password</title>
-    <%@include file="../user_admin/head.jsp" %>
+    <%@include file="../head.jsp" %>
 </head>
 <body>
 
