@@ -9,7 +9,7 @@ import pl.coderslab.charity.DTO.DonationDTO;
 import pl.coderslab.charity.domain.model.Donation;
 import pl.coderslab.charity.domain.model.User;
 import pl.coderslab.charity.domain.repository.DonationRepository;
-import pl.coderslab.charity.domain.repository.ExtraData;
+import pl.coderslab.charity.DTO.ExtraData;
 import pl.coderslab.charity.domain.repository.UserRepository;
 
 import java.util.ArrayList;

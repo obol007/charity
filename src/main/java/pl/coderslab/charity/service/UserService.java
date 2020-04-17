@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -120,8 +121,6 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findById(editUserDTO.getId());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            log.warn("ORIGINAL USER: " + user);
-            log.warn("USER OLD PASS: " + editUserDTO.getOldPassword() + " USER NEW PASS: " + editUserDTO.getNewPassword());
             user.setPassword(passwordEncoder.encode(editUserDTO.getNewPassword()));
             userRepository.save(user);
         }
@@ -138,13 +137,11 @@ public class UserService {
     }
 
     public List<UserDTO> allDTOUsersByRole(String role) {
-        List<User> users = userRepository.allUsersByRole(role);
-        List<UserDTO> usersDTO = new ArrayList<>();
         ModelMapper mapper = new ModelMapper();
-        for (User u : users) {
-            usersDTO.add(mapper.map(u, UserDTO.class));
-        }
-        return usersDTO;
+        return userRepository.allUsersByRole(role)
+                .stream()
+                .map(user -> mapper.map(user,UserDTO.class))
+                .collect(Collectors.toList());
     }
 
     public void changeActive(Long id) {
@@ -158,7 +155,7 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            user.setPassword(passwordEncoder.encode("User1234"));
+            user.setPassword(passwordEncoder.encode("User123$"));
             userRepository.save(user);
         }
     }

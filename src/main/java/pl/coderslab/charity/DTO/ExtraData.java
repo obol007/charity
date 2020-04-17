@@ -1,4 +1,4 @@
-package pl.coderslab.charity.domain.repository;
+package pl.coderslab.charity.DTO;
 
 import lombok.Data;
 import pl.coderslab.charity.domain.model.User;

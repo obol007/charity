@@ -17,10 +17,6 @@ import java.util.List;
 @Data
 public class DonationDTO {
 
-     public DonationDTO(){
-
-         this.collected = false;
-     }
 
     private Long id;
 
@@ -30,19 +26,20 @@ public class DonationDTO {
     @NotBlank(message = "Podaj nazwę ulicy")
     private String street;
 
-    @NotBlank(message = "Podaj nazwę miasta")
+    @NotBlank
     private String city;
 
     @Pattern(regexp = "[0-9]{2}\\-[0-9]{3}", message = "Podaj kod pocztowy w formacie: xx-xxx")
     private String zipCode;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotNull(message = "Podaj datę")
-    @DonationDate(message = "Odbiór możliwy najszybciej następnego dnia")
+    @NotNull
+    @DonationDate
     private LocalDate pickUpDate;
 
-    @NotNull(message = "Podaj godzinę")
-    @DonationTime(message = "Dary odbieramy w godzinach 9:00 - 18:00")
+
+    @NotNull
+    @DonationTime
     private LocalTime pickUpTime;
     private String pickUpComment;
 
@@ -51,12 +48,12 @@ public class DonationDTO {
 
     @NotNull(message = "Wybierz instytucję")
     private Institution institution;
-//    private Long institutionId;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
     private LocalDateTime createdOn;
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm")
     private LocalDateTime collectedDate;
-    private Boolean collected;
+    private Boolean collected = false;
 
     private User user;
 }
