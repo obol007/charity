@@ -29,7 +29,7 @@
             </c:if>
 
             <div class="form-group">
-                <input type="email" name="email" placeholder="<spring:message code="login.email"/>"/>
+                <input type="text" name="email" placeholder="<spring:message code="login.email"/>"/>
                 <form:errors path="email"/>
             </div>
             <div class="form-group">
