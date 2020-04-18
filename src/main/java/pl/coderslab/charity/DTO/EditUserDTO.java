@@ -19,8 +19,9 @@ public class EditUserDTO {
 
     String password;
     String oldPassword;
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "Hasło musi posiadać co najmniej 8 znaków" +
-            " w tym co najmniej jedną wielką literę, małą literę, liczbę i znak specjalny", groups = {AdminValidator.class, Default.class})
+//    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "Hasło musi posiadać co najmniej 8 znaków" +
+//            " w tym co najmniej jedną wielką literę, małą literę, liczbę i znak specjalny", groups = {AdminValidator.class, Default.class})
+    @NotBlank(message = "Podaj hasło")
     String newPassword;
     String reNewPassword;
 
