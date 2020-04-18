@@ -60,7 +60,7 @@ public class RegistrationController {
         } else {
             VerificationToken verificationToken = userService.register(userDTO);
             String message = "http://localhost:8080/activate?token="+verificationToken.getToken();
-            mailboxService.send(userDTO.getEmail(),message);
+            mailboxService.send(userDTO.getEmail(),message, "Account activation");
             return "user_admin/registration/registrationLinkSent";
         }
 

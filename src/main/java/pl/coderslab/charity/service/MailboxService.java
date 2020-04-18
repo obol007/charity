@@ -24,10 +24,10 @@ public class MailboxService {
         return mailboxRepository.findAll();
     }
 
-    public void send(String email, String message) {
+    public void send(String email, String message, String title) {
         Mailbox mailbox = new Mailbox();
         mailbox.setRecipient(email);
-        mailbox.setTitle("Registration link");
+        mailbox.setTitle(title);
         mailbox.setText(message);
         mailboxRepository.save(mailbox);
     }
@@ -41,4 +41,5 @@ public class MailboxService {
         }
         return mailboxDTO;
     }
+
 }
