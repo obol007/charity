@@ -38,7 +38,7 @@ public class SetupDataService implements CommandLineRunner {
         user.setBlocked(false);
         user.setFirstName("Jan");
         user.setLastName("Kowalski");
-        user.setEmail("admin");
+        user.setEmail("admin@admin.com");
         user.setRole("ROLE_ADMIN");
 
         User user2 = new User();
@@ -48,7 +48,7 @@ public class SetupDataService implements CommandLineRunner {
         user2.setBlocked(false);
         user2.setFirstName("Adam");
         user2.setLastName("Nowak");
-        user2.setEmail("user");
+        user2.setEmail("user@user.com");
         user2.setRole("ROLE_USER");
 
         userRepository.save(user);
