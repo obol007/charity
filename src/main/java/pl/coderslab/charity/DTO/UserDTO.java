@@ -21,8 +21,9 @@ public class UserDTO {
 
     @NotBlank(groups = {AdminValidator.class, Default.class},message = "Wpisz email")
     @UniqueEmail(message = "Użytkownik o podanym emailu już istnieje", groups = {AdminValidator.class, Default.class})
-    @Pattern(regexp = "[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\\.([a-zA-Z]{2,}){1}",
-            message = "Wpisz poprawny e-mail!")
+//    @Pattern(regexp = "[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\\.([a-zA-Z]{2,}){1}",
+//            message = "Wpisz poprawny e-mail!")
+    @NotBlank(message = "Podaj email")
     private String email;
 
 //

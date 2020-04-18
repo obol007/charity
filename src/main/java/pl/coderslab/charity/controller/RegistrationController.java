@@ -59,7 +59,7 @@ public class RegistrationController {
             return "user_admin/registration/register";
         } else {
             VerificationToken verificationToken = userService.register(userDTO);
-            String message = "http://localhost:8080/activate?token="+verificationToken.getToken();
+            String message = "https://charity-coderslab.herokuapp.com/activate?token="+verificationToken.getToken();
             mailboxService.send(userDTO.getEmail(),message, "Account activation");
 //            emailService.sendSimpleMessage(userDTO.getEmail(),"account activation",message);
             model.addAttribute("newMessage",1);
