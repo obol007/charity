@@ -72,7 +72,7 @@ public class ResetPasswordController {
                 String updatedVerificationToken = userService.generateNewTokenByEmail(email);
                 String message = "http://localhost:8080/resetPassword/newPassword?token=" + updatedVerificationToken;
                 mailboxService.send(email,message,"Reset password");
-//                emailService.sendSimpleMessage(email, "reset password", message);
+                emailService.sendSimpleMessage(email, "reset password", message);
                 model.addAttribute("newMessage",1);
                 return "user_admin/password/resetPassReConfirmation";
             }else {
@@ -89,7 +89,7 @@ public class ResetPasswordController {
             String verificationToken = userService.generateTokenByEmail(email);
             String message = "http://localhost:8080/resetPassword/newPassword?token=" + verificationToken;
              mailboxService.send(email,message,"Reset password");
-//            emailService.sendSimpleMessage(email, "reset password", message);
+            emailService.sendSimpleMessage(email, "reset password", message);
             model.addAttribute("newMessage",1);
             return "user_admin/password/resetPassConfirmation";
         }

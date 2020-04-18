@@ -52,8 +52,8 @@ public class ActivationController {
         } else {
             String newToken = userService.generateNewTokenByEmail(verificationToken.getUser().getEmail());
             String message = "http://localhost:8080/activate?token=" + newToken;
-//            emailService.sendSimpleMessage(verificationToken.getUser().getEmail(),
-//                    "registration", message);
+            emailService.sendSimpleMessage(verificationToken.getUser().getEmail(),
+                    "registration", message);
             mailboxService.send(verificationToken.getUser().getEmail(), message, "New link to account activation");
             model.addAttribute("newMessage", 1);
             return "user_admin/registration/reRegistration";
