@@ -34,7 +34,7 @@ public class SetupDataService implements CommandLineRunner {
         User user = new User();
         user.setRegistered(true);
         user.setActive(true);
-        user.setPassword(passwordEncoder.encode("Admin123$"));
+        user.setPassword(passwordEncoder.encode("admin"));
         user.setBlocked(false);
         user.setFirstName("Jan");
         user.setLastName("Kowalski");
@@ -44,7 +44,7 @@ public class SetupDataService implements CommandLineRunner {
         User user2 = new User();
         user2.setRegistered(true);
         user2.setActive(true);
-        user2.setPassword(passwordEncoder.encode("User123$"));
+        user2.setPassword(passwordEncoder.encode("user"));
         user2.setBlocked(false);
         user2.setFirstName("Adam");
         user2.setLastName("Nowak");
