@@ -15,7 +15,7 @@
     <h2>Poprzedni link aktywacyjny wygasł!
     Wysłaliśmy do Ciebie nowy link</h2>
     <div class="users">
-        <a href="${pageContext.request.contextPath}/login" class="btn btn--highlighted">OK</a>
+        <a href="${pageContext.request.contextPath}/login/${newMessage}" class="btn btn--highlighted">OK</a>
     </div>
 </section>
 

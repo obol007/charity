@@ -51,7 +51,7 @@ public class RegistrationController {
 
     @PostMapping
     public String registering(@Valid @ModelAttribute("userDTO") UserDTO userDTO,
-                              BindingResult result) {
+                              BindingResult result,Model model) {
         if (result.hasErrors() && (userDTO.getPassword().equals(userDTO.getRePassword()))) {
             return "user_admin/registration/register";
         } else if (result.hasErrors() || (!userDTO.getPassword().equals(userDTO.getRePassword()))) {
@@ -62,6 +62,7 @@ public class RegistrationController {
             String message = "http://localhost:8080/activate?token="+verificationToken.getToken();
             mailboxService.send(userDTO.getEmail(),message, "Account activation");
 //            emailService.sendSimpleMessage(userDTO.getEmail(),"account activation",message);
+            model.addAttribute("newMessage",1);
             return "user_admin/registration/registrationLinkSent";
         }
 

@@ -14,7 +14,7 @@
 <section class="login-page">
     <h2>Wysłano ponownie maila z linkiem do zmiany hasła</h2>
     <div class="users">
-         <a href="${pageContext.request.contextPath}/login" class="btn">OK</a>
+         <a href="${pageContext.request.contextPath}/login/${newMessage}" class="btn">OK</a>
     </div>
 </section>
 

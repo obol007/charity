@@ -45,7 +45,8 @@
         <li><a href="/#about" class="btn btn--without-border"><spring:message code="nav.aboutUs"/></a></li>
         <li><a href="/#help" class="btn btn--without-border"><spring:message code="nav.institutions"/></a></li>
         <li><a href="/#contact" class="btn btn--without-border"><spring:message code="nav.contact"/></a></li>
-        <li><a href="/mailbox" class="btn btn--without-border"><spring:message code="nav.mailbox"/></a></li>
+        <li><c:if test="${newMessage ==1}"><a href="/mailbox" style="background: indianred" class="btn btn--without-border">Masz nową wiadomość!</a></c:if>
+            <c:if test="${newMessage !=1}"> <a href="/mailbox" class="btn btn--without-border"><spring:message code="nav.mailbox"/></a></c:if></li>
 
         <security:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
             <li>

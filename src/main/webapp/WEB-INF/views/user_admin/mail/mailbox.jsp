@@ -13,6 +13,7 @@
 
 <section class="login-page">
     <h2>Twoje wiadomości:</h2>
+    <a href="/" class="btn">Powrót</a>
     <div class="users">
         <table border="1" cellpadding="5" align="center">
             <tr>
@@ -22,11 +23,23 @@
                 <th>Data</th>
             </tr>
             <c:forEach items="${mails}" var="mail">
-            <tr <c:if test="${mail.read==false}"> style="color: cadetblue"</c:if> >
-                <td colspan="4"><a href="/mailbox/${mail.id}"> ${mail.recipient} ${mail.title} ${mail.text} ${mail.created} </a></td>
-                <td></td>
-                <td></td>
-                <td></td>
+            <tr>
+                <td>
+                    <c:if test="${mail.opened==false}"><b> ${mail.recipient}</b></c:if>
+                    <c:if test="${mail.opened==true}"> ${mail.recipient}</c:if>
+                </td>
+                <td>
+                    <c:if test="${mail.opened==false}"><b> ${mail.title}</b></c:if>
+                    <c:if test="${mail.opened==true}"> ${mail.title}</c:if>
+                </td>
+                <td><c:if test="${mail.opened==false}"><b><a href="/mailbox/${mail.id}">${mail.text.substring(0,20)} . .
+                    . .</a> </b></c:if>
+                    <c:if test="${mail.opened==true}"><a href="/mailbox/${mail.id}">${mail.text.substring(0,20)} . . .
+                        .</a> </c:if>
+                </td>
+                <td><c:if test="${mail.opened==false}"><b> ${mail.created}</b></c:if>
+                    <c:if test="${mail.opened==true}">${mail.created}</c:if>
+                </td>
             </tr>
             </c:forEach>
     </div>

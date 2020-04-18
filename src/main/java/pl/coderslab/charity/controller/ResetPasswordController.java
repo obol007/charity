@@ -46,7 +46,7 @@ public class ResetPasswordController {
     }
 
     @PostMapping
-    public String resettingPassword(@Valid @ModelAttribute("resetPassDTO") ResetPasswordDTO resetPasswordDTO, BindingResult result) {
+    public String resettingPassword(@Valid @ModelAttribute("resetPassDTO") ResetPasswordDTO resetPasswordDTO, Model model, BindingResult result) {
         if(result.hasErrors()){
             return "user_admin/password/resetPassword";
         }
@@ -73,9 +73,11 @@ public class ResetPasswordController {
                 String message = "http://localhost:8080/resetPassword/newPassword?token=" + updatedVerificationToken;
                 mailboxService.send(email,message,"Reset password");
 //                emailService.sendSimpleMessage(email, "reset password", message);
+                model.addAttribute("newMessage",1);
                 return "user_admin/password/resetPassReConfirmation";
             }else {
                 result.rejectValue("email", null, "Wysłano maila z linkiem aktywacyjnym");
+
                 return "user_admin/password/resetPassword";
             }
         }
@@ -88,6 +90,7 @@ public class ResetPasswordController {
             String message = "http://localhost:8080/resetPassword/newPassword?token=" + verificationToken;
              mailboxService.send(email,message,"Reset password");
 //            emailService.sendSimpleMessage(email, "reset password", message);
+            model.addAttribute("newMessage",1);
             return "user_admin/password/resetPassConfirmation";
         }
 
@@ -98,6 +101,9 @@ public class ResetPasswordController {
     public String checkToken(@RequestParam String token, Model model) {
 
         VerificationToken verificationToken = tokenRepository.findByToken(token);
+        if(verificationToken==null) {
+            return "user_admin/tokenExpired";
+        }
          if(!verificationToken.getActive()) {
             return "user_admin/tokenExpired";
         }

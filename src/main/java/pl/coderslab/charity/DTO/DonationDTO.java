@@ -40,6 +40,7 @@ public class DonationDTO {
 
     @NotNull
     @DonationTime
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime pickUpTime;
     private String pickUpComment;
 

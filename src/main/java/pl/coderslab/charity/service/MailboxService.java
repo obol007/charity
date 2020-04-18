@@ -21,7 +21,7 @@ public class MailboxService {
     }
 
     public List<Mailbox> findAll() {
-        return mailboxRepository.findAll();
+        return mailboxRepository.findTop10ByOrderByCreatedDesc();
     }
 
     public void send(String email, String message, String title) {
@@ -42,4 +42,10 @@ public class MailboxService {
         return mailboxDTO;
     }
 
+    public void setOpened(Long id) {
+       Optional<Mailbox> mail =  mailboxRepository.findById(id);
+        mail.ifPresent(mailbox -> mailbox.setOpened(true));
+        mail.ifPresent(mailbox -> mailboxRepository.save(mailbox));
+
+    }
 }

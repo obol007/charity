@@ -13,6 +13,10 @@
 
 <section class="login-page">
     <h2>Twoja wiadomość:</h2>
+    <div class="form-group">
+    <a href="/mailbox" class="btn">Powrót</a>
+    <a href="/" class="btn btn--highlighted">Strona główna</a>
+    </div>
     <div class="users">
         <table border="1" cellpadding="5" align="center">
             <tr>
@@ -29,8 +33,10 @@
             </tr>
             <tr>
                 <th>Wiadomość:</th>
-                <td>${mail.text}
+
+                <td style="height: 20rem"><a href="${mail.text}">${mail.text}</a>
             </tr>
+
 
         </table>
     </div>
