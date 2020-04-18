@@ -61,25 +61,10 @@ public class RegistrationController {
             VerificationToken verificationToken = userService.register(userDTO);
             String message = "http://localhost:8080/activate?token="+verificationToken.getToken();
             mailboxService.send(userDTO.getEmail(),message, "Account activation");
+//            emailService.sendSimpleMessage(userDTO.getEmail(),"account activation",message);
             return "user_admin/registration/registrationLinkSent";
         }
 
     }
 
-//    @PostMapping
-//    public String registering(@Valid @ModelAttribute("userDTO") UserDTO userDTO,
-//                              BindingResult result) {
-//        if (result.hasErrors() && (userDTO.getPassword().equals(userDTO.getRePassword()))) {
-//            return "user_admin/registration/register";
-//        } else if (result.hasErrors() || (!userDTO.getPassword().equals(userDTO.getRePassword()))) {
-//            result.rejectValue("rePassword", null, "Hasła się różnią");
-//            return "user_admin/registration/register";
-//        } else {
-//           VerificationToken verificationToken = userService.register(userDTO);
-//           String message = "http://localhost:8080/activate?token="+verificationToken.getToken();
-//           emailService.sendSimpleMessage(userDTO.getEmail(),"account activation",message);
-//           return "user_admin/registration/registrationLinkSent";
-//        }
-//
-//    }
 }
