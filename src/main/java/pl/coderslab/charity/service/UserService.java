@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import pl.coderslab.charity.DTO.EditNamesDTO;
 import pl.coderslab.charity.DTO.EditUserDTO;
 import pl.coderslab.charity.DTO.ResetPasswordDTO;
 import pl.coderslab.charity.DTO.UserDTO;
@@ -95,12 +96,12 @@ public class UserService {
         return mapper.map(user, UserDTO.class);
     }
 
-    public void updateUser(EditUserDTO editUserDTO) {
-        Optional<User> optionalUser = userRepository.findById(editUserDTO.getId());
+    public void updateUser(EditNamesDTO editUser) {
+        Optional<User> optionalUser = userRepository.findById(editUser.getId());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            user.setLastName(editUserDTO.getLastName());
-            user.setFirstName(editUserDTO.getFirstName());
+            user.setLastName(editUser.getLastName());
+            user.setFirstName(editUser.getFirstName());
             userRepository.save(user);
         }
     }
@@ -228,4 +229,16 @@ public class UserService {
         return newToken.getToken();
 
     }
+
+    public EditNamesDTO findUserToEditById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        EditNamesDTO admin = new EditNamesDTO();
+        if (user.isPresent()) {
+            ModelMapper mapper = new ModelMapper();
+            admin = mapper.map(user.get(), EditNamesDTO.class);
+        }
+        return admin;
+    }
+
+
 }

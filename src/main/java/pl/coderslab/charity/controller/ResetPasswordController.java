@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.DTO.EmailDTO;
 import pl.coderslab.charity.DTO.ResetPasswordDTO;
 import pl.coderslab.charity.domain.model.VerificationToken;
 import pl.coderslab.charity.domain.repository.TokenRepository;
@@ -41,16 +42,17 @@ public class ResetPasswordController {
 
     @GetMapping
     public String resetPassword(Model model) {
-        model.addAttribute("resetPassDTO", new ResetPasswordDTO());
+        model.addAttribute("resetPassDTO", new EmailDTO());
         return "user_admin/password/resetPassword";
     }
 
     @PostMapping
-    public String resettingPassword(@Valid @ModelAttribute("resetPassDTO") ResetPasswordDTO resetPasswordDTO, Model model, BindingResult result) {
+    public String resettingPassword(@Valid @ModelAttribute("resetPassDTO") EmailDTO emailDTO,
+                                    Model model, BindingResult result) {
         if(result.hasErrors()){
             return "user_admin/password/resetPassword";
         }
-        String email = resetPasswordDTO.getEmail();
+        String email = emailDTO.getEmail();
 
         ResetPasswordDTO resetPassword = userService.findUserToResetPassword(email);
          if(resetPassword.getEmail()==null){

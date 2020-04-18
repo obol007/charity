@@ -23,6 +23,7 @@
     <form:form modelAttribute="adminDTO" method="post" action="/admin/admins/edit">
         <form:hidden path="id"/>
 
+
         <div class="form-group">
             <form:input path="firstName" placeholder="Imię"/>
             <form:errors path="firstName"/>

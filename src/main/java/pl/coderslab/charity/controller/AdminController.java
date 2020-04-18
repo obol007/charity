@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.DTO.EditNamesDTO;
 import pl.coderslab.charity.DTO.EditUserDTO;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.service.UserService;
@@ -76,18 +77,17 @@ public class AdminController {
 
     @GetMapping("/admins/edit/{id}")
     public String editUser(@PathVariable Long id, Model model) {
-        EditUserDTO editUserDTO = userService.findEditUserDTOById(id);
-        model.addAttribute("adminDTO", editUserDTO);
+        EditNamesDTO admin = userService.findUserToEditById(id);
+        model.addAttribute("adminDTO", admin);
         return "admin/editAdmin";
     }
 
     @PostMapping("/admins/edit")
-    public String editingUser(@Valid @ModelAttribute("adminDTO") EditUserDTO editUserDTO, BindingResult result) {
-
+    public String editingUser(@Valid @ModelAttribute("adminDTO") EditNamesDTO admin, BindingResult result) {
         if (result.hasErrors()) {
-            return "user/userEdit";
+            return "admin/editAdmin";
         } else {
-            userService.updateUser(editUserDTO);
+            userService.updateUser(admin);
             return "redirect:/admin/admins";
         }
     }

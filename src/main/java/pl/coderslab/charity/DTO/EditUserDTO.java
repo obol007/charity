@@ -16,12 +16,12 @@ public class EditUserDTO {
     String firstName;
     @NotBlank(message = "Wpisz nazwisko")
     String lastName;
-
+    @NotBlank(message = "Podaj hasło")
     String password;
     String oldPassword;
 //    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "Hasło musi posiadać co najmniej 8 znaków" +
 //            " w tym co najmniej jedną wielką literę, małą literę, liczbę i znak specjalny", groups = {AdminValidator.class, Default.class})
-    @NotBlank(message = "Podaj hasło")
+    @NotBlank(message = "Podaj nowe hasło")
     String newPassword;
     String reNewPassword;
 

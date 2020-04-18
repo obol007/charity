@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.DTO.DonationDTO;
+import pl.coderslab.charity.DTO.EditNamesDTO;
 import pl.coderslab.charity.DTO.EditUserDTO;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.mail.EmailServiceImpl;
@@ -62,19 +63,19 @@ public class UserController {
             return "user_admin/denied";
         }
 
-        EditUserDTO editUserDTO = userService.findEditUserDTOById(id);
-        model.addAttribute("userDTO", editUserDTO);
+        EditNamesDTO user = userService.findUserToEditById(id);
+        model.addAttribute("userDTO", user);
         return "user/userEdit";
     }
 
     @PostMapping("/edit")
-    public String editingUser(@Valid @ModelAttribute("userDTO") EditUserDTO editUserDTO, BindingResult result,
+    public String editingUser(@Valid @ModelAttribute("userDTO") EditNamesDTO user, BindingResult result,
                               Model model) {
 
         if (result.hasErrors()) {
             return "user/userEdit";
         } else {
-            userService.updateUser(editUserDTO);
+            userService.updateUser(user);
 
             return "redirect:/user/detailsUpdated";
         }

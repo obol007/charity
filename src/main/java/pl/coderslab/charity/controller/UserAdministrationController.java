@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.DTO.EditNamesDTO;
 import pl.coderslab.charity.DTO.EditUserDTO;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.service.UserService;
@@ -42,17 +43,17 @@ public class UserAdministrationController {
 
     @GetMapping("/edit/{id}")
     public String editUser(@PathVariable Long id, Model model) {
-        EditUserDTO editUserDTO = userService.findEditUserDTOById(id);
-        model.addAttribute("userDTO", editUserDTO);
+        EditNamesDTO user = userService.findUserToEditById(id);
+        model.addAttribute("userDTO", user);
         return "admin/editUser";
     }
 
     @PostMapping("/edit")
-    public String editingUser(@Valid @ModelAttribute("userDTO") EditUserDTO editUserDTO, BindingResult result) {
+    public String editingUser(@Valid @ModelAttribute("userDTO") EditNamesDTO user, BindingResult result) {
         if (result.hasErrors()) {
             return "admin/editUser";
         } else {
-            userService.updateUser(editUserDTO);
+            userService.updateUser(user);
             return "redirect:/admin/users";
         }
     }
