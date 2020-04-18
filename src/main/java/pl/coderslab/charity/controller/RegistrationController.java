@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.domain.model.VerificationToken;
 import pl.coderslab.charity.mail.EmailServiceImpl;
+import pl.coderslab.charity.service.MailboxService;
 import pl.coderslab.charity.service.UserService;
 
 import javax.validation.Valid;
@@ -25,13 +26,16 @@ public class RegistrationController {
     UserService userService;
     ApplicationEventPublisher eventPublisher;
     EmailServiceImpl emailService;
+    MailboxService mailboxService;
 
     public RegistrationController(UserService userService,
                                   ApplicationEventPublisher eventPublisher,
-                                  EmailServiceImpl emailService) {
+                                  EmailServiceImpl emailService,
+                                  MailboxService mailboxService) {
         this.userService = userService;
         this.eventPublisher = eventPublisher;
         this.emailService = emailService;
+        this.mailboxService = mailboxService;
     }
 
     @GetMapping
@@ -54,11 +58,13 @@ public class RegistrationController {
             result.rejectValue("rePassword", null, "Hasła się różnią");
             return "user_admin/registration/register";
         } else {
-           VerificationToken verificationToken = userService.register(userDTO);
-           String message = "http://localhost:8080/activate?token="+verificationToken.getToken();
-           emailService.sendSimpleMessage(userDTO.getEmail(),"account activation",message);
-           return "user_admin/registration/registrationLinkSent";
+            VerificationToken verificationToken = userService.register(userDTO);
+            String message = "http://localhost:8080/activate?token="+verificationToken.getToken();
+            mailboxService.send(userDTO.getEmail(),message, "Account activation");
+//            emailService.sendSimpleMessage(userDTO.getEmail(),"account activation",message);
+            return "user_admin/registration/registrationLinkSent";
         }
 
     }
+
 }

@@ -12,7 +12,7 @@ import pl.coderslab.charity.domain.repository.InstitutionRepository;
 import pl.coderslab.charity.domain.repository.UserRepository;
 
 @Service
-@Profile("heroku")
+//@Profile("heroku")
 public class SetupDataService implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -63,6 +63,9 @@ public class SetupDataService implements CommandLineRunner {
         Category category2 = new Category();
         category2.setName("Zabawki");
         categoryRepository.save(category2);
+        Category category3 = new Category();
+        category3.setName("Książki");
+        categoryRepository.save(category3);
 
         Institution institution = new Institution();
         institution.setName("Dla dzieci");

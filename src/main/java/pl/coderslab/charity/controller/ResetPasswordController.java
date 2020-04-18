@@ -10,6 +10,7 @@ import pl.coderslab.charity.DTO.ResetPasswordDTO;
 import pl.coderslab.charity.domain.model.VerificationToken;
 import pl.coderslab.charity.domain.repository.TokenRepository;
 import pl.coderslab.charity.mail.EmailServiceImpl;
+import pl.coderslab.charity.service.MailboxService;
 import pl.coderslab.charity.service.UserService;
 
 import javax.validation.Valid;
@@ -24,15 +25,18 @@ public class ResetPasswordController {
     EmailServiceImpl emailService;
     TokenRepository tokenRepository;
     PasswordEncoder passwordEncoder;
+    MailboxService mailboxService;
 
     public ResetPasswordController(UserService userService,
                                    EmailServiceImpl emailService,
                                    TokenRepository tokenRepository,
-                                   PasswordEncoder passwordEncoder) {
+                                   PasswordEncoder passwordEncoder,
+                                   MailboxService mailboxService) {
         this.userService = userService;
         this.emailService = emailService;
         this.tokenRepository = tokenRepository;
         this.passwordEncoder = passwordEncoder;
+        this.mailboxService = mailboxService;
     }
 
     @GetMapping
@@ -67,7 +71,8 @@ public class ResetPasswordController {
             if(LocalDateTime.now().isAfter(verificationToken.getExpiryDate())){
                 String updatedVerificationToken = userService.generateNewTokenByEmail(email);
                 String message = "http://localhost:8080/resetPassword/newPassword?token=" + updatedVerificationToken;
-                emailService.sendSimpleMessage(email, "reset password", message);
+                mailboxService.send(email,message,"Reset password");
+//                emailService.sendSimpleMessage(email, "reset password", message);
                 return "user_admin/password/resetPassReConfirmation";
             }else {
                 result.rejectValue("email", null, "Wysłano maila z linkiem aktywacyjnym");
@@ -81,7 +86,8 @@ public class ResetPasswordController {
          if (resetPassword.getActive() && !resetPassword.getBlocked()) {
             String verificationToken = userService.generateTokenByEmail(email);
             String message = "http://localhost:8080/resetPassword/newPassword?token=" + verificationToken;
-            emailService.sendSimpleMessage(email, "reset password", message);
+             mailboxService.send(email,message,"Reset password");
+//            emailService.sendSimpleMessage(email, "reset password", message);
             return "user_admin/password/resetPassConfirmation";
         }
 

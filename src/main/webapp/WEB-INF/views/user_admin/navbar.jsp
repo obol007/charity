@@ -45,6 +45,7 @@
         <li><a href="/#about" class="btn btn--without-border"><spring:message code="nav.aboutUs"/></a></li>
         <li><a href="/#help" class="btn btn--without-border"><spring:message code="nav.institutions"/></a></li>
         <li><a href="/#contact" class="btn btn--without-border"><spring:message code="nav.contact"/></a></li>
+        <li><a href="/mailbox" class="btn btn--without-border"><spring:message code="nav.mailbox"/></a></li>
 
         <security:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
             <li>
