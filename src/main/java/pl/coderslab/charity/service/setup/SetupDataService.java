@@ -12,7 +12,7 @@ import pl.coderslab.charity.domain.repository.InstitutionRepository;
 import pl.coderslab.charity.domain.repository.UserRepository;
 
 @Service
-//@Profile("heroku")
+@Profile("heroku")
 public class SetupDataService implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
