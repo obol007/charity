@@ -21,7 +21,7 @@
 <section class="login-page">
     <h2>Dodaj administratora</h2>
 
-    <form:form modelAttribute="userDTO" method="post" action="/admin/admins/add">
+    <form:form modelAttribute="newAdmin" method="post" action="/admin/admins/add">
         <div class="form-group">
             <form:input path="email" placeholder="Email*"/>
             <form:errors path="email"/>

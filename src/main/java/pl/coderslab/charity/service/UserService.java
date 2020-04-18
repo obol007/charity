@@ -8,10 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import pl.coderslab.charity.DTO.EditNamesDTO;
-import pl.coderslab.charity.DTO.EditUserDTO;
-import pl.coderslab.charity.DTO.ResetPasswordDTO;
-import pl.coderslab.charity.DTO.UserDTO;
+import pl.coderslab.charity.DTO.*;
 import pl.coderslab.charity.domain.model.Donation;
 import pl.coderslab.charity.domain.model.User;
 import pl.coderslab.charity.domain.model.VerificationToken;
@@ -63,18 +60,6 @@ public class UserService {
 
         return verificationToken;
     }
-
-
-    public void addOrUpdate(UserDTO userDTO) {
-        ModelMapper mapper = new ModelMapper();
-        User user = mapper.map(userDTO, User.class);
-        user.setRole("ROLE_ADMIN");
-        user.setActive(true);
-        user.setBlocked(false);
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        userRepository.save(user);
-    }
-
 
 
     public UserDTO findUserDTOById(Long id) {
@@ -241,4 +226,14 @@ public class UserService {
     }
 
 
+    public void addAdmin(NewAdminDTO admin) {
+        ModelMapper mapper = new ModelMapper();
+        User user = mapper.map(admin, User.class);
+        user.setRole("ROLE_ADMIN");
+        user.setActive(true);
+        user.setBlocked(false);
+        user.setRegistered(true);
+        user.setPassword(passwordEncoder.encode(admin.getPassword()));
+        userRepository.save(user);
+    }
 }

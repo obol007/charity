@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.DTO.EditNamesDTO;
 import pl.coderslab.charity.DTO.EditUserDTO;
+import pl.coderslab.charity.DTO.NewAdminDTO;
 import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.service.UserService;
 import pl.coderslab.charity.validation.validator.AdminValidator;
@@ -54,22 +55,22 @@ public class AdminController {
 
     @GetMapping("/admins/add")
     public String addAdmin(Model model) {
-        model.addAttribute("userDTO", new UserDTO());
+        model.addAttribute("newAdmin", new NewAdminDTO());
         return "admin/addAdmin";
     }
 
     @PostMapping("/admins/add")
-    public String addingAdmin(@Validated({AdminValidator.class}) UserDTO userDTO,
+    public String addingAdmin(@Validated({AdminValidator.class}) @ModelAttribute("newAdmin") NewAdminDTO admin,
                               BindingResult result, Model model) {
-        if (result.hasErrors() && (userDTO.getPassword().equals(userDTO.getRePassword()))) {
+        if (result.hasErrors() && (admin.getPassword().equals(admin.getRePassword()))) {
             model.addAttribute("addAdmin", true);
             return "admin/addAdmin";
-        } else if (result.hasErrors() || (!userDTO.getPassword().equals(userDTO.getRePassword()))) {
+        } else if (result.hasErrors() || (!admin.getPassword().equals(admin.getRePassword()))) {
             result.rejectValue("rePassword", "password.notMatches");
             model.addAttribute("addAdmin", true);
             return "admin/addAdmin";
         } else {
-            userService.addOrUpdate(userDTO);
+            userService.addAdmin(admin);
             return "redirect:/admin/admins";
         }
     }
