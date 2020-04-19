@@ -1,0 +1,1 @@
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar target/*.jar --spring.profiles.active=heroku --spring.mail.username=javacoderslab@gmail.com --spring.mail.password=taxcdrogbymnhhbj

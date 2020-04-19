@@ -166,11 +166,12 @@ local.properties
 .scala_dependencies
 .worksheet
 
-#Procfile
-Procfile
+
 
 #iml
 .iml
+#Procfile
+#Procfile
 
 #Properties
-.properties
+#.properties
