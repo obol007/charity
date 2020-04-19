@@ -22,6 +22,14 @@
 
 <section>
     <div class="users">
+
+        <c:if test="${passwordUpdate == true}">
+            <div class="users">
+                <h2>Twoje hasło zostało zaktualizowane!</h2>
+                <a href="${pageContext.request.contextPath}/admin/admins" class="btn btn--highlighted">OK</a>
+            </div>
+        </c:if>
+
         <a href="/admin/admins/add" class="btn--small btn--highlighted">Dodaj administratora</a>
 
             <h2>Administratorzy:</h2>

@@ -33,7 +33,8 @@ public class AdminChangePassController {
     }
 
     @PostMapping
-    public String changingUserPassword(@Valid @ModelAttribute("userDTO") EditUserDTO editUserDTO, BindingResult result) {
+    public String changingUserPassword(@Valid @ModelAttribute("userDTO") EditUserDTO editUserDTO,
+                                       BindingResult result, Model model) {
 
         if (!passwordEncoder.matches(editUserDTO.getOldPassword(), editUserDTO.getPassword())) {
             result.rejectValue("oldPassword",  "oldPassword.notMatches");
@@ -49,15 +50,11 @@ public class AdminChangePassController {
 
         } else {
             userService.updatePassword(editUserDTO);
-            return "redirect:/admin/password/passwordUpdated";
+            model.addAttribute("passwordUpdate", true);
+            return "admin/passwordUpdated";
         }
     }
 
-    @GetMapping("/passwordUpdated")
-    public String passwordUpdated(Model model) {
-        model.addAttribute("passwordUpdate", true);
-        return "/admin/admin";
-    }
 }
 
 

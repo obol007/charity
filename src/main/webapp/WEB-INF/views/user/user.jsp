@@ -10,23 +10,39 @@
     <%@include file="../user_admin/head.jsp" %>
 </head>
 <body>
-<header>
+
+
+
+
+<header class="header--main-page">
     <%@include file="userNav.jsp" %>
+    <div class="users">
+        <c:if test="${passwordUpdate == true}">
+            <h2>Twoje hasło zostało zaktualizowane!</h2>
+            <div class="users">
+                <a href="${pageContext.request.contextPath}/user" class="btn btn--highlighted">OK</a>
+            </div>
+        </c:if>
+
+        <c:if test="${detailsUpdate == true}">
+            <h2>Twoje dane zostały zaktualizowane!</h2>
+            <div class="users">
+                <a href="${pageContext.request.contextPath}/user" class="btn btn--highlighted">OK</a>
+            </div>
+        </c:if>
+
+    </div>
+    <div class="slogan container container--90">
+
+        <div class="slogan--item">
+            <c:if test="${passwordUpdate != true and detailsUpdate != true}">
+            <h1>
+               <spring:message code="pages.user.home"/>
+            </h1>
+            </c:if>
+        </div>
+    </div>
 </header>
-
-<c:if test="${detailsUpdate == true}">
-    <h2>Twoje dane zostały zaktualizowane!</h2>
-    <div class="users">
-    <a href="${pageContext.request.contextPath}/user" class="btn btn--highlighted">OK</a>
-    </div>
-</c:if>
-
-<c:if test="${passwordUpdate == true}">
-    <h2>Twoje hasło zostało zaktualizowane!</h2>
-    <div class="users">
-        <a href="${pageContext.request.contextPath}/user" class="btn btn--highlighted">OK</a>
-    </div>
-</c:if>
 
 
 </body>
