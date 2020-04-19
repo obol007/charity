@@ -74,7 +74,7 @@ public class DonationController {
     @PostMapping
     public String addingDonation(@Valid @ModelAttribute("donation") DonationDTO donationDTO,
                                  BindingResult result, Model model) {
-        log.warn("DONATION TIME: "+donationDTO.getPickUpTime());
+
         if (result.hasErrors()) {
             model.addAttribute("errors", true);
             return "user/form";

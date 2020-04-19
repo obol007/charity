@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html lang="pl">
@@ -16,37 +16,30 @@
             crossorigin="anonymous"></script>
     <script>
         function showInput() {
-            // let x = $("[name='categories']");
-            // let y = [];
-            // console.log("X table ", x);
-            // for (i = 0; i < x.length; i++) {
-            //     if (x[i].checked === true) {
-            //         y.push(x[i])
-            //     }
-            // }
-            // console.log("Y-table: ", y);
-            // let text = " ";
-            //
-            // for (let i = 0; i < y.length; i++) {
-            //     text += y[i].dataset.category + " ";
-            // }
+
+            // Pobranie nazwy wybranych kategorii
+            let tablica = [];
+            $('.categorie').each(function () {
+                tablica.push($(this).val());
+            });
 
             let text2 = " ";
-            // let categoriesName = $('input[name=categories]:checked', '#donationForm').data('category');
-            // $('input[name=categories]:checked', '#donationForm').each(function () {
-            //     text2 += ($(this).data('category')) + " ";
-            // });
+            $('.myCheckbox:checked').each(function () {
+                // text2 += ($(this).val())+" ";
+                text2 += tablica[$(this).val()-1] + " ";
+            });
+            // Pobranie nazwy wybranej instytucji
+            let tablica2 = [];
+            $('.instytucje').each(function () {
+                tablica2.push($(this).val());
+            });
+             let institutionName = tablica2[$('.myRadio:checked').val()];
 
-            let categoriesName = $('.checkmark:checked');
-            let categories = document.getElementsByClassName("checkmark");
-            console.log("Categories: ", categories);
 
-            let institutionName = $('input[name=institution]:checked', '#donationForm').data('institutions');
-            console.log("Instytution: ", institutionName);
 
             $('#categoryDisplay').text(text2);
             let bags = $('#bagId').val();
-            $('#bagDisplay').text(bags + ' worki z kategorii: ');
+            $('#bagDisplay').text('Liczba worków: '+bags+ ' Kategorie: ');
             $('#institutionDisplay').text(institutionName);
 
             let city = $('input[name=city', '#donationForm').val();
@@ -92,20 +85,12 @@
                 <form:errors path="categories"/>
                 </div>
                 <div class="checkmark">
-                 <form:checkboxes cssClass="myCheckbox" path="categories" items="${allCategories}" itemValue="id" itemLabel="name"/>
+                 <form:checkboxes cssClass="myCheckbox" path="categories" items="${allCategories}" itemValue="id" itemLabel="name" />
                 </div>
 
-<%--                <c:forEach items="${categories}" var="category">--%>
-                    <%--                    <div class="form-group form-group--checkbox">--%>
-                    <%--                        <label>--%>
-
-                    <%--                            <input type="checkbox" id="checkbox1" name="categories" value="${category.id}"--%>
-                    <%--                                   data-category="${category.name}"/>--%>
-                    <%--                            <span class="checkbox"></span>--%>
-                    <%--                            <span class="description">${category.name}</span>--%>
-                    <%--                        </label>--%>
-                    <%--                    </div>--%>
-<%--                </c:forEach>--%>
+                <c:forEach items="${allCategories}" var="category">
+                    <input type="hidden" class="categorie" value="${category.name}"/>
+                </c:forEach>
 
 
                 <div class="form-group form-group--buttons">
@@ -140,6 +125,10 @@
                 <div class="checkmark">
                 <form:radiobuttons cssClass="myRadio" path="institution" items="${institutions}" itemLabel="name" itemValue="id"/>
                 </div>
+                <c:forEach items="${institutions}" var="institution">
+                    <input type="hidden" class="instytucje" value="${institution.name}"/>
+                </c:forEach>
+
 <%--                <c:forEach items="${institutions}" var="institution">--%>
 <%--                    <form:radiobutton path="institution" label="${institution.name}" value="id"/>--%>
 <%--                    <c:out value="${institution.description}"/>--%>
@@ -160,7 +149,6 @@
 <%--                        </label>--%>
 <%--                    </div>--%>
 <%--                </c:forEach>--%>
-
 
                 <div class="form-group form-group--buttons">
                     <button type="button" class="btn prev-step">Wstecz</button>
@@ -237,7 +225,7 @@
 
                             <li>
                                 <span class="icon icon-hand"></span>
-                                <span class="summary--text">Dla&nbsp</span>
+                                <span class="summary--text">Dla fundacji:&nbsp</span>
                                 <span class="summary--text" id="institutionDisplay"></span>
                             </li>
                         </ul>
