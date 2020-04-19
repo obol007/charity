@@ -30,9 +30,9 @@
             </div>
         </c:if>
 
+             <h2>Administratorzy:</h2>
         <a href="/admin/admins/add" class="btn--small btn--highlighted">Dodaj administratora</a>
-
-            <h2>Administratorzy:</h2>
+        <div class="users">
             <table border="1" cellpadding="5" align="center">
                 <tr>
                     <th>Imię i Nazwisko</th>
@@ -53,6 +53,7 @@
                     </tr>
                 </c:forEach>
             </table>
+        </div>
     </div>
 </section>
 

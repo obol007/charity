@@ -24,7 +24,7 @@
 
         <h2>Fundacje:</h2>
         <c:if test="${isActive == null}">
-            <a href="${pageContext.request.contextPath}/admin/institutions/add" class="btn btn--highlighted">Dodaj
+            <a href="${pageContext.request.contextPath}/admin/institutions/add" class="btn--small btn--highlighted">Dodaj
                 fundację</a>
         </c:if>
 
