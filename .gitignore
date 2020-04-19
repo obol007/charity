@@ -165,3 +165,11 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
+
+#Procfile
+Procfile
+#iml
+.iml
+#Properties
+system.properties
+.properties
