@@ -170,6 +170,7 @@ local.properties
 Procfile
 #iml
 .iml
+charity.iml
 #Properties
 system.properties
 .properties
