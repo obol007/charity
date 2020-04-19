@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 //Heroku doesn't read this query:
 //                .usersByUsernameQuery("SELECT email, password, active*(!blocked) FROM users " +
-                        "WHERE email = ?")
+                        "WHERE email = ? and blocked=false")
                 .authoritiesByUsernameQuery("SELECT email, role FROM users " +
                         "WHERE email = ?");
     }
