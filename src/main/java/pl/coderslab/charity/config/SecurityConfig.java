@@ -37,9 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
                 .usersByUsernameQuery("SELECT email, password, active FROM users " +
-
-                //Heroku doesn't read this query:
-//                .usersByUsernameQuery("SELECT email, password, active*(!blocked) FROM users " +
                         "WHERE email = ? and blocked=false")
                 .authoritiesByUsernameQuery("SELECT email, role FROM users " +
                         "WHERE email = ?");

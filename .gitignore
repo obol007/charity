@@ -167,10 +167,10 @@ local.properties
 .worksheet
 
 #Procfile
-#Procfile
+Procfile
+
 #iml
-#.iml
-#charity.iml
+.iml
+
 #Properties
-#system.properties
-#.properties
+.properties
