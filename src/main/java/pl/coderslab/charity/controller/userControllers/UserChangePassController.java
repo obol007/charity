@@ -1,4 +1,4 @@
-package pl.coderslab.charity.controller;
+package pl.coderslab.charity.controller.userControllers;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;

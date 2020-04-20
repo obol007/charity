@@ -1,4 +1,4 @@
-package pl.coderslab.charity.controller;
+package pl.coderslab.charity.controller.commonControllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;

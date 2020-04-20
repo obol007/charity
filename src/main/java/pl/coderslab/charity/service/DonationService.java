@@ -31,7 +31,6 @@ public class DonationService {
 
 
     public void add(DonationDTO donationDTO) {
-        log.warn("DONATION: "+donationDTO);
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(username);
         ModelMapper mapper = new ModelMapper();
