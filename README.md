@@ -14,7 +14,7 @@ linku aktywującego na maila ( w demo ustawiona jest "wirtualna" skrzynka odbior
 
 ### Wykorzystane technologie:
 
-- Java 13
+- Java 11
 - Spring Boot, Security, DATA Jpa
 - Hibernate
 - MySQL
