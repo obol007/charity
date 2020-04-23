@@ -11,6 +11,7 @@ linku aktywującego na maila ( w demo ustawiona jest "wirtualna" skrzynka odbior
 - Obsługa zapomnianych haseł
 - Walidacja wprowadzanych haseł
 - Walidacja maila podanego przez użytkownika
+- Angielska wersja językowa (funkcjonalność - nie wszystko zostało przetłumaczone)
 
 ### Wykorzystane technologie:
 
