@@ -1,9 +1,9 @@
 package pl.coderslab.charity.controller.commonControllers;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +36,15 @@ public class ActivationController {
         this.emailService = emailService;
         this.mailboxService = mailboxService;
     }
+    //przesylanie wartosci
+    @Value("${app.host}")
+    private String appHost;
+
+    @Value("${server.port}")
+    private String appPort;
+
+    @Value("#{httpSession.id}")
+    private String sessionId;
 
     @GetMapping
     public String activate(@RequestParam String token, Model model) {

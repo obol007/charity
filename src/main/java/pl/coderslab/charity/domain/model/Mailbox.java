@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class Mailbox extends Base {
 
     private String title;
-    private String text;
+    private String content;
     private String sender = "javacoderslab@gmail.com";
     private String recipient;
     private Boolean opened = false;

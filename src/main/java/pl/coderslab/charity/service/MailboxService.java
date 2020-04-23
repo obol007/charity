@@ -28,7 +28,7 @@ public class MailboxService {
         Mailbox mailbox = new Mailbox();
         mailbox.setRecipient(email);
         mailbox.setTitle(title);
-        mailbox.setText(message);
+        mailbox.setContent(message);
         mailboxRepository.save(mailbox);
     }
 

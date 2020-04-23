@@ -29,7 +29,7 @@ public class DonationDTO {
     @NotBlank
     private String city;
 
-    @Pattern(regexp = "[0-9]{2}\\-[0-9]{3}", message = "Podaj kod pocztowy w formacie: xx-xxx")
+    @Pattern(regexp = "[0-9]{2}-[0-9]{3}", message = "Podaj kod pocztowy w formacie: xx-xxx")
     private String zipCode;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
