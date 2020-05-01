@@ -21,3 +21,6 @@ linku aktywującego na maila ( w demo ustawiona jest "wirtualna" skrzynka odbior
 - MySQL
 - JSP
 - HTML5, CSS3, JavaScript
+
+#### Moj LinkedIn:
+https://www.linkedin.com/in/piotrobolewicz/

@@ -37,6 +37,7 @@ public class UserDTO {
     private String tryOldPassword;
     private String role;
     private Boolean blocked;
+    private Boolean hasImage = false;
 
 
     public String getFullName(){

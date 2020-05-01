@@ -34,7 +34,7 @@
             <tr>
                 <th>Wiadomość:</th>
 
-                <td style="height: 20rem"><a href="${mail.text}">${mail.text}</a>
+                <td style="height: 20rem"><a href="${mail.content}">${mail.content}</a>
             </tr>
 
 

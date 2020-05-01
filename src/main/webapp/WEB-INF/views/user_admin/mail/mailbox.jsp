@@ -32,9 +32,9 @@
                     <c:if test="${mail.opened==false}"><b> ${mail.title}</b></c:if>
                     <c:if test="${mail.opened==true}"> ${mail.title}</c:if>
                 </td>
-                <td><c:if test="${mail.opened==false}"><b><a href="/mailbox/${mail.id}">${mail.text.substring(0,20)} . .
+                <td><c:if test="${mail.opened==false}"><b><a href="/mailbox/${mail.id}">${mail.content.substring(0,20)} . .
                     . .</a> </b></c:if>
-                    <c:if test="${mail.opened==true}"><a href="/mailbox/${mail.id}">${mail.text.substring(0,20)} . . .
+                    <c:if test="${mail.opened==true}"><a href="/mailbox/${mail.id}">${mail.content.substring(0,20)} . . .
                         .</a> </c:if>
                 </td>
                 <td><c:if test="${mail.opened==false}"><b> ${mail.created}</b></c:if>

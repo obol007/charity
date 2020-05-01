@@ -14,6 +14,7 @@ import pl.coderslab.charity.DTO.UserDTO;
 import pl.coderslab.charity.mail.EmailServiceImpl;
 import pl.coderslab.charity.service.DonationService;
 import pl.coderslab.charity.service.InstitutionService;
+import pl.coderslab.charity.service.PhotoService;
 import pl.coderslab.charity.service.UserService;
 
 import javax.validation.Valid;
@@ -28,21 +29,35 @@ public class UserController {
     DonationService donationService;
     EmailServiceImpl emailService;
     InstitutionService institutionService;
+    PhotoService photoService;
 
     public UserController(UserService userService,
                           DonationService donationService,
                           EmailServiceImpl emailService,
-                          InstitutionService institutionService) {
+                          InstitutionService institutionService,
+                          PhotoService photoService) {
         this.userService = userService;
         this.donationService = donationService;
         this.emailService = emailService;
         this.institutionService = institutionService;
+        this.photoService = photoService;
     }
+
+//    @ModelAttribute("loggedUser")
+//    public UserDTO loggedUser() {
+//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+//        return userService.findUserDTOByEmail(email);
+//    }
 
     @ModelAttribute("loggedUser")
     public UserDTO loggedUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userService.findUserDTOByEmail(email);
+        Boolean hasPhoto = photoService.hasPhoto(email);
+        UserDTO userDTO = userService.findUserDTOByEmail(email);
+        if(hasPhoto){
+            userDTO.setHasImage(true);
+        }
+        return userDTO;
     }
 
     @GetMapping

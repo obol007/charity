@@ -37,14 +37,14 @@ public class ActivationController {
         this.mailboxService = mailboxService;
     }
     //przesylanie wartosci
-    @Value("${app.host}")
-    private String appHost;
-
-    @Value("${server.port}")
-    private String appPort;
-
-    @Value("#{httpSession.id}")
-    private String sessionId;
+//    @Value("${app.host}")
+//    private String appHost;
+//
+//    @Value("${server.port}")
+//    private String appPort;
+//
+//    @Value("#{httpSession.id}")
+//    private String sessionId;
 
     @GetMapping
     public String activate(@RequestParam String token, Model model) {
